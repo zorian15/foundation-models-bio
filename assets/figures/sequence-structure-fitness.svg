@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 250" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" role="img" aria-label="Sequence, structure, and fitness for one protein.">
+<text x="24.0" y="28.0" font-size="11" font-weight="700" fill="#6a6d73" letter-spacing="1">THREE VIEWS OF ONE PROTEIN</text>
+<rect x="24.0" y="56.0" width="180.0" height="130.0" rx="6" fill="#f4f3ee" stroke="#cfcdc4"/>
+<text x="114.0" y="125.2" font-size="12" font-weight="400" text-anchor="middle" fill="#17181b"></text>
+<text x="114" y="80" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12" font-weight="600" fill="#17181b">sequence</text>
+<text x="114" y="116" text-anchor="middle" font-family="'SF Mono', 'SFMono-Regular', ui-monospace, Menlo, Consolas, monospace" font-size="14" fill="#274b6d">M K T A Y I</text>
+<text x="114" y="138" text-anchor="middle" font-family="'SF Mono', 'SFMono-Regular', ui-monospace, Menlo, Consolas, monospace" font-size="14" fill="#274b6d">A K L V F W</text>
+<text x="114" y="172" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" fill="#6a6d73">abundant / cheap</text>
+<rect x="230.0" y="56.0" width="180.0" height="130.0" rx="6" fill="#f4f3ee" stroke="#cfcdc4"/>
+<text x="320.0" y="125.2" font-size="12" font-weight="400" text-anchor="middle" fill="#17181b"></text>
+<text x="320" y="80" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12" font-weight="600" fill="#17181b">structure</text>
+<path d="M268 150 L292 118 L324 132 L348 104 L372 128" fill="none" stroke="#6b4f9c" stroke-width="3"/>
+<circle cx="268" cy="150" r="5" fill="#6b4f9c"/>
+<circle cx="292" cy="118" r="5" fill="#6b4f9c"/>
+<circle cx="324" cy="132" r="5" fill="#6b4f9c"/>
+<circle cx="348" cy="104" r="5" fill="#6b4f9c"/>
+<circle cx="372" cy="128" r="5" fill="#6b4f9c"/>
+<text x="320" y="172" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" fill="#6a6d73">scarce / expensive</text>
+<rect x="436.0" y="56.0" width="180.0" height="130.0" rx="6" fill="#f4f3ee" stroke="#cfcdc4"/>
+<text x="526.0" y="125.2" font-size="12" font-weight="400" text-anchor="middle" fill="#17181b"></text>
+<text x="526" y="80" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12" font-weight="600" fill="#17181b">fitness map</text>
+<rect x="462" y="94" width="17" height="13" fill="#9c6b12" stroke="#f4f3ee" stroke-width="1"/>
+<rect x="482" y="94" width="17" height="13" fill="#eaf0f6" stroke="#f4f3ee" stroke-width="1"/>
+<rect x="502" y="94" width="17" height="13" fill="#b04a3f" stroke="#f4f3ee" stroke-width="1"/>
+<rect x="522" y="94" width="17" height="13" fill="#eaf0f6" stroke="#f4f3ee" stroke-width="1"/>
+<rect x="542" y="94" width="17" height="13" fill="#9c6b12" stroke="#f4f3ee" stroke-width="1"/>
+<rect x="562" y="94" width="17" height="13" fill="#b04a3f" stroke="#f4f3ee" stroke-width="1"/>
+<rect x="462" y="110" width="17" height="13" fill="#eaf0f6" stroke="#f4f3ee" stroke-width="1"/>
+<rect x="482" y="110" width="17" height="13" fill="#b04a3f" stroke="#f4f3ee" stroke-width="1"/>
+<rect x="502" y="110" width="17" height="13" fill="#eaf0f6" stroke="#f4f3ee" stroke-width="1"/>
+<rect x="522" y="110" width="17" height="13" fill="#9c6b12" stroke="#f4f3ee" stroke-width="1"/>
+<rect x="542" y="110" width="17" height="13" fill="#b04a3f" stroke="#f4f3ee" stroke-width="1"/>
+<rect x="562" y="110" width="17" height="13" fill="#9c6b12" stroke="#f4f3ee" stroke-width="1"/>
+<rect x="462" y="126" width="17" height="13" fill="#b04a3f" stroke="#f4f3ee" stroke-width="1"/>
+<rect x="482" y="126" width="17" height="13" fill="#eaf0f6" stroke="#f4f3ee" stroke-width="1"/>
+<rect x="502" y="126" width="17" height="13" fill="#9c6b12" stroke="#f4f3ee" stroke-width="1"/>
+<rect x="522" y="126" width="17" height="13" fill="#b04a3f" stroke="#f4f3ee" stroke-width="1"/>
+<rect x="542" y="126" width="17" height="13" fill="#9c6b12" stroke="#f4f3ee" stroke-width="1"/>
+<rect x="562" y="126" width="17" height="13" fill="#eaf0f6" stroke="#f4f3ee" stroke-width="1"/>
+<text x="526" y="172" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" fill="#6a6d73">mutation x position</text>
+</svg>

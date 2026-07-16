@@ -106,6 +106,66 @@ To add, remove, or reorder chapters, edit the `BOOK`/`APPENDICES` structures in
 `toc.py`. A chapter with no content file renders as a stub from its `outline`,
 so the book is always fully navigable.
 
+## Drafting a batch of chapters with subagents
+
+When drafting several chapters at once, **fan out one research-and-draft subagent
+per chapter.** They parallelize cleanly because each writes its own
+`content/<slug>.md`. Give every agent these conventions and require, for its
+chapter:
+
+- Current SOTA **researched from primary sources before writing** (see Sourcing
+  and currency), never written from memory.
+- Prose in this book's voice, with at least one Intuition box, the Collaborator
+  boxes a partner would ask, jargon defined on first use, honest analogies, and
+  cross-references to related chapters.
+- Its contributions to the single-source modules returned **as data, not written
+  directly**: `Reference` entries (each verified against the paper), `Question`s
+  for the quiz, and `Term`s for the glossary — plus a `fig_*()` function for each
+  `##` section.
+
+The **orchestrator** (not the agents) integrates those contributions into
+`references.py`, `quizzes.py`, `glossary.py`, and `make_figures.py`, then
+regenerates figures and runs the build. Keeping every shared-module edit in one
+place avoids the write conflicts that parallel agents editing the same files
+would otherwise hit. A section whose real figure would be low quality may ship a
+`!!! figure` placeholder and be upgraded in a focused figure pass.
+
+## Verifying a drafted batch before it ships
+
+Agent-drafted chapters are **not done when they build — they are done when they
+are verified.** After integrating a batch, and BEFORE committing or pushing (a
+push auto-deploys to the live site), run two verification passes, each fanned out
+one agent per reference / per chapter:
+
+1. **Reference verification and dedup.** Verify every new `references.py` entry
+   against the actual paper via web search — author list and order, year, venue,
+   and a correct identifier (prefer an arXiv id; otherwise a resolving DOI/URL).
+   Merge any same-paper-different-key duplicates down to one canonical key and
+   update the `[@key]` citations in the prose. Drop or flag anything that cannot
+   be verified; a fabricated citation is worse than none.
+2. **Biological-correctness review.** Fan out a skeptical reviewer per chapter to
+   check the domain claims themselves — is each biological or technical statement
+   correct, current, and not overstated? Reviewers cite sources and rank findings
+   by severity. Apply the clear factual fixes; surface judgment calls to the
+   author.
+
+Only after both passes are clean is the batch ready to commit.
+
+## Shipping a drafted section as a PR
+
+Once an entire section (a Part) is drafted AND both verification passes are clean
+— prose, references, figures, glossary, and quizzes integrated and the build
+green — ship it for review rather than committing to `main` directly:
+
+1. Create a feature branch (e.g. `draft-part-2-molecular`).
+2. Commit the section's work with a concise message.
+3. Push the branch to this book's GitHub repo (`zorian15/foundation-models-bio`).
+4. Open a pull request that says what the section covers and notes that the
+   references were verified and the correctness review passed.
+
+This lets the author review and merge sections in order. Never push unverified
+work: the PR is the gate, and merging to `main` auto-deploys to the live site.
+
 ## Markdown conventions
 
 ### Section numbering (important)
