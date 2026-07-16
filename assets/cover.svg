@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 960" role="img" aria-label="Book cover: Foundation Models for Biology. A chain of residues folding back on itself with dashed contacts, a sequence becoming a structure.">
+<rect width="640" height="960" fill="#f4f3ee"/>
+<rect x="26" y="26" width="588" height="908" fill="none" stroke="#cfcdc4" stroke-width="1.5"/>
+<text x="72" y="152" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="16" font-weight="650" letter-spacing="5" fill="#274b6d">FOR THE ML PRACTITIONER</text>
+<text x="68" y="232" font-family="'Charter', 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif" font-size="58" font-weight="700" fill="#17181b">Foundation</text>
+<text x="68" y="304" font-family="'Charter', 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif" font-size="58" font-weight="700" fill="#17181b">Models for</text>
+<text x="68" y="376" font-family="'Charter', 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif" font-size="58" font-weight="700" fill="#17181b">Biology</text>
+<line x1="178.0" y1="600.0" x2="178.0" y2="672.0" stroke="#6a6d73" stroke-width="1.50" stroke-dasharray="4 3" opacity="0.5"/>
+<line x1="246.0" y1="600.0" x2="246.0" y2="672.0" stroke="#6a6d73" stroke-width="1.50" stroke-dasharray="4 3" opacity="0.5"/>
+<line x1="314.0" y1="600.0" x2="314.0" y2="672.0" stroke="#6a6d73" stroke-width="1.50" stroke-dasharray="4 3" opacity="0.5"/>
+<line x1="382.0" y1="600.0" x2="382.0" y2="672.0" stroke="#6a6d73" stroke-width="1.50" stroke-dasharray="4 3" opacity="0.5"/>
+<path d="M 110.0 600.0 L 178.0 600.0 L 246.0 600.0 L 314.0 600.0 L 382.0 600.0 L 450.0 600.0 L 500.0 636.0 L 450.0 672.0 L 382.0 672.0 L 314.0 672.0 L 246.0 672.0 L 178.0 672.0" fill="none" stroke="#274b6d" stroke-width="3.00" stroke-linecap="round" stroke-linejoin="round" opacity="0.85"/>
+<circle cx="110.0" cy="600.0" r="14.0" fill="#274b6d" opacity="0.47"/>
+<circle cx="178.0" cy="600.0" r="14.0" fill="#274b6d" opacity="0.52"/>
+<circle cx="246.0" cy="600.0" r="14.0" fill="#274b6d" opacity="0.56"/>
+<circle cx="314.0" cy="600.0" r="14.0" fill="#274b6d" opacity="0.61"/>
+<circle cx="382.0" cy="600.0" r="14.0" fill="#274b6d" opacity="0.66"/>
+<circle cx="450.0" cy="600.0" r="14.0" fill="#274b6d" opacity="0.71"/>
+<circle cx="500.0" cy="636.0" r="14.0" fill="#274b6d" opacity="0.76"/>
+<circle cx="450.0" cy="672.0" r="14.0" fill="#274b6d" opacity="0.81"/>
+<circle cx="382.0" cy="672.0" r="14.0" fill="#274b6d" opacity="0.85"/>
+<circle cx="314.0" cy="672.0" r="14.0" fill="#274b6d" opacity="0.90"/>
+<circle cx="246.0" cy="672.0" r="14.0" fill="#274b6d" opacity="0.95"/>
+<circle cx="178.0" cy="672.0" r="14.0" fill="#9c6b12" opacity="1.00"/>
+<path d="M 72 830 L 148 830" stroke="#cfcdc4" stroke-width="1.5"/>
+<text x="72" y="862" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="15.5" fill="#6a6d73">How foundation models fit modern</text>
+<text x="72" y="885" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="15.5" fill="#6a6d73">molecular biology and drug discovery.</text>
+</svg>
