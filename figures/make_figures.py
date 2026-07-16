@@ -406,43 +406,40 @@ def fig_pretrain_recipe() -> Path:
     w, h = 640, 262
     body = [arrow_marker(ACCENT, "arw")]
     body.append(eyebrow(24, 28, "ONE RECIPE, MANY MODALITIES"))
-    body += node_box(
-        24, 76, 150, 84, "unlabeled corpus", fill=PAPER, font_size=13, weight=600
+    # Draw each stage as the box rect plus a top-aligned title and detail lines
+    # stacked below it, so the title never overlaps its subtitles.
+    body.append(node_box(24, 76, 150, 84, "", fill=PAPER)[0])
+    body.append(
+        f'<text x="99" y="104" text-anchor="middle" font-family="{SANS}" font-size="13" font-weight="600" fill="{INK}">unlabeled corpus</text>'
     )
     body.append(
         f'<text x="99" y="128" text-anchor="middle" font-family="{SANS}" font-size="10" fill="{MUTED}">proteins · DNA</text>'
     )
     body.append(
-        f'<text x="99" y="143" text-anchor="middle" font-family="{SANS}" font-size="10" fill="{MUTED}">· cells ·</text>'
+        f'<text x="99" y="145" text-anchor="middle" font-family="{SANS}" font-size="10" fill="{MUTED}">· cells ·</text>'
     )
     body.append(
         f'<line x1="174" y1="118" x2="222" y2="118" stroke="{ACCENT}" stroke-width="2" marker-end="url(#arw)"/>'
     )
-    body += node_box(
-        224, 76, 156, 84, "self-supervised", fill=PAPER, font_size=13, weight=600
+    body.append(node_box(224, 76, 156, 84, "", fill=PAPER)[0])
+    body.append(
+        f'<text x="302" y="104" text-anchor="middle" font-family="{SANS}" font-size="13" font-weight="600" fill="{INK}">self-supervised</text>'
     )
     body.append(
         f'<text x="302" y="128" text-anchor="middle" font-family="{SANS}" font-size="10" fill="{MUTED}">pretraining:</text>'
     )
     body.append(
-        f'<text x="302" y="143" text-anchor="middle" font-family="{SANS}" font-size="10" fill="{MUTED}">predict masked token</text>'
+        f'<text x="302" y="145" text-anchor="middle" font-family="{SANS}" font-size="10" fill="{MUTED}">predict masked token</text>'
     )
     body.append(
         f'<line x1="380" y1="118" x2="428" y2="118" stroke="{ACCENT}" stroke-width="2" marker-end="url(#arw)"/>'
     )
-    body += node_box(
-        430,
-        76,
-        186,
-        84,
-        "foundation model",
-        fill=ACCENT_SOFT,
-        stroke=ACCENT,
-        font_size=13,
-        weight=600,
+    body.append(node_box(430, 76, 186, 84, "", fill=ACCENT_SOFT, stroke=ACCENT)[0])
+    body.append(
+        f'<text x="523" y="104" text-anchor="middle" font-family="{SANS}" font-size="13" font-weight="600" fill="{INK}">foundation model</text>'
     )
     body.append(
-        f'<text x="523" y="135" text-anchor="middle" font-family="{SANS}" font-size="10" fill="{MUTED}">reusable representations</text>'
+        f'<text x="523" y="130" text-anchor="middle" font-family="{SANS}" font-size="10" fill="{MUTED}">reusable representations</text>'
     )
     tasks = [(40, "structure"), (245, "variant effect"), (450, "design")]
     for tx, label in tasks:
@@ -466,30 +463,27 @@ def fig_two_lobes() -> Path:
     w, h = 640, 276
     body = [arrow_marker(ACCENT, "arw2")]
     body.append(eyebrow(24, 28, "ONE JOURNEY, TWO LOBES"))
-    body += node_box(
-        24,
-        60,
-        258,
-        104,
-        "molecular / therapeutic",
-        fill=PAPER,
-        font_size=14,
-        weight=600,
+    # Draw each lobe as the box rect plus a top-aligned title and two detail
+    # lines stacked below it, so the title never overlaps its subtitles.
+    body.append(node_box(24, 60, 258, 104, "", fill=PAPER)[0])
+    body.append(
+        f'<text x="153" y="96" text-anchor="middle" font-family="{SANS}" font-size="14" font-weight="600" fill="{INK}">molecular / therapeutic</text>'
     )
     body.append(
-        f'<text x="153" y="120" text-anchor="middle" font-family="{SANS}" font-size="11" fill="{MUTED}">proteins · structure</text>'
+        f'<text x="153" y="122" text-anchor="middle" font-family="{SANS}" font-size="11" fill="{MUTED}">proteins · structure</text>'
     )
     body.append(
-        f'<text x="153" y="138" text-anchor="middle" font-family="{SANS}" font-size="11" fill="{MUTED}">binding · design</text>'
+        f'<text x="153" y="140" text-anchor="middle" font-family="{SANS}" font-size="11" fill="{MUTED}">binding · design</text>'
     )
-    body += node_box(
-        358, 60, 258, 104, "genomic / regulatory", fill=PAPER, font_size=14, weight=600
+    body.append(node_box(358, 60, 258, 104, "", fill=PAPER)[0])
+    body.append(
+        f'<text x="487" y="96" text-anchor="middle" font-family="{SANS}" font-size="14" font-weight="600" fill="{INK}">genomic / regulatory</text>'
     )
     body.append(
-        f'<text x="487" y="120" text-anchor="middle" font-family="{SANS}" font-size="11" fill="{MUTED}">DNA · expression</text>'
+        f'<text x="487" y="122" text-anchor="middle" font-family="{SANS}" font-size="11" fill="{MUTED}">DNA · expression</text>'
     )
     body.append(
-        f'<text x="487" y="138" text-anchor="middle" font-family="{SANS}" font-size="11" fill="{MUTED}">variants · splicing</text>'
+        f'<text x="487" y="140" text-anchor="middle" font-family="{SANS}" font-size="11" fill="{MUTED}">variants · splicing</text>'
     )
     body.append(
         f'<text x="320" y="105" text-anchor="middle" font-family="{SERIF}" font-size="12" font-style="italic" fill="{MUTED}">central</text>'
@@ -565,7 +559,7 @@ def fig_chapter_spine() -> Path:
 
 
 def fig_problem_map() -> Path:
-    w, h = 640, 210
+    w, h = 640, 226
     body = [arrow_marker(ACCENT, "pmarw")]
     body.append(eyebrow(24, 32, "THE TEMPLATE BEHIND EVERY CHAPTER"))
     body += node_box(
@@ -601,7 +595,7 @@ def fig_problem_map() -> Path:
         f'<path d="M 526 144 C 526 190, 114 190, 114 144" fill="none" stroke="{MUTED}" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#pmarw)"/>'
     )
     body.append(
-        f'<text x="320" y="180" font-size="11" text-anchor="middle" fill="{MUTED}">what stays hard reframes the next problem</text>'
+        f'<text x="320" y="205" font-size="11" text-anchor="middle" fill="{MUTED}">what stays hard reframes the next problem</text>'
     )
     return write_svg(
         "problem-map.svg",
@@ -677,12 +671,12 @@ def fig_sequence_to_function() -> Path:
     ]
     for i, (name, color) in enumerate(tracks):
         ty = 72 + i * 38
-        pts = " ".join(f"{418 + k * 16},{ty + offs[k]}" for k in range(11))
+        pts = " ".join(f"{418 + k * 14},{ty + offs[k]}" for k in range(11))
         body.append(
             f'<polyline points="{pts}" fill="none" stroke="{color}" stroke-width="1.6"/>'
         )
         body.append(
-            f'<text x="612" y="{ty + 4}" font-size="10" text-anchor="end" fill="{MUTED}">{name}</text>'
+            f'<text x="566" y="{ty + 4}" font-size="10" text-anchor="start" fill="{MUTED}">{name}</text>'
         )
     return write_svg(
         "sequence-to-function.svg",
@@ -953,7 +947,7 @@ def fig_sequence_structure_fitness() -> Path:
 
 
 def fig_regulatory_tracks() -> Path:
-    w, h = 640, 300
+    w, h = 640, 360
     body = [eyebrow(24, 26, "ONE LOCUS, FIVE QUESTIONS")]
     lanes = [
         (
@@ -990,10 +984,11 @@ def fig_regulatory_tracks() -> Path:
         f'<text x="24" y="{hy + 12}" font-family="{SANS}" font-size="10" fill="{MUTED}">3D contacts</text>'
     )
     shades = [VIOLET, ACCENT_SOFT, AMBER]
+    tri_top = hy + 20
     for r in range(3):
         for c in range(3 - r):
             body.append(
-                f'<rect x="{x0 + c * 18 + r * 9}" y="{hy - 6 + r * 16}" width="16" height="14" fill="{shades[(r + c) % 3]}" stroke="{PAPER}" stroke-width="1"/>'
+                f'<rect x="{x0 + c * 18 + r * 9}" y="{tri_top + r * 16}" width="16" height="14" fill="{shades[(r + c) % 3]}" stroke="{PAPER}" stroke-width="1"/>'
             )
     # Shared genome axis.
     ay = h - 24
@@ -1146,12 +1141,12 @@ def fig_association_to_causation() -> Path:
     body += node_box(
         ax,
         168,
-        176,
+        192,
         48,
         "credible set: a few high-PIP SNPs",
         fill=ACCENT_SOFT,
         stroke=ACCENT,
-        font_size=11,
+        font_size=10,
     )
     # Panel B: colocalization.
     bx = 232

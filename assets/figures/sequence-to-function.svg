@@ -7,12 +7,12 @@
 <text x="292.0" y="126.2" font-size="12" font-weight="600" text-anchor="middle" fill="#17181b">sequence model</text>
 <line x1="174" y1="122" x2="232" y2="122" stroke="#274b6d" stroke-width="2" marker-end="url(#s2farw)"/>
 <line x1="352" y1="122" x2="408" y2="122" stroke="#274b6d" stroke-width="2" marker-end="url(#s2farw)"/>
-<polyline points="418,72 434,79 450,67 466,81 482,66 498,76 514,64 530,78 546,69 562,79 578,72" fill="none" stroke="#274b6d" stroke-width="1.6"/>
-<text x="612" y="76" font-size="10" text-anchor="end" fill="#6a6d73">RNA-seq</text>
-<polyline points="418,110 434,117 450,105 466,119 482,104 498,114 514,102 530,116 546,107 562,117 578,110" fill="none" stroke="#6b4f9c" stroke-width="1.6"/>
-<text x="612" y="114" font-size="10" text-anchor="end" fill="#6a6d73">ATAC</text>
-<polyline points="418,148 434,155 450,143 466,157 482,142 498,152 514,140 530,154 546,145 562,155 578,148" fill="none" stroke="#9c6b12" stroke-width="1.6"/>
-<text x="612" y="152" font-size="10" text-anchor="end" fill="#6a6d73">ChIP-seq</text>
-<polyline points="418,186 434,193 450,181 466,195 482,180 498,190 514,178 530,192 546,183 562,193 578,186" fill="none" stroke="#b04a3f" stroke-width="1.6"/>
-<text x="612" y="190" font-size="10" text-anchor="end" fill="#6a6d73">Hi-C</text>
+<polyline points="418,72 432,79 446,67 460,81 474,66 488,76 502,64 516,78 530,69 544,79 558,72" fill="none" stroke="#274b6d" stroke-width="1.6"/>
+<text x="566" y="76" font-size="10" text-anchor="start" fill="#6a6d73">RNA-seq</text>
+<polyline points="418,110 432,117 446,105 460,119 474,104 488,114 502,102 516,116 530,107 544,117 558,110" fill="none" stroke="#6b4f9c" stroke-width="1.6"/>
+<text x="566" y="114" font-size="10" text-anchor="start" fill="#6a6d73">ATAC</text>
+<polyline points="418,148 432,155 446,143 460,157 474,142 488,152 502,140 516,154 530,145 544,155 558,148" fill="none" stroke="#9c6b12" stroke-width="1.6"/>
+<text x="566" y="152" font-size="10" text-anchor="start" fill="#6a6d73">ChIP-seq</text>
+<polyline points="418,186 432,193 446,181 460,195 474,180 488,190 502,178 516,192 530,183 544,193 558,186" fill="none" stroke="#b04a3f" stroke-width="1.6"/>
+<text x="566" y="190" font-size="10" text-anchor="start" fill="#6a6d73">Hi-C</text>
 </svg>

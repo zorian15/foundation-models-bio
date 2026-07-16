@@ -2,13 +2,13 @@
 <defs><marker id="arw2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#274b6d"/></marker></defs>
 <text x="24.0" y="28.0" font-size="11" font-weight="700" fill="#6a6d73" letter-spacing="1">ONE JOURNEY, TWO LOBES</text>
 <rect x="24.0" y="60.0" width="258.0" height="104.0" rx="6" fill="#f4f3ee" stroke="#cfcdc4"/>
-<text x="153.0" y="116.9" font-size="14" font-weight="600" text-anchor="middle" fill="#17181b">molecular / therapeutic</text>
-<text x="153" y="120" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" fill="#6a6d73">proteins · structure</text>
-<text x="153" y="138" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" fill="#6a6d73">binding · design</text>
+<text x="153" y="96" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="14" font-weight="600" fill="#17181b">molecular / therapeutic</text>
+<text x="153" y="122" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" fill="#6a6d73">proteins · structure</text>
+<text x="153" y="140" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" fill="#6a6d73">binding · design</text>
 <rect x="358.0" y="60.0" width="258.0" height="104.0" rx="6" fill="#f4f3ee" stroke="#cfcdc4"/>
-<text x="487.0" y="116.9" font-size="14" font-weight="600" text-anchor="middle" fill="#17181b">genomic / regulatory</text>
-<text x="487" y="120" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" fill="#6a6d73">DNA · expression</text>
-<text x="487" y="138" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" fill="#6a6d73">variants · splicing</text>
+<text x="487" y="96" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="14" font-weight="600" fill="#17181b">genomic / regulatory</text>
+<text x="487" y="122" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" fill="#6a6d73">DNA · expression</text>
+<text x="487" y="140" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" fill="#6a6d73">variants · splicing</text>
 <text x="320" y="105" text-anchor="middle" font-family="'Charter', 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif" font-size="12" font-style="italic" fill="#6a6d73">central</text>
 <text x="320" y="121" text-anchor="middle" font-family="'Charter', 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif" font-size="12" font-style="italic" fill="#6a6d73">dogma</text>
 <rect x="210.0" y="218.0" width="220.0" height="44.0" rx="6" fill="#eaf0f6" stroke="#274b6d"/>

@@ -148,8 +148,15 @@ one agent per reference / per chapter:
    correct, current, and not overstated? Reviewers cite sources and rank findings
    by severity. Apply the clear factual fixes; surface judgment calls to the
    author.
+3. **Visual figure QA.** A figure that passes syntax and runtime can still be
+   visually broken — overlapping text, labels spilling out of their boxes, cramped
+   or illegible layout. The build cannot catch this; only an eye can. Render each
+   figure to an image (`qlmanage -t -s 1400 -o <dir> <file>.svg` works on macOS)
+   and actually look at it. Fan out one agent per figure (isolated worktrees, so
+   they can edit `make_figures.py` in parallel) to render, view, and fix any
+   overlap, then splice the corrected functions back in.
 
-Only after both passes are clean is the batch ready to commit.
+Only after all three passes are clean is the batch ready to commit.
 
 ## Shipping a drafted section as a PR
 
