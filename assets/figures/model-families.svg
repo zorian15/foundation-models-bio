@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 300" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" role="img" aria-label="Encoders represent, decoders generate, diffusion builds 3D structure.">
+<text x="24.0" y="28.0" font-size="11" font-weight="700" fill="#6a6d73" letter-spacing="1">THREE FAMILIES, THREE JOBS</text>
+<rect x="30.0" y="52.0" width="170.0" height="66.0" rx="6" fill="#eaf0f6" stroke="#cfcdc4"/>
+<text x="115.0" y="89.2" font-size="12" font-weight="400" text-anchor="middle" fill="#17181b"></text>
+<text x="115" y="80" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="15" font-weight="600" fill="#17181b">Encoder</text>
+<text x="115" y="102" text-anchor="middle" font-family="'SF Mono', 'SFMono-Regular', ui-monospace, Menlo, Consolas, monospace" font-size="11" fill="#6a6d73">masked fill-in</text>
+<text x="115" y="146" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.5" fill="#3b3d42">ESM-2, ESM C,</text>
+<text x="115" y="163" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.5" fill="#3b3d42">Nucleotide Transf.</text>
+<text x="115" y="212" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10.5" letter-spacing="0.08em" fill="#274b6d">GOOD FOR</text>
+<text x="115" y="232" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12" fill="#17181b">representations,</text>
+<text x="115" y="249" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12" fill="#17181b">variant scoring</text>
+<rect x="235.0" y="52.0" width="170.0" height="66.0" rx="6" fill="#f4f3ee" stroke="#cfcdc4"/>
+<text x="320.0" y="89.2" font-size="12" font-weight="400" text-anchor="middle" fill="#17181b"></text>
+<text x="320" y="80" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="15" font-weight="600" fill="#17181b">Decoder</text>
+<text x="320" y="102" text-anchor="middle" font-family="'SF Mono', 'SFMono-Regular', ui-monospace, Menlo, Consolas, monospace" font-size="11" fill="#6a6d73">next-token</text>
+<text x="320" y="146" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.5" fill="#3b3d42">ProGen2,</text>
+<text x="320" y="163" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.5" fill="#3b3d42">Evo 2</text>
+<text x="320" y="212" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10.5" letter-spacing="0.08em" fill="#274b6d">GOOD FOR</text>
+<text x="320" y="232" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12" fill="#17181b">generation,</text>
+<text x="320" y="249" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12" fill="#17181b">naturalness scores</text>
+<rect x="440.0" y="52.0" width="170.0" height="66.0" rx="6" fill="#f4f3ee" stroke="#cfcdc4"/>
+<text x="525.0" y="89.2" font-size="12" font-weight="400" text-anchor="middle" fill="#17181b"></text>
+<text x="525" y="80" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="15" font-weight="600" fill="#17181b">Diffusion</text>
+<text x="525" y="102" text-anchor="middle" font-family="'SF Mono', 'SFMono-Regular', ui-monospace, Menlo, Consolas, monospace" font-size="11" fill="#6a6d73">iterative denoise</text>
+<text x="525" y="146" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.5" fill="#3b3d42">AlphaFold3,</text>
+<text x="525" y="163" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.5" fill="#3b3d42">RFdiffusion</text>
+<text x="525" y="212" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10.5" letter-spacing="0.08em" fill="#274b6d">GOOD FOR</text>
+<text x="525" y="232" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12" fill="#17181b">structures,</text>
+<text x="525" y="249" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12" fill="#17181b">molecules</text>
+</svg>

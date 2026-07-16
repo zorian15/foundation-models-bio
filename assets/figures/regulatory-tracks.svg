@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 300" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" role="img" aria-label="Regulatory assays as stacked tracks over a shared genome axis.">
+<text x="24.0" y="26.0" font-size="11" font-weight="700" fill="#6a6d73" letter-spacing="1">ONE LOCUS, FIVE QUESTIONS</text>
+<text x="24" y="56" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12" font-weight="600" fill="#17181b">RNA-seq</text>
+<text x="24" y="72" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" fill="#6a6d73">transcript abundance</text>
+<line x1="150" y1="74" x2="616" y2="74" stroke="#e4e3dd" stroke-width="1"/>
+<rect x="150" y="52" width="16" height="22" fill="#274b6d" rx="2"/>
+<rect x="180" y="44" width="16" height="30" fill="#274b6d" rx="2"/>
+<rect x="210" y="48" width="16" height="26" fill="#274b6d" rx="2"/>
+<rect x="240" y="40" width="16" height="34" fill="#274b6d" rx="2"/>
+<rect x="270" y="54" width="16" height="20" fill="#274b6d" rx="2"/>
+<text x="24" y="104" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12" font-weight="600" fill="#17181b">ATAC</text>
+<text x="24" y="120" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" fill="#6a6d73">open chromatin</text>
+<line x1="150" y1="122" x2="616" y2="122" stroke="#e4e3dd" stroke-width="1"/>
+<rect x="140" y="94" width="16" height="28" fill="#274b6d" rx="2"/>
+<rect x="300" y="98" width="16" height="24" fill="#274b6d" rx="2"/>
+<rect x="400" y="92" width="16" height="30" fill="#274b6d" rx="2"/>
+<text x="24" y="152" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12" font-weight="600" fill="#17181b">ChIP-seq</text>
+<text x="24" y="168" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" fill="#6a6d73">protein binding</text>
+<line x1="150" y1="170" x2="616" y2="170" stroke="#e4e3dd" stroke-width="1"/>
+<rect x="250" y="136" width="16" height="34" fill="#274b6d" rx="2"/>
+<text x="24" y="200" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12" font-weight="600" fill="#17181b">CAGE</text>
+<text x="24" y="216" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" fill="#6a6d73">start-site activity</text>
+<line x1="150" y1="218" x2="616" y2="218" stroke="#e4e3dd" stroke-width="1"/>
+<rect x="150" y="178" width="16" height="40" fill="#274b6d" rx="2"/>
+<text x="24" y="248" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12" font-weight="600" fill="#17181b">Hi-C</text>
+<text x="24" y="264" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" fill="#6a6d73">3D contacts</text>
+<rect x="150" y="246" width="16" height="14" fill="#6b4f9c" stroke="#f4f3ee" stroke-width="1"/>
+<rect x="168" y="246" width="16" height="14" fill="#eaf0f6" stroke="#f4f3ee" stroke-width="1"/>
+<rect x="186" y="246" width="16" height="14" fill="#9c6b12" stroke="#f4f3ee" stroke-width="1"/>
+<rect x="159" y="262" width="16" height="14" fill="#eaf0f6" stroke="#f4f3ee" stroke-width="1"/>
+<rect x="177" y="262" width="16" height="14" fill="#9c6b12" stroke="#f4f3ee" stroke-width="1"/>
+<rect x="168" y="278" width="16" height="14" fill="#9c6b12" stroke="#f4f3ee" stroke-width="1"/>
+<line x1="150" y1="276" x2="616" y2="276" stroke="#cfcdc4" stroke-width="2"/>
+<text x="150" y="292" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" fill="#6a6d73">genomic position along the chromosome</text>
+</svg>

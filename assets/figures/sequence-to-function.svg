@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 235" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" role="img" aria-label="One DNA window predicts many regulatory tracks.">
+<defs><marker id="s2farw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#274b6d"/></marker></defs>
+<text x="24.0" y="30.0" font-size="11" font-weight="700" fill="#6a6d73" letter-spacing="1">SEQUENCE TO FUNCTION</text>
+<rect x="24.0" y="92.0" width="150.0" height="60.0" rx="6" fill="#eaf0f6" stroke="#274b6d"/>
+<text x="99.0" y="126.2" font-size="12" font-weight="600" text-anchor="middle" fill="#17181b">~1 Mb DNA window</text>
+<rect x="232.0" y="92.0" width="120.0" height="60.0" rx="6" fill="#ffffff" stroke="#cfcdc4"/>
+<text x="292.0" y="126.2" font-size="12" font-weight="600" text-anchor="middle" fill="#17181b">sequence model</text>
+<line x1="174" y1="122" x2="232" y2="122" stroke="#274b6d" stroke-width="2" marker-end="url(#s2farw)"/>
+<line x1="352" y1="122" x2="408" y2="122" stroke="#274b6d" stroke-width="2" marker-end="url(#s2farw)"/>
+<polyline points="418,72 434,79 450,67 466,81 482,66 498,76 514,64 530,78 546,69 562,79 578,72" fill="none" stroke="#274b6d" stroke-width="1.6"/>
+<text x="612" y="76" font-size="10" text-anchor="end" fill="#6a6d73">RNA-seq</text>
+<polyline points="418,110 434,117 450,105 466,119 482,104 498,114 514,102 530,116 546,107 562,117 578,110" fill="none" stroke="#6b4f9c" stroke-width="1.6"/>
+<text x="612" y="114" font-size="10" text-anchor="end" fill="#6a6d73">ATAC</text>
+<polyline points="418,148 434,155 450,143 466,157 482,142 498,152 514,140 530,154 546,145 562,155 578,148" fill="none" stroke="#9c6b12" stroke-width="1.6"/>
+<text x="612" y="152" font-size="10" text-anchor="end" fill="#6a6d73">ChIP-seq</text>
+<polyline points="418,186 434,193 450,181 466,195 482,180 498,190 514,178 530,192 546,183 562,193 578,186" fill="none" stroke="#b04a3f" stroke-width="1.6"/>
+<text x="612" y="190" font-size="10" text-anchor="end" fill="#6a6d73">Hi-C</text>
+</svg>
