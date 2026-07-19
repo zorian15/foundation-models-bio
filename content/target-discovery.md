@@ -1,0 +1,58 @@
+Every drug starts with a bet on a molecule: *if we push on this protein, the disease gets better.* Target discovery is the science of choosing that molecule well. The hard part is not finding genes that look involved in a disease — modern genomics hands you thousands. The hard part is finding a gene that is **causal** (perturbing it actually moves the disease, not just a bystander that lights up alongside it) and **druggable** (a real molecule can bind it and change what it does). Get this choice right and everything downstream has a chance; get it wrong and no amount of clever chemistry saves the program. This chapter follows the spine of the whole part: the problem, the models that attack it, and what is still genuinely hard.
+
+## The problem: which gene or protein to drug
+
+Start with a disease and a wish list of genes that correlate with it. A **genome-wide association study** (GWAS, a scan that tests millions of common genetic variants for statistical association with a trait; see the genetics primer, Chapter 5) will hand you hundreds of loci for a common disease. Expression studies add thousands more genes that are turned up or down in patient tissue. This is the trap the field spent a decade learning to avoid: *association is cheap and causation is rare.* A gene can be differentially expressed because it drives the disease, or because the disease changed it, or because both share an upstream cause. Only the first kind is a target. Drug a bystander and your compound may work beautifully in the assay and do nothing in a patient.
+
+So a usable target must clear two gates. The first is **causality**: intervening on the gene product must change the disease, ideally in the direction you can achieve with a drug. The second is **druggability** — the capacity of a protein to be modulated by a drug-like molecule with enough affinity and selectivity to matter. Classic druggable proteins have well-formed binding pockets: kinases, G-protein-coupled receptors, ion channels, nuclear receptors. Estimates put the "druggable genome" at roughly 3,000 to 4,500 of the ~20,000 human protein-coding genes, and fewer than 700 are actually hit by an approved drug. Transcription factors and scaffolding proteins are often called "undruggable," though that label is partly a statement about where industry has looked, not a law of chemistry — new modalities (PROTACs, molecular glues, antibodies, oligonucleotides) keep moving the line.
+
+<figure>
+<img src="assets/figures/target-funnel.svg" alt="A left-to-right funnel: Disease, then Associated genes (hundreds of loci), then Causal genes (tens survive), then Druggable plus causal (a handful), each box shorter than the last.">
+<figcaption>Target discovery is a collapse, not a search: thousands of disease-associated genes narrow to the few that are both causal and druggable. Every stage throws away more than it keeps.</figcaption>
+</figure>
+
+!!! intuition "Intuition"
+    A target is a lever, not a symptom. You are not looking for the gene most *correlated* with the disease; you are looking for the one that, when you pull it, the disease actually moves — and that you can build a lever for.
+
+!!! collaborator "Collaborator"
+    *A wet-lab partner asks: "This gene is the top hit in our patient RNA-seq — isn't that our target?"* Differential expression tells you a gene is involved, not that it is upstream. It could be responding to the disease rather than causing it. Before we commit, we want an orthogonal line of evidence that pushing the gene changes the phenotype — human genetics, or a direct perturbation in cells.
+
+## Models that attempt it
+
+No single model outputs "here is your target." What the field has built instead is a stack of methods that each supply one kind of evidence, plus an aggregator that reconciles them.
+
+**Genetics-informed prioritization** is the anchor, because a genetic variant is nature's own perturbation experiment, assigned roughly at random at conception and fixed before the disease begins. If a variant that changes a gene also changes disease risk, the arrow points from gene to disease, not the other way — this is what makes genetics a **causal** signal where expression is only correlational. Turning a GWAS locus into a specific gene is itself a modeling problem, because the associated variant is usually not in the gene it acts on; the **Open Targets** Platform's locus-to-gene (L2G) model is a trained classifier that scores which nearby gene a locus most likely acts through, using distance, molecular-QTL colocalization, and functional genomics. The Platform then combines that gene assignment with rare-variant burden tests, animal models, and known drugs into a single target-disease evidence score [@buniello2025]. **Mendelian randomization** (MR) sharpens the same logic into a quasi-experiment: it uses variants that mimic a drug's action (say, variants in *PCSK9* that lower LDL cholesterol) as an instrument to estimate the causal effect of modulating that target, effectively a natural randomized trial run over a lifetime. MR is how genetics can forecast both efficacy and side effects before a molecule exists. How to read a specific variant's mechanism — coding vs regulatory, gain vs loss of function — is the subject of variant-to-mechanism (Chapter 12).
+
+**Network and omics embeddings** attack a different gap: most disease genes are not yet in any GWAS, so you want to generalize from known biology. Represent genes and proteins as nodes in an interaction or pathway graph, learn embeddings, and score an unknown gene by its proximity to known disease genes ("guilt by association"). This surfaces plausible novel targets but inherits the correlation problem — proximity in a network is a hypothesis, not a cause.
+
+**Perturbation readouts** supply the experimental arm. **Perturb-seq** couples a pooled CRISPR screen to single-cell RNA sequencing: knock out or knock down each of thousands of genes, then read the full transcriptome of each perturbed cell to see what that gene actually controls [@replogle2022]. This is causal by construction — you *did* the intervention — and genome-scale versions now profile all expressed genes across millions of cells. It tells you a gene's downstream program in a dish, which is exactly the functional evidence a network embedding can only guess at. Turning those readouts into predictions for *unseen* perturbations is a modeling frontier (GEARS, scGPT-perturb) central to cell engineering (Chapter 10); the single-cell foundation models that back them are covered in the appendix.
+
+**Literature and LLM-assisted synthesis** sits on top. The evidence for any target is scattered across decades of papers, and reading it is what a biologist spends weeks doing. Retrieval-augmented and agentic LLM systems now traverse biomedical knowledge graphs and literature to assemble and rank target hypotheses; OriGene, for instance, nominated and then experimentally validated previously underexplored targets in liver and colorectal cancer [@origene2025]. These systems are fast and tireless synthesizers, but they hallucinate confident mechanisms and inherit every bias in the literature, so their output is a lead to check, not a verdict.
+
+<figure>
+<img src="assets/figures/target-evidence-integration.svg" alt="Five evidence sources on the left — human genetics, network and omics embeddings, Perturb-seq readouts, literature and LLM synthesis, known drugs and tractability — with arrows converging on a single box labeled Prioritized targets, causal and druggable, ranked.">
+<figcaption>No method wins alone. The working pattern is evidence integration: many individually weak, individually gameable signals reconciled into one ranked, causal, druggable list.</figcaption>
+</figure>
+
+The empirical payoff justifies the emphasis on genetics. Drug targets with human genetic support are roughly **twice** as likely to survive clinical development to approval — the finding that reoriented the industry [@nelson2015; @king2019]. The most careful recent estimate, with a decade more genetic data, puts the boost at about 2.6-fold and shows it grows with confidence in the causal gene, but does not depend on the variant's effect size [@minikel2024].
+
+!!! collaborator "Collaborator"
+    *A skeptical statistician asks: "If genetic support doubles success, why isn't every approved drug genetically supported?"* Because genetics is a strong *filter*, not a *requirement*. Many good targets have no common-variant signal (the biology is essential, or the variation is too rare to detect), and plenty of genetically supported targets still fail for reasons genetics can't see — toxicity, delivery, or a disease that has already progressed past the target. Doubling a base rate that starts around 10% still leaves most programs failing.
+
+## What they do well and what is still hard
+
+These methods are genuinely good at three things: converting messy association into a ranked shortlist, forcing a causal question ("does perturbing this move the phenotype?") to the front, and surfacing candidates a single expert would miss. The genetics-first strategy is the closest thing the field has to a validated prior on success.
+
+What remains hard starts with the same word the chapter opened on. **Causality is still only approximated.** MR assumes its instrument affects the disease *only* through the target (no pleiotropy), which is often untestable; L2G scores are calibrated probabilities, not proofs; a Perturb-seq hit in an immortalized cell line may not fire in the tissue and disease context that matters. Each method reduces the correlation-causation gap without closing it.
+
+**Novelty is the deeper limit.** Every method here leans on prior knowledge — GWAS needs common variants of detectable effect, network embeddings need a gene to sit near known biology, LLMs can only synthesize what has been written. So the systems are strongest exactly where we already suspected the answer and weakest for the truly new biology that would open an undrugged disease. The genetic-support advantage is itself evidence of this: it rewards targets that human variation happens to illuminate, which is not the same set as the targets that matter.
+
+Finally, **validation is expensive and slow.** A nominated target is a hypothesis; confirming it means knockouts, animal models, and eventually a molecule and a trial, at a cost of years and millions. Because in-silico nomination is now cheap and validation is not, the bottleneck has moved: the constraint is no longer generating candidate targets but affording to test them, and choosing which few to test is where a wrong call is most costly. This dish-to-patient translation gap — a target that behaves in cells or mice but not in people — is the recurring theme of the "doing it for real" chapters (Part V) and the reason a doubled success rate still means most programs fail.
+
+!!! warning "Common trap"
+    Treating an aggregated target score as a decision. Open Targets, an MR p-value, and an LLM's summary are inputs to a judgment, not the judgment. Two targets with the same score can differ wildly in tractability, safety, and how confidently the causal gene is even identified — read the underlying evidence, not just the number.
+
+<figure>
+<img src="assets/figures/genetic-support-success.svg" alt="Two bars on a shared baseline: No genetic support at 1x baseline, Human-genetics support roughly two to two-and-a-half times taller.">
+<figcaption>The single most reproducible result in target discovery: human genetic support for a target roughly doubles the odds it survives to approval — and the effect grows with confidence in the causal gene.</figcaption>
+</figure>
