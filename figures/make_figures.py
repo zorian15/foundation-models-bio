@@ -1239,7 +1239,692 @@ def fig_association_to_causation() -> Path:
     )
 
 
+# Part II chapter figures.
+
+
+def fig_target_funnel():
+    body = [arrow_marker(RULE_STRONG, "tf_arrow")]
+    body.append(eyebrow(20, 26, "FROM DISEASE TO A TARGET YOU CAN ACT ON"))
+    stages = [
+        ("Disease", "a phenotype", 112),
+        ("Associated genes", "hundreds of loci", 84),
+        ("Causal genes", "tens survive", 56),
+        ("Druggable + causal", "a handful", 34),
+    ]
+    xs = [18, 176, 334, 492]
+    w = 130
+    mid = 152
+    for (title, sub, h), x in zip(stages, xs):
+        y = mid - h / 2
+        body += node_box(x, y, w, h, title, font_size=11, weight=600)
+        body.append(
+            f'<text x="{x + w / 2}" y="252" font-family="{SANS}" '
+            f'font-size="11" fill="{MUTED}" text-anchor="middle">{sub}</text>'
+        )
+    for i in range(3):
+        x1 = xs[i] + w + 3
+        x2 = xs[i + 1] - 4
+        body.append(
+            f'<line x1="{x1}" y1="{mid}" x2="{x2}" y2="{mid}" '
+            f'stroke="{RULE_STRONG}" stroke-width="1.5" marker-end="url(#tf_arrow)"/>'
+        )
+    return write_svg("target-funnel.svg", svg_doc(640, 288, "target funnel", body))
+
+
+def fig_target_evidence_integration():
+    body = [arrow_marker(RULE_STRONG, "ev_arrow")]
+    body.append(eyebrow(20, 24, "MANY WEAK SIGNALS, ONE RANKED LIST"))
+    sources = [
+        "Human genetics: GWAS, Mendelian, MR",
+        "Network and omics embeddings",
+        "Perturb-seq functional readouts",
+        "Literature / LLM evidence synthesis",
+        "Known drugs and tractability",
+    ]
+    x, w, h, gap, y0 = 20, 252, 36, 13, 42
+    ys = []
+    for i, s in enumerate(sources):
+        y = y0 + i * (h + gap)
+        ys.append(y)
+        body += node_box(x, y, w, h, s, font_size=11)
+    rx, ry, rw, rh = 404, 108, 200, 84
+    body += node_box(
+        rx,
+        ry,
+        rw,
+        rh,
+        "Prioritized targets",
+        font_size=14,
+        weight=600,
+        fill=ACCENT_SOFT,
+    )
+    body.append(
+        f'<text x="{rx + rw / 2}" y="{ry + rh + 20}" font-family="{SANS}" '
+        f'font-size="11" fill="{MUTED}" text-anchor="middle">causal and druggable, ranked</text>'
+    )
+    for y in ys:
+        body.append(
+            f'<line x1="{x + w + 3}" y1="{y + h / 2}" x2="{rx - 5}" y2="{ry + rh / 2}" '
+            f'stroke="{RULE_STRONG}" stroke-width="1.2" marker-end="url(#ev_arrow)"/>'
+        )
+    return write_svg(
+        "target-evidence-integration.svg",
+        svg_doc(640, 300, "evidence integration", body),
+    )
+
+
+def fig_genetic_support_success():
+    body = [eyebrow(20, 26, "GENETIC SUPPORT ROUGHLY DOUBLES CLINICAL SUCCESS")]
+    baseline = 212
+    bars = [
+        (150, 110, 52, MUTED, "No genetic support", "1x baseline", 158),
+        (380, 110, 124, ACCENT, "Human-genetics support", "~2 to 2.6x", 86),
+    ]
+    body.append(
+        f'<line x1="96" y1="{baseline}" x2="560" y2="{baseline}" '
+        f'stroke="{RULE_STRONG}" stroke-width="1.2"/>'
+    )
+    for bx, bw, bh, color, cat, val, valy in bars:
+        body.append(
+            f'<rect x="{bx}" y="{baseline - bh}" width="{bw}" height="{bh}" '
+            f'fill="{color}" rx="2"/>'
+        )
+        body.append(
+            f'<text x="{bx + bw / 2}" y="{valy}" font-family="{SANS}" '
+            f'font-size="12" fill="{INK}" text-anchor="middle" font-weight="600">{val}</text>'
+        )
+        body.append(
+            f'<text x="{bx + bw / 2}" y="{baseline + 20}" font-family="{SANS}" '
+            f'font-size="11" fill="{MUTED}" text-anchor="middle">{cat}</text>'
+        )
+    body.append(
+        f'<text x="96" y="{baseline + 44}" font-family="{SANS}" font-size="10" '
+        f'fill="{MUTED}">Relative probability a target reaches approval (Nelson 2015; Minikel 2024).</text>'
+    )
+    return write_svg(
+        "genetic-support-success.svg",
+        svg_doc(640, 272, "genetic support success", body),
+    )
+
+
+def fig_property_axes():
+    body = [arrow_marker(RULE_STRONG, "arr")]
+    body.append(eyebrow(30, 28, "ONE MOLECULE, MANY MEASURABLE PROPERTIES"))
+    body += node_box(30, 128, 150, 52, "one variant", fill=ACCENT_SOFT, weight=600)
+    props = [
+        (44, "fitness / variant effect"),
+        (92, "folding stability (ddG)"),
+        (140, "binding affinity (Kd)"),
+        (188, "expression / solubility"),
+        (236, "ADMET (small molecules)"),
+    ]
+    for y, label in props:
+        body += node_box(380, y, 230, 38, label)
+        body.append(
+            f'<line x1="180" y1="154" x2="380" y2="{y + 19}" '
+            f'stroke="{RULE_STRONG}" stroke-width="1.4" marker-end="url(#arr)"/>'
+        )
+    return write_svg(
+        "property-axes.svg",
+        svg_doc(640, 300, "one variant maps to many measurable properties", body),
+    )
+
+
+def fig_variant_scoring():
+    body = [arrow_marker(RULE_STRONG, "arr2")]
+    body.append(eyebrow(30, 28, "TWO WAYS TO SCORE A VARIANT"))
+    body += node_box(30, 130, 130, 50, "variant sequence")
+    body += node_box(210, 130, 120, 50, "protein LM", fill=ACCENT_SOFT, weight=600)
+    body.append(
+        f'<line x1="160" y1="155" x2="210" y2="155" '
+        f'stroke="{RULE_STRONG}" stroke-width="1.4" marker-end="url(#arr2)"/>'
+    )
+    # Zero-shot arm (upper).
+    body += node_box(410, 55, 210, 48, "log p(mut) - log p(wt)", font_size=12)
+    body.append(eyebrow(410, 120, "ZERO-SHOT:", fill=MUTED))
+    body.append(eyebrow(410, 136, "NO LABELS NEEDED", fill=MUTED))
+    body.append(
+        f'<line x1="330" y1="142" x2="410" y2="90" '
+        f'stroke="{RULE_STRONG}" stroke-width="1.4" marker-end="url(#arr2)"/>'
+    )
+    # Supervised arm (lower).
+    body += node_box(410, 205, 210, 48, "trained property head")
+    body.append(eyebrow(410, 270, "SUPERVISED:", fill=MUTED))
+    body.append(eyebrow(410, 286, "NEEDS LABELED ASSAY DATA", fill=MUTED))
+    body.append(
+        f'<line x1="330" y1="168" x2="410" y2="220" '
+        f'stroke="{RULE_STRONG}" stroke-width="1.4" marker-end="url(#arr2)"/>'
+    )
+    return write_svg(
+        "variant-scoring.svg",
+        svg_doc(640, 300, "likelihood-ratio arm versus supervised head arm", body),
+    )
+
+
+def fig_epistasis():
+    body = [arrow_marker(RULE_STRONG, "arr3")]
+    body.append(eyebrow(30, 28, "WHY ADDING UP SINGLE MUTATIONS FAILS"))
+    body += node_box(40, 105, 120, 50, "wild type")
+    body += node_box(250, 45, 150, 46, "+A: more stable")
+    body += node_box(250, 165, 150, 46, "+B: more stable")
+    body += node_box(
+        470, 105, 140, 50, "+A +B: unfolds", fill=BRICK, text_fill="#ffffff", weight=600
+    )
+    body.append(
+        f'<line x1="160" y1="120" x2="250" y2="68" '
+        f'stroke="{RULE_STRONG}" stroke-width="1.4" marker-end="url(#arr3)"/>'
+    )
+    body.append(
+        f'<line x1="160" y1="140" x2="250" y2="188" '
+        f'stroke="{RULE_STRONG}" stroke-width="1.4" marker-end="url(#arr3)"/>'
+    )
+    body.append(
+        f'<line x1="400" y1="68" x2="470" y2="122" '
+        f'stroke="{BRICK}" stroke-width="1.4" marker-end="url(#arr3)"/>'
+    )
+    body.append(
+        f'<line x1="400" y1="188" x2="470" y2="138" '
+        f'stroke="{BRICK}" stroke-width="1.4" marker-end="url(#arr3)"/>'
+    )
+    return write_svg(
+        "epistasis.svg",
+        svg_doc(
+            640,
+            240,
+            "two beneficial single mutations combine to unfold the protein",
+            body,
+        ),
+    )
+
+
+def fig_coevolution_signal():
+    W, H = 640, 260
+    body = [arrow_marker(ACCENT, "coev_arrow")]
+    body.append(eyebrow(30, 28, "MULTIPLE SEQUENCE ALIGNMENT"))
+    # Alignment block background.
+    body.append(
+        f'<rect x="30" y="52" width="300" height="172" rx="6" '
+        f'fill="#ffffff" stroke="{RULE_STRONG}"/>'
+    )
+    rows_y = [82, 110, 138, 166, 194]
+    dots = "·   ·   ·   ·   ·   ·   ·   ·   ·   ·   ·"
+    for y in rows_y:
+        body.append(
+            f'<text x="44" y="{y + 4}" font-family="{MONO}" font-size="13" '
+            f'fill="{MUTED}">{dots}</text>'
+        )
+    # Two co-varying columns, drawn over the dot texture.
+    xi, xj, bw = 118, 236, 24
+    for xb in (xi, xj):
+        body.append(
+            f'<rect x="{xb}" y="52" width="{bw}" height="172" fill="{ACCENT_SOFT}"/>'
+        )
+    body.append(
+        f'<text x="{xi + bw / 2:.1f}" y="46" font-size="12" font-weight="700" '
+        f'text-anchor="middle" fill="{ACCENT}">i</text>'
+    )
+    body.append(
+        f'<text x="{xj + bw / 2:.1f}" y="46" font-size="12" font-weight="700" '
+        f'text-anchor="middle" fill="{ACCENT}">j</text>'
+    )
+    col_i = ["V", "I", "V", "L", "I"]
+    col_j = ["S", "A", "S", "T", "A"]
+    for k, y in enumerate(rows_y):
+        body.append(
+            f'<text x="{xi + bw / 2:.1f}" y="{y + 4}" font-family="{MONO}" '
+            f'font-size="13" font-weight="700" text-anchor="middle" '
+            f'fill="{ACCENT}">{col_i[k]}</text>'
+        )
+        body.append(
+            f'<text x="{xj + bw / 2:.1f}" y="{y + 4}" font-family="{MONO}" '
+            f'font-size="13" font-weight="700" text-anchor="middle" '
+            f'fill="{BRICK}">{col_j[k]}</text>'
+        )
+    # Arrow to the folded chain.
+    body.append(
+        f'<line x1="338" y1="138" x2="384" y2="138" stroke="{ACCENT}" '
+        f'stroke-width="2" marker-end="url(#coev_arrow)"/>'
+    )
+    body.append(eyebrow(408, 28, "A SPATIAL CONTACT"))
+    # Folded backbone glyph.
+    body.append(
+        f'<path d="M 400 96 C 440 62, 486 128, 520 100 S 596 156, 560 196" '
+        f'fill="none" stroke="{RULE_STRONG}" stroke-width="3" '
+        f'stroke-linecap="round"/>'
+    )
+    ri = (470, 122)
+    rj = (508, 108)
+    body.append(
+        f'<line x1="{ri[0]}" y1="{ri[1]}" x2="{rj[0]}" y2="{rj[1]}" '
+        f'stroke="{ACCENT}" stroke-width="1.5" stroke-dasharray="3 3"/>'
+    )
+    body.append(f'<circle cx="{ri[0]}" cy="{ri[1]}" r="7" fill="{ACCENT}"/>')
+    body.append(f'<circle cx="{rj[0]}" cy="{rj[1]}" r="7" fill="{BRICK}"/>')
+    body.append(
+        f'<text x="{ri[0] - 12}" y="{ri[1] + 24}" font-size="12" font-weight="700" '
+        f'text-anchor="middle" fill="{ACCENT}">i</text>'
+    )
+    body.append(
+        f'<text x="{rj[0] + 14}" y="{rj[1] - 10}" font-size="12" font-weight="700" '
+        f'text-anchor="middle" fill="{BRICK}">j</text>'
+    )
+    body.append(
+        f'<text x="480" y="224" font-size="11" text-anchor="middle" '
+        f'fill="{MUTED}">distant in sequence, adjacent in space</text>'
+    )
+    return write_svg(
+        "coevolution-signal.svg", svg_doc(W, H, "coevolution signal", body)
+    )
+
+
+def fig_structure_model_families():
+    W, H = 640, 300
+    body = []
+    body.append(eyebrow(30, 30, "STRUCTURE PREDICTORS, 2024-2026"))
+    cols = [
+        {
+            "x": 30,
+            "eyebrow": "INPUT: MSA (HOMOLOGS)",
+            "name": "AlphaFold2",
+            "fill": ACCENT_SOFT,
+            "below": [
+                "reads co-evolution",
+                "from an alignment",
+                "chains + AF-Multimer",
+            ],
+        },
+        {
+            "x": 245,
+            "eyebrow": "INPUT: ONE SEQUENCE",
+            "name": "ESMFold",
+            "fill": "#ffffff",
+            "below": ["PLM embeddings,", "no alignment step", "fast; weaker on hard"],
+        },
+        {
+            "x": 460,
+            "eyebrow": "INPUT: SEQ + LIGAND + NA",
+            "name": "AF3 / Boltz / Chai",
+            "fill": ACCENT_SOFT,
+            "below": ["all-atom diffusion", "decoder", "complexes, ions, ligands"],
+        },
+    ]
+    bw, bh, by = 150, 56, 108
+    for c in cols:
+        x = c["x"]
+        body.append(
+            f'<text x="{x}" y="84" font-size="10" font-weight="700" '
+            f'fill="{MUTED}" letter-spacing="0.5">{c["eyebrow"]}</text>'
+        )
+        body.extend(
+            node_box(
+                x,
+                by,
+                bw,
+                bh,
+                c["name"],
+                fill=c["fill"],
+                stroke=RULE_STRONG,
+                font_size=13,
+                weight=700,
+            )
+        )
+        ty = by + bh + 26
+        for i, line in enumerate(c["below"]):
+            body.append(
+                f'<text x="{x + bw / 2:.1f}" y="{ty + i * 18}" font-size="11.5" '
+                f'text-anchor="middle" fill="{INK_SOFT}">{line}</text>'
+            )
+    body.append(
+        f'<text x="{W / 2}" y="280" font-size="11" text-anchor="middle" '
+        f'fill="{MUTED}">Ranked head-to-head at CASP, the biennial blind competition</text>'
+    )
+    return write_svg(
+        "structure-model-families.svg", svg_doc(W, H, "structure model families", body)
+    )
+
+
+def fig_static_vs_ensemble():
+    W, H = 640, 260
+    body = []
+    # Divider.
+    body.append(
+        f'<line x1="320" y1="40" x2="320" y2="220" stroke="{RULE}" stroke-width="1"/>'
+    )
+    body.append(eyebrow(30, 30, "WHAT THE MODEL RETURNS"))
+    body.append(eyebrow(345, 30, "WHAT THE MOLECULE DOES"))
+
+    def backbone(x0, dy, color, opacity, width=3):
+        return (
+            f'<path d="M {x0} {150 + dy} C {x0 + 50} {88 + dy}, '
+            f'{x0 + 120} {186 + dy}, {x0 + 190} {120 + dy}" fill="none" '
+            f'stroke="{color}" stroke-width="{width}" opacity="{opacity}" '
+            f'stroke-linecap="round"/>'
+        )
+
+    # Left: single predicted state.
+    body.append(backbone(48, 0, ACCENT, 1.0))
+    body.append(f'<circle cx="48" cy="150" r="5" fill="{ACCENT}"/>')
+    body.append(f'<circle cx="238" cy="120" r="5" fill="{ACCENT}"/>')
+    body.append(
+        f'<text x="160" y="212" font-size="12" text-anchor="middle" '
+        f'fill="{INK_SOFT}">one most-likely fold</text>'
+    )
+    # Right: an ensemble of states.
+    body.append(backbone(362, -14, ACCENT, 0.85))
+    body.append(backbone(362, 8, VIOLET, 0.7))
+    body.append(backbone(362, 26, AMBER, 0.7))
+    # A disordered tail extending off the last conformation.
+    body.append(
+        f'<path d="M 552 146 q 16 -20 30 -2 q 14 18 28 -2 q 12 -16 22 4" '
+        f'fill="none" stroke="{BRICK}" stroke-width="2" stroke-linecap="round"/>'
+    )
+    body.append(
+        f'<text x="476" y="212" font-size="12" text-anchor="middle" '
+        f'fill="{INK_SOFT}">an ensemble of states</text>'
+    )
+    body.append(
+        f'<text x="580" y="128" font-size="10.5" text-anchor="middle" '
+        f'fill="{BRICK}">disorder</text>'
+    )
+    return write_svg(
+        "static-vs-ensemble.svg",
+        svg_doc(W, H, "static structure versus ensemble", body),
+    )
+
+
+def fig_design_inverts_prediction():
+    W, H = 640, 220
+    defs = arrow_marker(ACCENT, "arrow_di")
+    body = [defs]
+    # Forward / prediction row.
+    body.append(eyebrow(60, 40, "FORWARD  —  PREDICTION (CH. 8)"))
+    body += node_box(60, 52, 150, 46, "Sequence", font_size=13)
+    body += node_box(430, 52, 150, 46, "Structure", font_size=13)
+    body.append(
+        f'<line x1="215" y1="75" x2="425" y2="75" stroke="{ACCENT}" '
+        f'stroke-width="2" marker-end="url(#arrow_di)"/>'
+    )
+    body.append(
+        f'<text x="320" y="68" text-anchor="middle" font-family="{SANS}" '
+        f'font-size="11" fill="{MUTED}">trained predictor</text>'
+    )
+    # Inverse / design row.
+    body.append(eyebrow(60, 138, "INVERSE  —  DESIGN (THIS CHAPTER)"))
+    body += node_box(60, 150, 150, 46, "Function / shape", font_size=12)
+    body += node_box(430, 150, 150, 46, "Novel molecule", font_size=12)
+    body.append(
+        f'<line x1="215" y1="173" x2="425" y2="173" stroke="{ACCENT}" '
+        f'stroke-width="2" marker-end="url(#arrow_di)"/>'
+    )
+    body.append(
+        f'<text x="320" y="166" text-anchor="middle" font-family="{SANS}" '
+        f'font-size="11" fill="{MUTED}">generative model + filter</text>'
+    )
+    svg = svg_doc(W, H, "Prediction versus design directions", body)
+    return write_svg("design-inverts-prediction.svg", svg)
+
+
+def fig_design_generate_filter_validate():
+    W, H = 640, 240
+    defs = arrow_marker(INK, "arrow_gfv") + arrow_marker(BRICK, "arrow_gfv_rej")
+    body = [defs]
+    body.append(eyebrow(20, 26, "GENERATE  →  FILTER  →  VALIDATE"))
+    boxes = [
+        (20, "Backbone", ACCENT_SOFT),
+        (180, "Sequence", ACCENT_SOFT),
+        (340, "Refold + score", ACCENT_SOFT),
+        (500, "Wet lab", AMBER),
+    ]
+    by, bh, bw = 108, 50, 120
+    for bx, title, fill in boxes:
+        body += node_box(bx, by, bw, bh, title, fill=fill, font_size=12, weight=600)
+    # Forward arrows between boxes.
+    for x0 in (140, 300, 460):
+        body.append(
+            f'<line x1="{x0}" y1="133" x2="{x0 + 40}" y2="133" stroke="{INK}" '
+            f'stroke-width="2" marker-end="url(#arrow_gfv)"/>'
+        )
+    # Captions below each box.
+    caps = [
+        (80, ["diffusion:", "RFdiffusion, Chroma"]),
+        (240, ["inverse folding:", "ProteinMPNN"]),
+        (400, ["self-consistency:", "AlphaFold / ESMFold"]),
+        (560, ["express &amp;", "measure binding"]),
+    ]
+    for cx, lines in caps:
+        body.append(
+            f'<text x="{cx}" y="178" text-anchor="middle" font-family="{SANS}" '
+            f'font-size="10" fill="{MUTED}">'
+            f'<tspan x="{cx}" dy="0">{lines[0]}</tspan>'
+            f'<tspan x="{cx}" dy="13">{lines[1]}</tspan></text>'
+        )
+    # Reject loop arc from score box back to backbone box.
+    body.append(
+        f'<path d="M400,108 C 400,50 80,50 80,108" fill="none" stroke="{BRICK}" '
+        f'stroke-width="1.8" stroke-dasharray="5 4" marker-end="url(#arrow_gfv_rej)"/>'
+    )
+    body.append(
+        f'<text x="240" y="48" text-anchor="middle" font-family="{SANS}" '
+        f'font-size="10.5" fill="{BRICK}">rejected (low pLDDT / high RMSD) → resample</text>'
+    )
+    svg = svg_doc(W, H, "Generate, filter, validate loop", body)
+    return write_svg("design-generate-filter-validate.svg", svg)
+
+
+def fig_design_silico_to_wetlab_funnel():
+    W, H = 640, 250
+    body = []
+    body.append(eyebrow(40, 28, "IN SILICO  →  WET LAB"))
+    x0 = 40
+    stages = [
+        (560, ACCENT_SOFT, "~10,000 backbones generated"),
+        (360, ACCENT, "hundreds pass the self-consistency filter"),
+        (160, AMBER, "~10–40% of ordered designs bind (target-dependent)"),
+        (60, BRICK, "a handful show genuine catalytic function"),
+    ]
+    y = 52
+    bh = 30
+    for w, fill, label in stages:
+        body.append(
+            f'<text x="{x0}" y="{y - 6}" font-family="{SANS}" font-size="11" '
+            f'fill="{INK}">{label}</text>'
+        )
+        body.append(
+            f'<rect x="{x0}" y="{y}" width="{w}" height="{bh}" rx="3" '
+            f'fill="{fill}" stroke="{RULE_STRONG}" stroke-width="1"/>'
+        )
+        y += 50
+    body.append(
+        f'<text x="{x0}" y="{y + 4}" font-family="{SANS}" font-size="10" '
+        f'fill="{MUTED}">Headline success rates are quoted at a late, narrow slice; end-to-end yield is far smaller.</text>'
+    )
+    svg = svg_doc(W, H, "In-silico to wet-lab attrition funnel", body)
+    return write_svg("design-silico-to-wetlab-funnel.svg", svg)
+
+
+def fig_cell_state_programming():
+    W, H = 640, 230
+    body = [arrow_marker(ACCENT, "csp1"), arrow_marker(BRICK, "csp2")]
+    body.append(eyebrow(30, 28, "MENU OF PERTURBATIONS"))
+    chips = ["Knock out a gene", "Turn a gene on (CRISPRa)", "Wire a gene circuit"]
+    for i, t in enumerate(chips):
+        y = 42 + i * 46
+        body += node_box(
+            30, y, 190, 34, t, fill=ACCENT_SOFT, stroke=RULE_STRONG, font_size=12
+        )
+    body.append(
+        '<path d="M 228 105 L 285 105" stroke="%s" stroke-width="2" fill="none" marker-end="url(#csp1)"/>'
+        % ACCENT
+    )
+    body += node_box(
+        290,
+        80,
+        120,
+        50,
+        "Cell state A",
+        fill="#ffffff",
+        stroke=RULE_STRONG,
+        font_size=13,
+        weight=600,
+    )
+    body.append(
+        '<text x="350" y="150" font-size="11" fill="%s" text-anchor="middle">where the cell is</text>'
+        % MUTED
+    )
+    body.append(
+        '<path d="M 413 105 L 470 105" stroke="%s" stroke-width="2" fill="none" marker-end="url(#csp2)"/>'
+        % BRICK
+    )
+    body += node_box(
+        475,
+        80,
+        130,
+        50,
+        "Cell state B",
+        fill=ACCENT_SOFT,
+        stroke=ACCENT,
+        font_size=13,
+        weight=600,
+    )
+    body.append(
+        '<text x="540" y="150" font-size="11" fill="%s" text-anchor="middle">the therapeutic goal</text>'
+        % MUTED
+    )
+    body.append(
+        '<text x="345" y="196" font-size="12" fill="%s" text-anchor="middle">Which perturbations move A toward B?</text>'
+        % INK_SOFT
+    )
+    return write_svg(
+        "cell-state-programming.svg",
+        svg_doc(W, H, "perturbation menu nudging a cell from state A to state B", body),
+    )
+
+
+def fig_perturbation_response_model():
+    W, H = 640, 230
+    body = [arrow_marker(ACCENT, "prm")]
+    body.append(eyebrow(30, 26, "PERTURB-SEQ (CHAPTER 4)"))
+    body += node_box(
+        30,
+        42,
+        170,
+        36,
+        "CRISPR guide = input",
+        fill=ACCENT_SOFT,
+        stroke=RULE_STRONG,
+        font_size=11,
+    )
+    body += node_box(
+        30,
+        92,
+        170,
+        36,
+        "scRNA-seq = readout",
+        fill=ACCENT_SOFT,
+        stroke=RULE_STRONG,
+        font_size=11,
+    )
+    body.append(
+        '<text x="115" y="150" font-size="11" fill="%s" text-anchor="middle">many (perturbation, response) pairs</text>'
+        % MUTED
+    )
+    body.append(
+        '<path d="M 205 85 L 260 85" stroke="%s" stroke-width="2" fill="none" marker-end="url(#prm)"/>'
+        % ACCENT
+    )
+    body.append(eyebrow(272, 26, "MODEL"))
+    body += node_box(
+        265,
+        50,
+        190,
+        70,
+        "Perturbation-response model",
+        fill="#ffffff",
+        stroke=ACCENT,
+        font_size=11,
+        weight=600,
+    )
+    body.append(
+        '<text x="360" y="142" font-size="11" fill="%s" text-anchor="middle">GEARS graph / State latent shift</text>'
+        % MUTED
+    )
+    body.append(
+        '<path d="M 460 85 L 505 85" stroke="%s" stroke-width="2" fill="none" marker-end="url(#prm)"/>'
+        % ACCENT
+    )
+    body.append(eyebrow(512, 26, "PREDICTION"))
+    body += node_box(
+        505,
+        50,
+        120,
+        70,
+        "Predicted shift",
+        fill=ACCENT_SOFT,
+        stroke=ACCENT,
+        font_size=12,
+        weight=600,
+    )
+    body.append(
+        '<text x="565" y="138" font-size="11" fill="%s" text-anchor="middle">for a held-out perturbation</text>'
+        % MUTED
+    )
+    return write_svg(
+        "perturbation-response-model.svg",
+        svg_doc(
+            W,
+            H,
+            "perturb-seq pairs train a model to predict a held-out perturbations expression shift",
+            body,
+        ),
+    )
+
+
+def fig_generalization_ladder():
+    W, H = 640, 270
+    body = [eyebrow(30, 26, "GENERALIZATION GETS HARDER")]
+    rungs = [
+        ("Seen perturbation", "linear baselines already strong", ACCENT_SOFT, ACCENT),
+        ("Unseen single gene", "deep models roughly tie the mean", PAPER, RULE_STRONG),
+        ("Combinatorial or new cell type", "open frontier", PAPER, BRICK),
+    ]
+    x0, bw, gap = 30, 185, 15
+    for i, (t, note, fill, stroke) in enumerate(rungs):
+        x = x0 + i * (bw + gap)
+        y = 170 - i * 45
+        body += node_box(
+            x, y, bw, 44, t, fill=fill, stroke=stroke, font_size=11, weight=600
+        )
+        body.append(
+            '<text x="%d" y="%d" font-size="11" fill="%s" text-anchor="middle">%s</text>'
+            % (x + bw / 2, y + 62, MUTED, note)
+        )
+    return write_svg(
+        "generalization-ladder.svg",
+        svg_doc(
+            W,
+            H,
+            "three rungs of perturbation generalization from easy to open frontier",
+            body,
+        ),
+    )
+
+
 FIGURES = (
+    fig_target_funnel,
+    fig_target_evidence_integration,
+    fig_genetic_support_success,
+    fig_property_axes,
+    fig_variant_scoring,
+    fig_epistasis,
+    fig_coevolution_signal,
+    fig_structure_model_families,
+    fig_static_vs_ensemble,
+    fig_design_inverts_prediction,
+    fig_design_generate_filter_validate,
+    fig_design_silico_to_wetlab_funnel,
+    fig_cell_state_programming,
+    fig_perturbation_response_model,
+    fig_generalization_ladder,
     fig_pretrain_recipe,
     fig_two_lobes,
     fig_chapter_spine,

@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 300" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" role="img" aria-label="evidence integration">
+<defs><marker id="ev_arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#cfcdc4"/></marker></defs>
+<text x="20.0" y="24.0" font-size="11" font-weight="700" fill="#6a6d73" letter-spacing="1">MANY WEAK SIGNALS, ONE RANKED LIST</text>
+<rect x="20.0" y="42.0" width="252.0" height="36.0" rx="6" fill="#ffffff" stroke="#cfcdc4"/>
+<text x="146.0" y="63.9" font-size="11" font-weight="400" text-anchor="middle" fill="#17181b">Human genetics: GWAS, Mendelian, MR</text>
+<rect x="20.0" y="91.0" width="252.0" height="36.0" rx="6" fill="#ffffff" stroke="#cfcdc4"/>
+<text x="146.0" y="112.8" font-size="11" font-weight="400" text-anchor="middle" fill="#17181b">Network and omics embeddings</text>
+<rect x="20.0" y="140.0" width="252.0" height="36.0" rx="6" fill="#ffffff" stroke="#cfcdc4"/>
+<text x="146.0" y="161.8" font-size="11" font-weight="400" text-anchor="middle" fill="#17181b">Perturb-seq functional readouts</text>
+<rect x="20.0" y="189.0" width="252.0" height="36.0" rx="6" fill="#ffffff" stroke="#cfcdc4"/>
+<text x="146.0" y="210.8" font-size="11" font-weight="400" text-anchor="middle" fill="#17181b">Literature / LLM evidence synthesis</text>
+<rect x="20.0" y="238.0" width="252.0" height="36.0" rx="6" fill="#ffffff" stroke="#cfcdc4"/>
+<text x="146.0" y="259.9" font-size="11" font-weight="400" text-anchor="middle" fill="#17181b">Known drugs and tractability</text>
+<rect x="404.0" y="108.0" width="200.0" height="84.0" rx="6" fill="#eaf0f6" stroke="#cfcdc4"/>
+<text x="504.0" y="154.9" font-size="14" font-weight="600" text-anchor="middle" fill="#17181b">Prioritized targets</text>
+<text x="504.0" y="212" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" fill="#6a6d73" text-anchor="middle">causal and druggable, ranked</text>
+<line x1="275" y1="60.0" x2="399" y2="150.0" stroke="#cfcdc4" stroke-width="1.2" marker-end="url(#ev_arrow)"/>
+<line x1="275" y1="109.0" x2="399" y2="150.0" stroke="#cfcdc4" stroke-width="1.2" marker-end="url(#ev_arrow)"/>
+<line x1="275" y1="158.0" x2="399" y2="150.0" stroke="#cfcdc4" stroke-width="1.2" marker-end="url(#ev_arrow)"/>
+<line x1="275" y1="207.0" x2="399" y2="150.0" stroke="#cfcdc4" stroke-width="1.2" marker-end="url(#ev_arrow)"/>
+<line x1="275" y1="256.0" x2="399" y2="150.0" stroke="#cfcdc4" stroke-width="1.2" marker-end="url(#ev_arrow)"/>
+</svg>

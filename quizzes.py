@@ -351,6 +351,302 @@ _QUIZZES: dict[str, tuple[Question, ...]] = {
             explanation="Ancestry is a confounder that shifts allele frequencies and trait prevalence together, so an allele can track a trait purely because of where it was sampled. The fix mirrors batch-effect correction: regress out genetic principal components or use a mixed model before trusting any association.",
         ),
     ),
+    "target-discovery": (
+        Question(
+            prompt="A gene is the single most strongly upregulated transcript in patient tissue versus healthy controls. Why is this, on its own, weak evidence that it is a good drug target?",
+            options=(
+                "Differential expression is correlational: the gene may be responding to the disease rather than driving it, so perturbing it need not change the phenotype",
+                "RNA-seq reports transcript abundance, which is several steps removed from the protein level a drug actually engages, so a strong signal need not mark a druggable protein at all",
+                "Strongly upregulated genes are usually a compensatory, protective response to the disease, so inhibiting one would remove a safeguard and make the phenotype worse",
+                "Expression fold-changes this large sit within the noise band of bulk RNA-seq, so the ranking cannot reliably separate real targets from technical artifacts",
+            ),
+            answer=0,
+            explanation="The core problem is direction of causation, not measurement. A gene can be upregulated because it causes the disease, because the disease changed it, or because both share an upstream driver — only the first makes it a target. This is exactly why human genetics and direct perturbation, which carry causal information, are prized over expression correlation.",
+        ),
+        Question(
+            prompt="Why is a genetic variant treated as a stronger causal signal for a target than a case-control expression difference?",
+            options=(
+                "Genetic genotypes are measured far more precisely than noisy gene-expression readouts, so a variant association carries much less experimental noise than a case-control comparison ever could",
+                "A variant is fixed at conception before the disease begins, so an association points from gene to disease rather than the reverse",
+                "Variants always sit inside the very gene whose function they alter, which removes any ambiguity about which gene the association actually implicates",
+                "Genetic effects are consistently larger in magnitude than expression differences, which makes a variant association much easier to detect above the noise",
+            ),
+            answer=1,
+            explanation="The temporal ordering is what buys causality: because the variant is assigned quasi-randomly and precedes the disease, the disease cannot have caused the variant. Note the third option is actually false in a way that matters — the causal variant usually sits outside its target gene, which is why the locus-to-gene mapping problem exists at all.",
+        ),
+        Question(
+            prompt="Human genetic support roughly doubles a target's probability of clinical success. What does this NOT imply?",
+            options=(
+                "Greater confidence in exactly which causal gene sits behind the association makes the success-rate boost larger, not smaller",
+                "The roughly two-fold boost still holds even for variants of modest effect size, since the benefit tracks gene-level confidence rather than effect magnitude",
+                "A target without any genetic support should be abandoned, since genetic evidence is required for approval",
+                "Most genetically supported targets nonetheless still fail somewhere in clinical development, because the baseline success rate stays low",
+            ),
+            answer=2,
+            explanation="Genetic support is a strong filter, not a requirement: the base success rate is low, so even a 2 to 2.6-fold boost leaves most programs failing, and many good targets have no detectable common-variant signal. Minikel and colleagues also showed the effect grows with confidence in the causal gene but is largely independent of the variant's effect size.",
+        ),
+        Question(
+            prompt="What makes a Perturb-seq readout a fundamentally different kind of evidence from a network-embedding prediction?",
+            options=(
+                "Perturb-seq assays the entire genome one knockout at a time, whereas a network embedding can only score the few hundred genes that already sit close to known disease genes",
+                "Perturb-seq measures each gene's protein structure directly, while a network embedding only ever captures coarse sequence similarity between genes",
+                "Perturb-seq is causal by construction because you performed the intervention, whereas embedding proximity is a correlational hypothesis",
+                "Perturb-seq requires no prior knowledge at all, while network embeddings are strictly limited to the genes that already have known variants",
+            ),
+            answer=2,
+            explanation="Perturb-seq actually knocks the gene out and reads the downstream transcriptome, so the effect it reports is caused by your intervention. A network embedding infers 'guilt by association' from proximity to known disease genes, which is a testable hypothesis, not a demonstrated effect. Both still face the dish-to-patient gap: a causal effect in an immortalized cell line may not hold in the relevant tissue.",
+        ),
+        Question(
+            prompt="Why are LLM-agent systems that synthesize the target literature best treated as producing leads rather than decisions?",
+            options=(
+                "They can only read papers published before their training cutoff date, so they systematically miss the most recent biology and sometimes cite work that has since been retracted",
+                "They synthesize existing knowledge and can hallucinate confident mechanisms, so their nominations must be independently verified",
+                "They cannot query structured resources like Open Targets and are confined to free text, so their nominations rest on an incomplete slice of the evidence",
+                "They systematically favor already-undruggable targets, because those are the ones that dominate the published literature they were trained to summarize",
+            ),
+            answer=1,
+            explanation="These systems are fast, tireless synthesizers but inherit the literature's biases and can assert mechanisms that are not supported, so a nomination is a hypothesis to check. Systems like OriGene close part of this loop by pairing nomination with experimental validation, which is what turns a plausible lead into evidence.",
+        ),
+        Question(
+            prompt="A collaborator argues that because in-silico target nomination is now cheap and fast, the main bottleneck in target discovery has been solved. What is the flaw?",
+            options=(
+                "Nomination is actually still the slow step, because a genome-scale Perturb-seq screen followed by careful curation takes years before any candidate can even be proposed",
+                "Validation — knockouts, animal models, and eventually trials — remains expensive and slow, so the constraint has shifted to which few candidates you can afford to test",
+                "In-silico methods still cannot rank the candidates they surface, so a human expert must sift the raw list and nominate each target by hand",
+                "Druggability can now be predicted almost perfectly from structure, so causality is the only remaining source of uncertainty in the pipeline",
+            ),
+            answer=1,
+            explanation="Cheap nomination moves the bottleneck rather than removing it: because generating candidates is now abundant and experimental validation is costly, the binding constraint is choosing the few hypotheses worth the years and millions to confirm. A wrong pick is most expensive precisely at this validation gate.",
+        ),
+    ),
+    "property-prediction": (
+        Question(
+            prompt="Why does a protein language model's log-likelihood ratio predict variant fitness at all, given that it never saw fitness labels?",
+            options=(
+                "It was quietly pretrained on deep mutational scanning fitness values alongside the sequences, so the log-likelihood ratio is really just recalling those memorized experimental labels",
+                "Natural sequences are survivors of selection, so substitutions that break function are rare in training data and get low probability",
+                "It computes each variant's folding free energy from a built-in physics-based energy function and reads fitness straight off that thermodynamic estimate",
+                "It aligns each variant back to a reference genome and simply counts up the mismatched positions",
+            ),
+            answer=1,
+            explanation="The likelihood-as-fitness bet works because the training corpus is filtered by evolution: harmful residues were purged, so the model assigns them low probability. That is why the signal exists without labels, and also why it tracks broad evolutionary plausibility rather than any one engineering objective.",
+        ),
+        Question(
+            prompt="On ProteinGym, how do single-sequence protein language models compare to alignment-based methods for zero-shot variant effect?",
+            options=(
+                "The largest single-sequence PLMs now decisively beat every MSA-based method on ProteinGym, which is exactly why alignment-based predictors have become obsolete",
+                "MSA-based and hybrid methods remain competitive with or ahead of single-sequence PLMs, which sit around 0.4 to 0.5 Spearman",
+                "MSA-based methods quietly require labeled DMS data to work while PLMs need none, so the two families are not really comparable on a zero-shot benchmark",
+                "Essentially all of these methods clear 0.9 Spearman on ProteinGym, so which family you pick rarely changes the outcome in practice",
+            ),
+            answer=1,
+            explanation="Single-sequence PLMs cluster near 0.4 to 0.5 average Spearman and do not dominate; alignment-based GEMME and hybrids like TranceptEVE, plus AlphaMissense, remain at or above them. Both approaches are label-free, and single-sequence performance appears to be plateauing rather than pulling ahead with scale.",
+        ),
+        Question(
+            prompt="You add up a protein language model's single-mutant scores to predict a double mutant and get it badly wrong. What is the most likely cause?",
+            options=(
+                "The scores are epistatic in reality: two beneficial mutations can interact to break the protein, which an additive sum cannot capture",
+                "The tokenizer split the double mutation across two separate tokens, corrupting the input so the model never actually scored the true combined sequence",
+                "The model's per-position scores are poorly calibrated, so their absolute magnitudes drift by a constant offset that only grows when you add two of them together",
+                "The multiple sequence alignment for this protein was far too shallow to cover both mutated positions jointly, so the pairwise term was never estimated",
+            ),
+            answer=0,
+            explanation="Higher-order interaction, especially sign epistasis, means the combined effect is not the sum of parts, and per-position likelihood scores largely miss it. Calibration is a separate problem about absolute magnitudes; the failure here is the additive assumption itself.",
+        ),
+        Question(
+            prompt="You have 20,000 labeled folding-stability measurements for your protein family. What is the strongest approach to predict stability for new variants?",
+            options=(
+                "Use the zero-shot likelihood ratio, since supervised heads overfit small biological datasets",
+                "Fine-tune a supervised regression head on the model's embeddings using your measurements",
+                "Average the predictions of several unrelated pretrained language models",
+                "Rely on the model's raw perplexity, which already equals stability up to a scale factor",
+            ),
+            answer=1,
+            explanation="When labels for the exact property exist, a supervised head on learned features wins: models trained on the megascale stability data reach roughly 0.72 Spearman, far above zero-shot likelihood. Likelihood measures evolutionary plausibility, which correlates with but does not equal folding stability.",
+        ),
+        Question(
+            prompt="A variant-effect model reaches Spearman 0.5 against a DMS assay. What decision does that most justify?",
+            options=(
+                "Reporting calibrated per-variant probabilities of pathogenicity directly to a clinic for diagnostic use",
+                "Prioritizing which variants to test first, if its top-ranked slice is enriched for true hits",
+                "Assigning precise change-in-folding-free-energy values to each variant to feed a thermodynamic stability model",
+                "Replacing the deep mutational scanning assay entirely for every protein in that family",
+            ),
+            answer=1,
+            explanation="A moderate rank correlation supports ordering candidates, not calibrated numbers: what matters operationally is top-k enrichment over the background hit rate. It does not license precise per-variant values or clinical classification, and it complements rather than replaces the assay.",
+        ),
+    ),
+    "protein-structure": (
+        Question(
+            prompt="A structure predictor gives a confident, sharp fold for a well-studied enzyme but a low-confidence, tangled result for a newly discovered orphan protein with no known relatives. What is the most likely reason?",
+            options=(
+                "The orphan protein is intrinsically disordered and so simply has no single stable structure for the predictor to converge on in the first place",
+                "The orphan protein has too few homologs to build an informative MSA, so the co-evolution signal is weak",
+                "Orphan proteins are almost always longer than the model's maximum context window, so the fold is truncated before it can be predicted",
+                "The predictor was never trained on any sequences from that particular organism, so it cannot generalize to its unusual residue usage",
+            ),
+            answer=1,
+            explanation="MSA-based predictors depend on co-evolution across many relatives. With few homologs, the alignment carries little contact signal and accuracy drops. This is exactly the regime where single-sequence models like ESMFold become attractive, though they too lose accuracy on genuinely hard, relative-poor targets.",
+        ),
+        Question(
+            prompt="Why does AlphaFold2 alone struggle to model a protein bound to a small-molecule drug and a magnesium ion, and what changed with AlphaFold3?",
+            options=(
+                "AlphaFold2 predicts single amino-acid chains only; AlphaFold3 replaced the output with an all-atom diffusion decoder that jointly models proteins, nucleic acids, ligands, and ions",
+                "AlphaFold2 was closed-source, whereas AlphaFold3 opened its weights so that individual labs could bolt on their own ligand and ion support",
+                "AlphaFold2 emitted no confidence scores for ligands, so its poses could not be trusted, a gap that AlphaFold3's calibrated per-atom scores finally closed",
+                "AlphaFold2 was trained before most small-molecule drug structures had been deposited in the PDB, and AlphaFold3 simply retrained on that newer, ligand-rich data without changing the architecture",
+            ),
+            answer=0,
+            explanation="AlphaFold2 is a monomer/protein predictor. AlphaFold3's key architectural change is an atom-level diffusion generator that represents and folds arbitrary chemical components together, letting one network handle complexes and beat specialized docking tools. Open weights are a separate story that belongs to Boltz and Chai.",
+        ),
+        Question(
+            prompt="A collaborator says 'AlphaFold solved protein structure, so we can stop doing crystallography.' What is the sharpest correction?",
+            options=(
+                "Crystallography is still required because AlphaFold cannot fold any protein larger than roughly 400 residues without its accuracy collapsing",
+                "The models predict a single most-likely fold well for many proteins, but not conformational ensembles, dynamics, or disordered regions, and a fold is not the same as function",
+                "AlphaFold is only accurate for proteins whose close relatives already sit in the PDB, so genuinely novel folds still demand experimental determination",
+                "Cryo-EM has now fully replaced X-ray crystallography, so the real choice is between two competing experimental methods rather than between computational prediction and any experiment at all",
+            ),
+            answer=1,
+            explanation="The models return one static structure and collapse the population of states a molecule visits. Dynamics, intrinsic disorder, large assemblies, and the leap from shape to function all remain open, which is why 'solved' overstates the case even though the first-draft fold is often excellent.",
+        ),
+        Question(
+            prompt="What does a per-residue pLDDT confidence score most usefully flag when it is very low over a contiguous stretch of a prediction?",
+            options=(
+                "That the residues across that low-confidence stretch mark the enzyme's catalytically active site, which the model deliberately flags with reduced certainty",
+                "That the model was forced to average several conflicting structural templates in that region, blurring the coordinates it ultimately reports there",
+                "That the region may be intrinsically disordered or otherwise unreliable, even though coordinates were still drawn for it",
+                "That the underlying sequence in that stretch contains a sequencing error and should be re-checked before the structure is used",
+            ),
+            answer=2,
+            explanation="A model that outputs coordinates will place atoms even for a floppy, fold-free region; low pLDDT is your signal that the drawn shape is untrustworthy there. Disordered regions are common and functional, so a confident-looking ribbon over a low-pLDDT stretch is a classic way to be misled.",
+        ),
+        Question(
+            prompt="By 2025-2026, what is the most accurate statement about open-weight structure models like Boltz and Chai relative to AlphaFold3?",
+            options=(
+                "They match AlphaFold3-level accuracy on biomolecular complexes and can be run and fine-tuned in-house",
+                "They can only predict single isolated chains and still cannot handle the ligands or nucleic acids that AlphaFold3 folds jointly",
+                "They run considerably faster but are substantially less accurate on complexes, making them useful only for rough, early-stage screening",
+                "They still require a paid AlphaFold3 license to run at all, because under the hood they reuse its released weights",
+            ),
+            answer=0,
+            explanation="The 2024-2026 shift is that co-folding capability is no longer confined to one lab: open models reproduce AlphaFold3-level accuracy on complexes under permissive licenses, and Boltz-2 even added a binding-affinity head that led the CASP16 affinity challenge. For a practitioner, in-house runnability and fine-tuning are the practical payoff.",
+        ),
+    ),
+    "protein-design": (
+        Question(
+            prompt="A colleague calls ProteinMPNN 'basically ESM for design.' What is the sharpest correction?",
+            options=(
+                "ProteinMPNN reads 3D backbone coordinates and outputs a sequence, whereas ESM reads sequences; they solve different problems from different inputs",
+                "ProteinMPNN is trained on far more raw sequences than ESM ever saw, so it generalizes better to novel folds while sharing the same masked objective",
+                "They are essentially equivalent models, except that ProteinMPNN bolts a diffusion sampler on top of the ESM encoder to draw its designs",
+                "ProteinMPNN predicts a full 3D structure from sequence, while ESM works in the opposite direction and predicts a sequence from a given structure",
+            ),
+            answer=0,
+            explanation="ProteinMPNN is an inverse-folding model: its input is backbone geometry and its output is a compatible sequence, learned from PDB structure-sequence pairs via message passing. ESM is a protein language model trained on sequences alone. Neither predicts structure from sequence in the AlphaFold sense, and ProteinMPNN uses no diffusion and far fewer training examples than ESM's sequence corpora.",
+        ),
+        Question(
+            prompt="A design paper reports '90% of designs bind the target.' What does that number most accurately describe?",
+            options=(
+                "The fraction of survivors after self-consistency and developability filtering that bound in an assay tuned to the method, not the raw yield from generation",
+                "The fraction of all raw generated backbones that end up folding correctly once they are expressed and tested in the wet lab",
+                "The probability that any single generated sequence, drawn at random straight from the model, binds its target with nanomolar affinity in the very first assay",
+                "The clinical success rate of the binder once it has been developed all the way into an approved drug",
+            ),
+            answer=0,
+            explanation="Headline success rates are measured late in the funnel, after aggressive in-silico filtering, and in an assay calibrated to that pipeline. The end-to-end yield from raw generation is far lower, because most designs never survive the self-consistency and developability filters. This is why the design loop, not any single model, is the real unit of progress.",
+        ),
+        Question(
+            prompt="Why is designing an enzyme that catalyzes a reaction much harder than designing a binder to a target?",
+            options=(
+                "Catalysis needs several residues held in precise geometry to stabilize a transition state and cycle substrate, whereas binding mainly needs a complementary surface",
+                "Enzymes are simply much larger proteins, so current diffusion models cannot generate a backbone long enough to hold a working active site together",
+                "No structure predictor available today can score a candidate enzyme design for self-consistency, so the generate-filter loop cannot even be closed for them",
+                "Binders can be fully validated in silico by refolding the design, whereas an enzyme's catalytic activity can only ever be confirmed slowly and expensively at the bench",
+            ),
+            answer=0,
+            explanation="Binding is largely a matter of shape and chemical complementarity, exactly what diffusion plus self-consistency handle well. Catalysis demands sub-angstrom positioning of multiple catalytic residues, transition-state stabilization, and substrate turnover in a moving protein. Designed enzymes exist and improve, but still fall orders of magnitude below evolved turnover. Size is not the barrier, and self-consistency scoring applies to both.",
+        ),
+        Question(
+            prompt="In the generate-filter-validate loop, what does the self-consistency filter actually check?",
+            options=(
+                "Whether an independent structure predictor folds the designed sequence back to the intended backbone with low RMSD and high confidence",
+                "Whether the designed protein will express solubly, resist aggregation, and avoid triggering an immune response once it is produced in living cells",
+                "Whether the small molecule generated to fill the binding pocket can actually be chemically synthesized at reasonable cost",
+                "Whether the designed binder's measured affinity for its target comfortably exceeds a nanomolar threshold in the assay",
+            ),
+            answer=0,
+            explanation="Self-consistency closes the loop between design and prediction: you designed a sequence for a backbone, so you refold that sequence with an independent predictor (AlphaFold, ESMFold) and keep it only if it returns to the intended shape. It scores foldability, not developability, synthesizability, or measured affinity, which is why passing designs are still hypotheses for the bench.",
+        ),
+        Question(
+            prompt="A design passes self-consistency with excellent pLDDT but fails in your collaborator's lab. Which explanation is consistent with what the filter can and cannot see?",
+            options=(
+                "The design may fail to express, aggregate, or need dynamics its single static predicted structure never captured",
+                "A high pLDDT score guarantees soluble expression in any host, so the bench failure has to come down to a pipetting or handling error",
+                "Self-consistency already tests solubility and immunogenicity alongside the fold, so the model must simply have been wrong about the backbone geometry",
+                "The predictor already scored the protein's dynamics correctly, so low binding affinity is the only explanation left for the bench failure",
+            ),
+            answer=0,
+            explanation="Self-consistency and pLDDT judge whether a sequence folds to the intended static shape; they say nothing about expression yield, aggregation, storage stability, or immunogenicity, and a single rigid snapshot cannot capture function that depends on motion. Developability is measured at the bench, not scored by the predictor, so a fold-perfect design can still clump in the tube.",
+        ),
+    ),
+    "cell-engineering": (
+        Question(
+            prompt="A 2025 benchmark compared scGPT, scFoundation, and GEARS against deliberately simple baselines. What did it find?",
+            options=(
+                "For unseen genes and two-gene combinations, the deep models did not beat predicting the training mean or an additive model",
+                "The deep models clearly beat the simple baselines on unseen single genes, but lost their edge only on the harder two-gene combinations",
+                "The deep models beat every simple baseline handily, but only once they were fine-tuned on a large enough number of cells from the target context",
+                "The simple baselines failed almost entirely, because perturbation-driven expression changes are far too nonlinear for a constant or additive rule to predict",
+            ),
+            answer=0,
+            explanation="The headline result is that on the hardest, most useful splits (unseen genes, novel pairs) the deep models roughly tied a constant mean or additive baseline. This works because most perturbations move most genes very little, so a constant prediction already scores high; the correct lesson is to always report the gap over mean and additive baselines, not raw correlation.",
+        ),
+        Question(
+            prompt="How does GEARS predict the effect of a gene it never saw perturbed in training?",
+            options=(
+                "It embeds the gene in a gene-gene graph and borrows signal from perturbed neighbors",
+                "It memorizes every training perturbation and simply returns the single nearest exact match when queried with a new gene",
+                "It folds the unseen gene's protein product and reads the perturbation effect directly off the predicted 3D structure",
+                "It averages across all of the training perturbations, weighting each one equally by the number of cells it was measured in",
+            ),
+            answer=0,
+            explanation="GEARS represents a perturbation by its neighborhood in a network built from pathways and co-expression, so an unseen gene inherits a prediction from related genes that were perturbed. The graph is the whole mechanism for generalizing beyond observed perturbations, which is also why performance depends heavily on the quality and coverage of that prior network.",
+        ),
+        Question(
+            prompt="In Arc Institute's State model, what is the division of labor between its two modules?",
+            options=(
+                "State Embedding maps transcriptomes into a latent space; State Transition predicts how that embedding shifts under a perturbation",
+                "State Embedding predicts which perturbation was applied, while State Transition decodes that guess back into raw single-cell expression counts",
+                "Both modules independently predict the full expression profile, and the pipeline simply averages their two outputs together at the end",
+                "State Embedding handles the genetic perturbations while State Transition is reserved for the chemical, small-molecule ones, splitting the work by modality",
+            ),
+            answer=0,
+            explanation="State Embedding (SE) learns a smooth, noise-dampened representation of cell state, and State Transition (ST), a transformer, predicts the perturbation-induced shift in that latent space before a decoder returns to expression. Separating representation from transition is what lets the model aim at transfer across cell types rather than memorizing one context.",
+        ),
+        Question(
+            prompt="Why is predicting two-gene perturbations fundamentally harder than just scaling up compute?",
+            options=(
+                "Gene effects are non-additive, so a pair's effect is often not the sum of the two singles",
+                "Two-gene combinatorial screens simply produce far too few cells per pair to train any model that scales with added compute",
+                "CRISPR cannot reliably target two separate genes inside the same cell, so genuine combinations can never be measured directly",
+                "Gene combinations always collapse to the simple mean of the two single-gene responses, which no amount of extra compute can improve",
+            ),
+            answer=0,
+            explanation="Epistasis means the combined effect can amplify, cancel, or redirect the singles, so the response surface does not factorize into independent choices. That non-additivity is both the interesting biology and the reason an additive baseline is a nontrivial bar to clear on genuinely interacting pairs.",
+        ),
+        Question(
+            prompt="What is the most important caveat when moving a perturbation-response model toward an actual therapy?",
+            options=(
+                "It is trained mostly in immortalized cell lines and predicts a transcriptome shift, which is far from a clinical phenotype, and it says nothing about delivery",
+                "The model can only ever predict gene knockouts and is architecturally unable to represent an activating perturbation",
+                "Single-cell readouts are so dominated by dropout noise that no real perturbation signal can be detected in them at all",
+                "The model's predictions are valid only for the exact immortalized cell line used during training and cannot be scored or trusted for any other cellular context whatsoever",
+            ),
+            answer=0,
+            explanation="Perturb-seq lives in a dish of immortalized cells, and a predicted expression change is several steps removed from phenotype and clinical benefit, with distribution shift to primary cells and the unsolved delivery problem on top. Treating a ranked prediction as a hypothesis to confirm in the target cells, not a result, is the honest posture.",
+        ),
+    ),
 }
 
 
