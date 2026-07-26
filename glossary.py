@@ -510,6 +510,62 @@ _TERMS: tuple[Term, ...] = (
         "Distribution shift",
         "The change in data distribution between training and deployment, e.g. from immortalized cell lines to primary or patient cells, which degrades a model's transfer.",
     ),
+    Term(
+        "SMILES",
+        "Simplified Molecular-Input Line-Entry System: a text notation that encodes a molecule's atoms and bonds as a string, for example `CC(=O)O` for acetic acid. It lets a molecule be processed like a sentence by sequence models.",
+    ),
+    Term(
+        "Molecular graph",
+        "A representation of a molecule as a graph with atoms as nodes and chemical bonds as edges; the natural input for a graph neural network, making connectivity explicit while ignoring 3D geometry.",
+    ),
+    Term(
+        "Binding pose",
+        "A specific three-dimensional placement of a molecule's atoms inside a target protein's pocket. The pose is where binding is physically decided, and finding the correct one is the core of docking.",
+    ),
+    Term(
+        "Docking",
+        "Computationally searching over candidate poses of a molecule in a protein pocket and ranking them with a scoring function, to predict where and how tightly the molecule binds.",
+    ),
+    Term(
+        "Scoring function",
+        "A fast approximate estimate of how well a molecule binds in a given pose, standing in for a true binding free energy. It may be empirical and physics-inspired (as in AutoDock Vina) or learned (as in Gnina's neural scorer).",
+    ),
+    Term(
+        "Potency",
+        "How little of a drug is needed to produce its effect. Higher potency means a lower effective concentration; it is closely tied to binding affinity but is not the whole of a drug's usefulness.",
+    ),
+    Term(
+        "IC50 / EC50",
+        "The concentration of a compound that produces half of its maximum inhibitory (IC50) or maximum effect (EC50). A lower value means a more potent molecule.",
+    ),
+    Term(
+        "Pharmacophore",
+        "The three-dimensional arrangement of chemical features — hydrogen-bond donors and acceptors, hydrophobic groups, charges — that a molecule must present to engage a particular target.",
+    ),
+    Term(
+        "Selectivity",
+        "The degree to which a molecule binds only its intended target and not the many other proteins in a cell. Poor selectivity is a leading source of off-target toxicity.",
+    ),
+    Term(
+        "QSAR",
+        "Quantitative structure–activity relationship: the classical approach of regressing hand-crafted molecular descriptors against measured activity to predict a property. It is the conceptual ancestor of modern learned scorers.",
+    ),
+    Term(
+        "Molecular generative model",
+        "A model that samples new molecules from a learned distribution — over SMILES strings, molecular graphs, or 3D atom clouds — rather than scoring molecules supplied to it.",
+    ),
+    Term(
+        "Synthesizability (synthetic accessibility)",
+        "How feasibly a proposed molecule can actually be made in a lab. Fast synthetic-accessibility scores give a rough filter, while retrosynthesis planning is the real test; generative models routinely propose molecules that are hard or impossible to synthesize.",
+    ),
+    Term(
+        "Force field",
+        "A parameterized model of the potential energy of a set of atoms as a function of their positions, used to drive physics-based simulations of molecules and their interactions.",
+    ),
+    Term(
+        "Free energy perturbation (FEP)",
+        "A physics-based simulation method that computes the relative binding free energy between two similar ligands by simulating the gradual transformation of one into the other. It is accurate and calibrated but computationally expensive and dependent on a good structure and force field.",
+    ),
 )
 
 

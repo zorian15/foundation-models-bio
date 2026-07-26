@@ -1909,7 +1909,220 @@ def fig_generalization_ladder():
     )
 
 
+def fig_small_molecule_representations():
+    W, H = 680, 240
+    defs = arrow_marker(ACCENT, "arrow_smr")
+    body = [defs]
+    panels = [
+        (20, "1D · SMILES STRING"),
+        (245, "2D · MOLECULAR GRAPH"),
+        (470, "3D · POSE IN A POCKET"),
+    ]
+    pw, py, ph = 190, 70, 110
+    for px, title in panels:
+        body.append(eyebrow(px, 52, title))
+        body.append(
+            f'<rect x="{px}" y="{py}" width="{pw}" height="{ph}" rx="6" '
+            f'fill="{ACCENT_SOFT}" stroke="{RULE_STRONG}"/>'
+        )
+    # Panel A: a SMILES string in monospace, one centered line (no midline clash).
+    body.append(
+        f'<text x="115" y="130" text-anchor="middle" font-family="{MONO}" '
+        f'font-size="12" fill="{INK}">CC(=O)Oc1ccccc1C(=O)O</text>'
+    )
+    # Panel B: a small molecular graph — a ring of atoms plus a substituent.
+    ring = [(350, 125), (340, 143), (320, 143), (310, 125), (320, 107), (340, 107)]
+    for i in range(len(ring)):
+        x0, y0 = ring[i]
+        x1, y1 = ring[(i + 1) % len(ring)]
+        body.append(
+            f'<line x1="{x0}" y1="{y0}" x2="{x1}" y2="{y1}" '
+            f'stroke="{INK_SOFT}" stroke-width="1.6"/>'
+        )
+    body.append(
+        f'<line x1="350" y1="125" x2="368" y2="115" stroke="{INK_SOFT}" '
+        f'stroke-width="1.6"/>'
+    )
+    for x0, y0 in [*ring, (368, 115)]:
+        body.append(f'<circle cx="{x0}" cy="{y0}" r="4.5" fill="{ACCENT}"/>')
+    # Panel C: a concave pocket cradling a cluster of atoms.
+    body.append(
+        f'<path d="M 495 100 Q 520 165 565 165 Q 610 165 635 100" fill="none" '
+        f'stroke="{MUTED}" stroke-width="2.2"/>'
+    )
+    for x0, y0 in [(555, 128), (573, 122), (565, 140), (582, 135)]:
+        body.append(f'<circle cx="{x0}" cy="{y0}" r="5" fill="{ACCENT}"/>')
+    # Arrows between the three panels, at panel mid-height, in the gutters.
+    for x0 in (210, 435):
+        body.append(
+            f'<line x1="{x0}" y1="125" x2="{x0 + 35}" y2="125" stroke="{ACCENT}" '
+            f'stroke-width="2" marker-end="url(#arrow_smr)"/>'
+        )
+    svg = svg_doc(W, H, "Three representations of one small molecule", body)
+    return write_svg("small-molecule-representations.svg", svg)
+
+
+def fig_score_vs_generate():
+    W, H = 660, 250
+    defs = arrow_marker(ACCENT, "arrow_svg")
+    body = [defs]
+    bw, bh = 165, 46
+    # Scoring row: a given molecule maps to an affinity score.
+    body.append(eyebrow(40, 52, "SCORING  —  RATE A GIVEN MOLECULE"))
+    body += node_box(40, 66, bw, bh, "Candidate molecule", font_size=12)
+    body += node_box(455, 66, bw, bh, "Affinity score", font_size=12, fill=ACCENT_SOFT)
+    body.append(
+        f'<line x1="205" y1="89" x2="455" y2="89" stroke="{ACCENT}" '
+        f'stroke-width="2" marker-end="url(#arrow_svg)"/>'
+    )
+    body.append(
+        f'<text x="330" y="82" text-anchor="middle" font-family="{SANS}" '
+        f'font-size="10.5" fill="{MUTED}">how well does it bind?</text>'
+    )
+    # Generating row: an empty pocket maps to a newly invented molecule.
+    body.append(eyebrow(40, 168, "GENERATING  —  INVENT A MOLECULE TO FIT"))
+    body += node_box(40, 182, bw, bh, "Empty pocket", font_size=12, fill=ACCENT_SOFT)
+    body += node_box(455, 182, bw, bh, "Novel molecule", font_size=12)
+    body.append(
+        f'<line x1="205" y1="205" x2="455" y2="205" stroke="{ACCENT}" '
+        f'stroke-width="2" marker-end="url(#arrow_svg)"/>'
+    )
+    body.append(
+        f'<text x="330" y="198" text-anchor="middle" font-family="{SANS}" '
+        f'font-size="10.5" fill="{MUTED}">what fits this shape?</text>'
+    )
+    svg = svg_doc(W, H, "Scoring versus generating over a pocket", body)
+    return write_svg("score-vs-generate.svg", svg)
+
+
+def fig_physics_to_learning_spectrum():
+    W, H = 820, 250
+    defs = arrow_marker(INK_SOFT, "arrow_axis")
+    body = [defs]
+    body.append(eyebrow(20, 34, "ONE AXIS, FROM HAND-CODED PHYSICS TO PURE LEARNING"))
+    # The chips, left (most physics) to right (most learned).
+    chips = [
+        (95, "FEP"),
+        (255, "Docking (Vina)"),
+        (415, "Learned scoring (Gnina)"),
+        (575, "Co-folding (Boltz-2)"),
+        (735, "Pocket generation"),
+    ]
+    cw, cy, ch = 152, 66, 40
+    axis_y = 158
+    for cx, label in chips:
+        body += node_box(
+            cx - cw / 2, cy, cw, ch, label, font_size=11, weight=600, fill=ACCENT_SOFT
+        )
+        # Connector drops from chip bottom to the axis; no text on this segment.
+        body.append(
+            f'<line x1="{cx}" y1="{cy + ch}" x2="{cx}" y2="{axis_y}" '
+            f'stroke="{RULE_STRONG}" stroke-width="1.4"/>'
+        )
+        body.append(f'<circle cx="{cx}" cy="{axis_y}" r="3" fill="{INK_SOFT}"/>')
+    # The axis itself, double-headed.
+    body.append(
+        f'<line x1="30" y1="{axis_y}" x2="790" y2="{axis_y}" stroke="{INK_SOFT}" '
+        f'stroke-width="2" marker-start="url(#arrow_axis)" '
+        f'marker-end="url(#arrow_axis)"/>'
+    )
+    # End labels below the axis, well clear of the chips above it.
+    body.append(
+        f'<text x="30" y="182" font-family="{SANS}" font-size="12" '
+        f'font-weight="700" fill="{ACCENT}">MORE PHYSICS</text>'
+    )
+    body.append(
+        f'<text x="790" y="182" text-anchor="end" font-family="{SANS}" '
+        f'font-size="12" font-weight="700" fill="{ACCENT}">MORE LEARNED</text>'
+    )
+    body.append(
+        f'<text x="30" y="212" font-family="{SANS}" font-size="10.5" '
+        f'fill="{MUTED}">mechanistic · data-frugal · calibrated · slow · needs a structure</text>'
+    )
+    body.append(
+        f'<text x="790" y="212" text-anchor="end" font-family="{SANS}" '
+        f'font-size="10.5" fill="{MUTED}">data-hungry · fast · scales with compute · distribution-bound</text>'
+    )
+    svg = svg_doc(W, H, "The physics-to-learning spectrum of molecular models", body)
+    return write_svg("physics-to-learning-spectrum.svg", svg)
+
+
+def fig_potency_to_invivo_gap():
+    W, H = 680, 300
+    defs = arrow_marker(MUTED, "arrow_gap")
+    body = [defs]
+    cx = 300
+    rows = [
+        (340, 30, ACCENT_SOFT, ACCENT, 600, "Binds the target — in vitro potency"),
+        (300, 95, "#eaf0f6", RULE_STRONG, 400, "Selective across ~20,000 proteins"),
+        (
+            260,
+            160,
+            "#f2f5f8",
+            RULE_STRONG,
+            400,
+            "Survives ADMET (absorbed, cleared, safe)",
+        ),
+        (220, 225, "#ffffff", RULE_STRONG, 400, "Works in a living body"),
+    ]
+    bh = 48
+    for w, y, fill, stroke, weight, label in rows:
+        body += node_box(
+            cx - w / 2,
+            y,
+            w,
+            bh,
+            label,
+            font_size=12,
+            weight=weight,
+            fill=fill,
+            stroke=stroke,
+        )
+    # Narrowing arrows between the stacked boxes, on the center line.
+    for y0 in (78, 143, 208):
+        body.append(
+            f'<line x1="{cx}" y1="{y0}" x2="{cx}" y2="{y0 + 17}" stroke="{MUTED}" '
+            f'stroke-width="1.6" marker-end="url(#arrow_gap)"/>'
+        )
+    # Right-side brace on the top box: what a scored pose actually sees.
+    body.append(
+        f'<path d="M 484 30 h 8 v 48 h -8" fill="none" stroke="{ACCENT}" '
+        f'stroke-width="1.6"/>'
+    )
+    body.append(
+        f'<text x="500" y="50" font-family="{SANS}" font-size="10.5" '
+        f'fill="{ACCENT}">what a scored</text>'
+    )
+    body.append(
+        f'<text x="500" y="63" font-family="{SANS}" font-size="10.5" '
+        f'fill="{ACCENT}">pose mostly sees</text>'
+    )
+    # Right-side brace on the lower three: where the drug's fate is decided.
+    body.append(
+        f'<path d="M 484 95 h 8 v 178 h -8" fill="none" stroke="{INK_SOFT}" '
+        f'stroke-width="1.6"/>'
+    )
+    body.append(
+        f'<text x="500" y="178" font-family="{SANS}" font-size="10.5" '
+        f'fill="{INK_SOFT}">where fate is</text>'
+    )
+    body.append(
+        f'<text x="500" y="191" font-family="{SANS}" font-size="10.5" '
+        f'fill="{INK_SOFT}">decided — unseen</text>'
+    )
+    body.append(
+        f'<text x="500" y="204" font-family="{SANS}" font-size="10.5" '
+        f'fill="{INK_SOFT}">by a structure file</text>'
+    )
+    svg = svg_doc(W, H, "The in-vitro to in-vivo attrition funnel", body)
+    return write_svg("potency-to-invivo-gap.svg", svg)
+
+
 FIGURES = (
+    fig_small_molecule_representations,
+    fig_score_vs_generate,
+    fig_physics_to_learning_spectrum,
+    fig_potency_to_invivo_gap,
     fig_target_funnel,
     fig_target_evidence_integration,
     fig_genetic_support_success,

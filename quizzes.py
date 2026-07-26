@@ -530,7 +530,7 @@ _QUIZZES: dict[str, tuple[Question, ...]] = {
                 "They still require a paid AlphaFold3 license to run at all, because under the hood they reuse its released weights",
             ),
             answer=0,
-            explanation="The 2024-2026 shift is that co-folding capability is no longer confined to one lab: open models reproduce AlphaFold3-level accuracy on complexes under permissive licenses, and Boltz-2 even added a binding-affinity head that led the CASP16 affinity challenge. For a practitioner, in-house runnability and fine-tuning are the practical payoff.",
+            explanation="The 2024-2026 shift is that co-folding capability is no longer confined to one lab: open models reproduce AlphaFold3-level accuracy on complexes under permissive licenses, and Boltz-2 even added a binding-affinity head that outperformed every method submitted to the CASP16 affinity challenge in a retrospective evaluation. For a practitioner, in-house runnability and fine-tuning are the practical payoff.",
         ),
     ),
     "protein-design": (
@@ -645,6 +645,63 @@ _QUIZZES: dict[str, tuple[Question, ...]] = {
             ),
             answer=0,
             explanation="Perturb-seq lives in a dish of immortalized cells, and a predicted expression change is several steps removed from phenotype and clinical benefit, with distribution shift to primary cells and the unsolved delivery problem on top. Treating a ranked prediction as a hypothesis to confirm in the target cells, not a result, is the honest posture.",
+        ),
+    ),
+    "small-molecule-design": (
+        Question(
+            prompt="A co-folding model returns a binding-affinity value that is higher for compound A than for compound B against your target. What may you legitimately conclude?",
+            options=(
+                "The model ranks A above B as a binder, but the number is not a calibrated Kd and must not be read as a measured potency",
+                "Compound A binds with an absolute dissociation constant you can carry straight into a dose calculation for the program",
+                "Compound A is more selective for this target than B, because the affinity head penalizes binding geometry at off-target sites",
+                "Compound A will show higher efficacy in an animal, since binding affinity is the dominant determinant of a drug's effect in vivo",
+            ),
+            answer=0,
+            explanation="Co-folding affinity heads such as Boltz-2 are trained to rank and can approach FEP-level correlation, but they output an uncalibrated score, not an absolute binding constant. Second layer: even the relative-FEP protocols in routine use predict relative free energies between close analogs rather than absolute potencies, and affinity is only one of potency, selectivity, and ADMET that decide an in-vivo effect.",
+        ),
+        Question(
+            prompt="A deep-learning docking method reports state-of-the-art accuracy measured as RMSD to the crystallographic pose. Why do careful reviewers stay cautious?",
+            options=(
+                "Low RMSD can coexist with physically invalid geometry such as clashing atoms, and these methods often fail to generalize to targets unlike their training data",
+                "RMSD scores only the predicted affinity, so a good value says nothing about whether the predicted pose is right",
+                "RMSD is computed against another automatically docked pose rather than an experimentally determined crystal structure, which makes the benchmark circular and its accuracy claims impossible to falsify",
+                "Deep docking methods return only a binary binds/does-not-bind call, so an RMSD figure is not even defined for them",
+            ),
+            answer=0,
+            explanation="PoseBusters showed AI dockers can post excellent RMSD while producing chemically implausible poses, and classical physics-based tools yielded more physically valid geometry. Second layer: the same study found the deep methods degrade sharply on protein sequences dissimilar to training, so a headline RMSD on a familiar benchmark does not transfer to a novel target.",
+        ),
+        Question(
+            prompt="Well-measured protein-ligand binding data numbers in the low tens of thousands of complexes, versus the trillions of tokens language models train on. What does that gap imply for the bitter-lesson debate in molecular ML?",
+            options=(
+                "Physical priors like equivariance and energy terms still earn their keep where data is thin, so the pure scale-and-data argument is not yet a clean win",
+                "It proves the bitter lesson is simply false for molecules, because hand-engineered physical constraints will always beat purely learned models no matter how much binding data is eventually collected",
+                "It is irrelevant, since binding is fully determined by the SMILES string, of which effectively unlimited examples exist",
+                "It means only self-supervised pretraining on SMILES can help, because labeled affinity measurements are never informative for binding",
+            ),
+            answer=0,
+            explanation="Sutton's bitter lesson favors general methods that scale with compute and data, but molecular ML is data-scarce and biased, so baking in physics remains a genuine advantage. Second layer: priors cut sample complexity yet can also cap a model when the prior is wrong for a novel chemotype, and results like Boltz-2 approaching FEP suggest the balance is shifting toward learning as data grows.",
+        ),
+        Question(
+            prompt="Your generative pipeline outputs a molecule with excellent predicted potency against the target, and a medicinal chemist is unimpressed. What is the most likely reason?",
+            options=(
+                "Potency alone says nothing about selectivity across the proteome or ADMET, and most programs die on those rather than on target affinity",
+                "Predicted potency is essentially meaningless here because pocket-conditioned generative models cannot actually condition on a specific binding site and only ever optimize a generic drug-likeness score",
+                "The chemist rejects all in-silico numbers on principle and would object just as strongly to a measured Kd",
+                "High predicted potency reliably signals off-target toxicity, so any strong binder is a red flag on its own",
+            ),
+            answer=0,
+            explanation="The in-vitro-to-in-vivo gap is the crux: absorption, metabolism, clearance, and off-target binding decide a drug's fate, and a model that sees only the target pocket cannot judge them. Second layer: this is why ADMET prediction and the design-build-test-learn loop exist, and why a top score is a reason to make and measure a molecule, not to advance it.",
+        ),
+        Question(
+            prompt="A pocket-conditioned 3D generator proposes thousands of novel, high-scoring molecules. What is the standard first concern before ordering any of them?",
+            options=(
+                "Many may be synthetically inaccessible, and the generator may have drifted into chemotypes where its own scoring is unreliable",
+                "The molecules will be trivial to make but nearly identical to known drugs, so they offer no real novelty",
+                "3D generators cannot emit valid atom connectivity, so essentially none of the outputs will be chemically well-formed",
+                "The main risk is that the proposed molecules are simply too small to bind with any real affinity, because 3D pocket generators systematically cap molecular weight well below the drug-like range",
+            ),
+            answer=0,
+            explanation="Generative chemistry's recurring failure is proposing molecules no synthetic route can make; a synthetic-accessibility score is a rough filter and retrosynthesis planning is the real test. Second layer: the problem compounds with distribution shift, because a model confident on familiar drug-like space extrapolates poorly to genuinely new scaffolds, which is exactly the regime where its own affinity scoring is least trustworthy.",
         ),
     ),
 }

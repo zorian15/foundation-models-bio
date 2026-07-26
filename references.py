@@ -892,6 +892,130 @@ _ENTRIES: tuple[Reference, ...] = (
         arxiv="",
         url="https://doi.org/10.1038/s41586-023-06139-9",
     ),
+    Reference(
+        key="trott2010",
+        authors=("Trott, O.", "Olson, A. J."),
+        truncated=False,
+        year=2010,
+        title=(
+            "AutoDock Vina: improving the speed and accuracy of docking with a "
+            "new scoring function, efficient optimization, and multithreading"
+        ),
+        venue="Journal of Computational Chemistry",
+        arxiv="",
+        url="https://doi.org/10.1002/jcc.21334",
+    ),
+    Reference(
+        key="mcnutt2021",
+        authors=(
+            "McNutt, A. T.",
+            "Francoeur, P.",
+            "Aggarwal, R.",
+            "Masuda, T.",
+            "Meli, R.",
+            "Ragoza, M.",
+            "Sunseri, J.",
+            "Koes, D. R.",
+        ),
+        truncated=False,
+        year=2021,
+        title="GNINA 1.0: molecular docking with deep learning",
+        venue="Journal of Cheminformatics",
+        arxiv="",
+        url="https://doi.org/10.1186/s13321-021-00522-2",
+    ),
+    Reference(
+        key="chai2024",
+        authors=("Chai Discovery",),
+        truncated=False,
+        year=2024,
+        title="Chai-1: Decoding the molecular interactions of life",
+        venue="bioRxiv",
+        arxiv="",
+        url="https://doi.org/10.1101/2024.10.10.615955",
+    ),
+    Reference(
+        key="passaro2025",
+        authors=(
+            "Passaro, S.",
+            "Corso, G.",
+            "Wohlwend, J.",
+            "Reveiz, M.",
+            "Thaler, S.",
+            "Somnath, V. R.",
+            "Getz, N.",
+            "Portnoi, T.",
+        ),
+        truncated=True,
+        year=2025,
+        title="Boltz-2: Towards Accurate and Efficient Binding Affinity Prediction",
+        venue="bioRxiv",
+        arxiv="",
+        url="https://doi.org/10.1101/2025.06.14.659707",
+    ),
+    Reference(
+        key="peng2022",
+        authors=(
+            "Peng, X.",
+            "Luo, S.",
+            "Guan, J.",
+            "Xie, Q.",
+            "Peng, J.",
+            "Ma, J.",
+        ),
+        truncated=False,
+        year=2022,
+        title="Pocket2Mol: Efficient Molecular Sampling Based on 3D Protein Pockets",
+        venue="International Conference on Machine Learning (ICML)",
+        arxiv="2205.07249",
+        url="",
+    ),
+    Reference(
+        key="sutton2019",
+        authors=("Sutton, R. S.",),
+        truncated=False,
+        year=2019,
+        title="The Bitter Lesson",
+        venue="Incomplete Ideas (essay)",
+        arxiv="",
+        url="http://www.incompleteideas.net/IncIdeas/BitterLesson.html",
+    ),
+    Reference(
+        key="wang2015",
+        authors=(
+            "Wang, L.",
+            "Wu, Y.",
+            "Deng, Y.",
+            "Kim, B.",
+            "Pierce, L.",
+            "Krilov, G.",
+            "Lupyan, D.",
+            "Robinson, S.",
+        ),
+        truncated=True,
+        year=2015,
+        title=(
+            "Accurate and Reliable Prediction of Relative Ligand Binding Potency "
+            "in Prospective Drug Discovery by Way of a Modern Free-Energy "
+            "Calculation Protocol and Force Field"
+        ),
+        venue="Journal of the American Chemical Society",
+        arxiv="",
+        url="https://doi.org/10.1021/ja512751q",
+    ),
+    Reference(
+        key="buttenschoen2024",
+        authors=("Buttenschoen, M.", "Morris, G. M.", "Deane, C. M."),
+        truncated=False,
+        year=2024,
+        title=(
+            "PoseBusters: AI-based docking methods fail to generate physically "
+            "valid poses or generalise to novel sequences"
+        ),
+        venue="Chemical Science",
+        arxiv="2308.05777",
+        url="",
+    ),
 )
 
 

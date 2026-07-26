@@ -9,7 +9,7 @@ The forward problem has one right answer and you can check it: fold the sequence
 <figcaption>Design is prediction run backwards: you fix the desired shape or function and search for a molecule that satisfies it, out of a space with many valid answers and no cheap way to check them.</figcaption>
 </figure>
 
-The field is organized by *what* you specify. Fix a backbone shape and you want a **de novo protein** that folds to it. Fix a *target* (a disease protein) and you want a **binder**, a small designed protein that clamps onto a chosen patch of its surface with high affinity. Fix a chemical reaction and you want an **enzyme**, the hardest ask, because you are designing a precise geometric arrangement of catalytic residues, not just a complementary surface. A parallel track designs **small molecules** to sit in a protein's pocket, the generative face of structure-based drug design.
+The field is organized by *what* you specify. Fix a backbone shape and you want a **de novo protein** that folds to it. Fix a *target* (a disease protein) and you want a **binder**, a small designed protein that clamps onto a chosen patch of its surface with high affinity. Fix a chemical reaction and you want an **enzyme**, the hardest ask, because you are designing a precise geometric arrangement of catalytic residues, not just a complementary surface. A parallel track designs **small molecules** to sit in a protein's pocket, the generative face of structure-based drug design, which gets its own chapter next (Chapter 10).
 
 !!! intuition "Intuition"
     Prediction asks "what does this sequence do?" Design asks "what sequence does this?" — same physics, but the second question has a haystack of answers and you can only test a few straws.
@@ -26,7 +26,7 @@ Turning a shape into a sequence is **inverse folding**, and the standard tool is
 !!! warning "Common trap"
     ProteinMPNN is *not* a masked-language-model encoder like ESM (Chapter 8), and it does not read a sequence. It reads 3D coordinates and writes a sequence. ESM learns amino-acid statistics from millions of sequences; ProteinMPNN learns the structure-to-sequence map from the PDB. Different input, different job. Confusing the two is a common interview stumble.
 
-For small molecules, the analogue is target-aware generation. **TargetDiff** diffuses atom coordinates and types *inside a protein pocket*, generating 3D molecules shaped to fit [@guan2023], while docking models like **DiffDock** frame pose-finding — where and how a molecule sits — as diffusion over the ligand's translations, rotations, and torsions [@corso2022]. These share the design pipeline's spirit but inherit small-molecule headaches: synthesizability and the crudeness of scoring binding from structure alone.
+For small molecules, the analogue is target-aware generation. **TargetDiff** diffuses atom coordinates and types *inside a protein pocket*, generating 3D molecules shaped to fit [@guan2023], while docking models like **DiffDock** frame pose-finding — where and how a molecule sits — as diffusion over the ligand's translations, rotations, and torsions [@corso2022]. These share the design pipeline's spirit but inherit small-molecule headaches: synthesizability and the crudeness of scoring binding from structure alone, which the next chapter takes up in full (Chapter 10).
 
 The pieces only become a *method* when you chain them into a loop.
 
@@ -54,4 +54,4 @@ The sharpest divide is **binding versus function**. Designing a surface that sti
 !!! note "Note"
     The static-structure limitation from Chapter 8 bites twice as hard here. A predictor that returns one rigid snapshot cannot fully judge a design whose function *is* motion — an enzyme's catalytic cycle, a binder that must accommodate a flexible target. Self-consistency checks the fold, not the dynamics, which is one reason function lags behind shape.
 
-The takeaway to carry forward: generative design has made proposing plausible novel molecules cheap and fast, and the binding problem is well on its way to solved for accessible targets. What remains hard is everything the wet lab measures and the file cannot — expression, developability, and above all genuine function. The bench, not the benchmark, still writes the verdict, which is the theme of the lab-in-the-loop workflow in Chapter 16.
+The takeaway to carry forward: generative design has made proposing plausible novel molecules cheap and fast, and the binding problem is well on its way to solved for accessible targets. What remains hard is everything the wet lab measures and the file cannot — expression, developability, and above all genuine function. The bench, not the benchmark, still writes the verdict, which is the theme of the lab-in-the-loop workflow in Chapter 17.

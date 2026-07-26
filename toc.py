@@ -263,8 +263,30 @@ BOOK: tuple[Part, ...] = (
                 ),
             ),
             Chapter(
-                slug="cell-engineering",
+                slug="small-molecule-design",
                 label="10",
+                title="Small-Molecule Drug Design",
+                outline=(
+                    (
+                        "The problem: potency, selectivity, and surviving the body",
+                        "A small molecule that binds tightly, binds only the right "
+                        "target, and behaves in vivo.",
+                    ),
+                    (
+                        "Models that attempt it",
+                        "Scoring binding (docking, learned scorers, co-folding "
+                        "affinity heads) and generating pocket-fitted molecules.",
+                    ),
+                    (
+                        "What they do well and what is still hard",
+                        "The bitter lesson versus physical constraints; causal, "
+                        "in-vivo interactions as the open frontier.",
+                    ),
+                ),
+            ),
+            Chapter(
+                slug="cell-engineering",
+                label="11",
                 title="Cell Engineering",
                 outline=(
                     (
@@ -290,7 +312,7 @@ BOOK: tuple[Part, ...] = (
         chapters=(
             Chapter(
                 slug="sequence-to-function",
-                label="11",
+                label="12",
                 title="From Sequence to Regulatory Function",
                 outline=(
                     (
@@ -311,7 +333,7 @@ BOOK: tuple[Part, ...] = (
             ),
             Chapter(
                 slug="variant-to-mechanism",
-                label="12",
+                label="13",
                 title="From Variant to Mechanism",
                 outline=(
                     (
@@ -338,7 +360,7 @@ BOOK: tuple[Part, ...] = (
         chapters=(
             Chapter(
                 slug="multimodal-integration",
-                label="13",
+                label="14",
                 title="Multi-Modal Integration",
                 outline=(
                     (
@@ -365,7 +387,7 @@ BOOK: tuple[Part, ...] = (
         chapters=(
             Chapter(
                 slug="data-realities",
-                label="14",
+                label="15",
                 title="The Hard Realities of Biological Data",
                 outline=(
                     (
@@ -386,7 +408,7 @@ BOOK: tuple[Part, ...] = (
             ),
             Chapter(
                 slug="evaluation",
-                label="15",
+                label="16",
                 title="Evaluating Models in Biology",
                 outline=(
                     (
@@ -407,7 +429,7 @@ BOOK: tuple[Part, ...] = (
             ),
             Chapter(
                 slug="lab-loop",
-                label="16",
+                label="17",
                 title="Closing the Loop with the Lab",
                 outline=(
                     (
@@ -433,7 +455,7 @@ BOOK: tuple[Part, ...] = (
         chapters=(
             Chapter(
                 slug="outlook",
-                label="17",
+                label="18",
                 title="Outlook: Open Frontiers",
                 outline=(
                     (
