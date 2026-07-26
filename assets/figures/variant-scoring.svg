@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 300" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" role="img" aria-label="likelihood-ratio arm versus supervised head arm">
+<defs><marker id="arr2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#cfcdc4"/></marker></defs>
+<text x="30.0" y="28.0" font-size="11" font-weight="700" fill="#6a6d73" letter-spacing="1">TWO WAYS TO SCORE A VARIANT</text>
+<rect x="30.0" y="130.0" width="130.0" height="50.0" rx="6" fill="#ffffff" stroke="#cfcdc4"/>
+<text x="95.0" y="159.2" font-size="12" font-weight="400" text-anchor="middle" fill="#17181b">variant sequence</text>
+<rect x="210.0" y="130.0" width="120.0" height="50.0" rx="6" fill="#eaf0f6" stroke="#cfcdc4"/>
+<text x="270.0" y="159.2" font-size="12" font-weight="600" text-anchor="middle" fill="#17181b">protein LM</text>
+<line x1="160" y1="155" x2="210" y2="155" stroke="#cfcdc4" stroke-width="1.4" marker-end="url(#arr2)"/>
+<rect x="410.0" y="55.0" width="210.0" height="48.0" rx="6" fill="#ffffff" stroke="#cfcdc4"/>
+<text x="515.0" y="83.2" font-size="12" font-weight="400" text-anchor="middle" fill="#17181b">log p(mut) - log p(wt)</text>
+<text x="410.0" y="120.0" font-size="11" font-weight="700" fill="#6a6d73" letter-spacing="1">ZERO-SHOT:</text>
+<text x="410.0" y="136.0" font-size="11" font-weight="700" fill="#6a6d73" letter-spacing="1">NO LABELS NEEDED</text>
+<line x1="330" y1="142" x2="410" y2="90" stroke="#cfcdc4" stroke-width="1.4" marker-end="url(#arr2)"/>
+<rect x="410.0" y="205.0" width="210.0" height="48.0" rx="6" fill="#ffffff" stroke="#cfcdc4"/>
+<text x="515.0" y="233.2" font-size="12" font-weight="400" text-anchor="middle" fill="#17181b">trained property head</text>
+<text x="410.0" y="270.0" font-size="11" font-weight="700" fill="#6a6d73" letter-spacing="1">SUPERVISED:</text>
+<text x="410.0" y="286.0" font-size="11" font-weight="700" fill="#6a6d73" letter-spacing="1">NEEDS LABELED ASSAY DATA</text>
+<line x1="330" y1="168" x2="410" y2="220" stroke="#cfcdc4" stroke-width="1.4" marker-end="url(#arr2)"/>
+</svg>

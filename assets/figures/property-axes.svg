@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 300" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" role="img" aria-label="one variant maps to many measurable properties">
+<defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#cfcdc4"/></marker></defs>
+<text x="30.0" y="28.0" font-size="11" font-weight="700" fill="#6a6d73" letter-spacing="1">ONE MOLECULE, MANY MEASURABLE PROPERTIES</text>
+<rect x="30.0" y="128.0" width="150.0" height="52.0" rx="6" fill="#eaf0f6" stroke="#cfcdc4"/>
+<text x="105.0" y="158.2" font-size="12" font-weight="600" text-anchor="middle" fill="#17181b">one variant</text>
+<rect x="380.0" y="44.0" width="230.0" height="38.0" rx="6" fill="#ffffff" stroke="#cfcdc4"/>
+<text x="495.0" y="67.2" font-size="12" font-weight="400" text-anchor="middle" fill="#17181b">fitness / variant effect</text>
+<line x1="180" y1="154" x2="380" y2="63" stroke="#cfcdc4" stroke-width="1.4" marker-end="url(#arr)"/>
+<rect x="380.0" y="92.0" width="230.0" height="38.0" rx="6" fill="#ffffff" stroke="#cfcdc4"/>
+<text x="495.0" y="115.2" font-size="12" font-weight="400" text-anchor="middle" fill="#17181b">folding stability (ddG)</text>
+<line x1="180" y1="154" x2="380" y2="111" stroke="#cfcdc4" stroke-width="1.4" marker-end="url(#arr)"/>
+<rect x="380.0" y="140.0" width="230.0" height="38.0" rx="6" fill="#ffffff" stroke="#cfcdc4"/>
+<text x="495.0" y="163.2" font-size="12" font-weight="400" text-anchor="middle" fill="#17181b">binding affinity (Kd)</text>
+<line x1="180" y1="154" x2="380" y2="159" stroke="#cfcdc4" stroke-width="1.4" marker-end="url(#arr)"/>
+<rect x="380.0" y="188.0" width="230.0" height="38.0" rx="6" fill="#ffffff" stroke="#cfcdc4"/>
+<text x="495.0" y="211.2" font-size="12" font-weight="400" text-anchor="middle" fill="#17181b">expression / solubility</text>
+<line x1="180" y1="154" x2="380" y2="207" stroke="#cfcdc4" stroke-width="1.4" marker-end="url(#arr)"/>
+<rect x="380.0" y="236.0" width="230.0" height="38.0" rx="6" fill="#ffffff" stroke="#cfcdc4"/>
+<text x="495.0" y="259.2" font-size="12" font-weight="400" text-anchor="middle" fill="#17181b">ADMET (small molecules)</text>
+<line x1="180" y1="154" x2="380" y2="255" stroke="#cfcdc4" stroke-width="1.4" marker-end="url(#arr)"/>
+</svg>

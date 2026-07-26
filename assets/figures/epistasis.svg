@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 240" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" role="img" aria-label="two beneficial single mutations combine to unfold the protein">
+<defs><marker id="arr3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#cfcdc4"/></marker></defs>
+<text x="30.0" y="28.0" font-size="11" font-weight="700" fill="#6a6d73" letter-spacing="1">WHY ADDING UP SINGLE MUTATIONS FAILS</text>
+<rect x="40.0" y="105.0" width="120.0" height="50.0" rx="6" fill="#ffffff" stroke="#cfcdc4"/>
+<text x="100.0" y="134.2" font-size="12" font-weight="400" text-anchor="middle" fill="#17181b">wild type</text>
+<rect x="250.0" y="45.0" width="150.0" height="46.0" rx="6" fill="#ffffff" stroke="#cfcdc4"/>
+<text x="325.0" y="72.2" font-size="12" font-weight="400" text-anchor="middle" fill="#17181b">+A: more stable</text>
+<rect x="250.0" y="165.0" width="150.0" height="46.0" rx="6" fill="#ffffff" stroke="#cfcdc4"/>
+<text x="325.0" y="192.2" font-size="12" font-weight="400" text-anchor="middle" fill="#17181b">+B: more stable</text>
+<rect x="470.0" y="105.0" width="140.0" height="50.0" rx="6" fill="#b04a3f" stroke="#cfcdc4"/>
+<text x="540.0" y="134.2" font-size="12" font-weight="600" text-anchor="middle" fill="#ffffff">+A +B: unfolds</text>
+<line x1="160" y1="120" x2="250" y2="68" stroke="#cfcdc4" stroke-width="1.4" marker-end="url(#arr3)"/>
+<line x1="160" y1="140" x2="250" y2="188" stroke="#cfcdc4" stroke-width="1.4" marker-end="url(#arr3)"/>
+<line x1="400" y1="68" x2="470" y2="122" stroke="#b04a3f" stroke-width="1.4" marker-end="url(#arr3)"/>
+<line x1="400" y1="188" x2="470" y2="138" stroke="#b04a3f" stroke-width="1.4" marker-end="url(#arr3)"/>
+</svg>

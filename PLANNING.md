@@ -35,20 +35,25 @@ drafting session. Nothing here is built yet.
   7. Function & property prediction
   8. Protein structure determination
   9. Protein / binder design
-  10. Cell engineering
+  10. Small-molecule drug design (added 2026-07-26, motivated by a Terray
+      Therapeutics ML-scientist JD — structure-informed generative models of
+      potency, protein–ligand interactions, the bitter-lesson-vs-physics tension,
+      and causal in-vivo interactions as the open frontier; the small-molecule
+      peer to protein design, which the lobe otherwise lacked)
+  11. Cell engineering
 - **III · Genomic & regulatory problems** (two problems, folded in as their own
   chapters — no third genomic chapter)
-  11. Sequence → regulatory function (the Enformer/Borzoi line)
-  12. From variant to mechanism (population cohorts, causal mapping; aging as the
+  12. Sequence → regulatory function (the Enformer/Borzoi line)
+  13. From variant to mechanism (population cohorts, causal mapping; aging as the
       running example)
 - **IV · Multi-modal integration** (climax — fuses proteins + regulation)
-  13. Multi-modal integration
+  14. Multi-modal integration
 - **V · Doing it for real (shared)**
-  14. The hard realities of biological data
-  15. Evaluating models in biology
-  16. Closing the loop with the lab
+  15. The hard realities of biological data
+  16. Evaluating models in biology
+  17. Closing the loop with the lab
 - **VI · Outlook**
-  17. Outlook / open frontiers (flagged speculative)
+  18. Outlook / open frontiers (flagged speculative)
 - **Glossary** (auto-built; every jargon term/abbreviation defined on first use)
 
 Out of scope for now, reserved as **future appendices** (structure must stay

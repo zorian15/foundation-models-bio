@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 300" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" role="img" aria-label="structure model families">
+<text x="30.0" y="30.0" font-size="11" font-weight="700" fill="#6a6d73" letter-spacing="1">STRUCTURE PREDICTORS, 2024-2026</text>
+<text x="30" y="84" font-size="10" font-weight="700" fill="#6a6d73" letter-spacing="0.5">INPUT: MSA (HOMOLOGS)</text>
+<rect x="30.0" y="108.0" width="150.0" height="56.0" rx="6" fill="#eaf0f6" stroke="#cfcdc4"/>
+<text x="105.0" y="140.6" font-size="13" font-weight="700" text-anchor="middle" fill="#17181b">AlphaFold2</text>
+<text x="105.0" y="190" font-size="11.5" text-anchor="middle" fill="#3b3d42">reads co-evolution</text>
+<text x="105.0" y="208" font-size="11.5" text-anchor="middle" fill="#3b3d42">from an alignment</text>
+<text x="105.0" y="226" font-size="11.5" text-anchor="middle" fill="#3b3d42">chains + AF-Multimer</text>
+<text x="245" y="84" font-size="10" font-weight="700" fill="#6a6d73" letter-spacing="0.5">INPUT: ONE SEQUENCE</text>
+<rect x="245.0" y="108.0" width="150.0" height="56.0" rx="6" fill="#ffffff" stroke="#cfcdc4"/>
+<text x="320.0" y="140.6" font-size="13" font-weight="700" text-anchor="middle" fill="#17181b">ESMFold</text>
+<text x="320.0" y="190" font-size="11.5" text-anchor="middle" fill="#3b3d42">PLM embeddings,</text>
+<text x="320.0" y="208" font-size="11.5" text-anchor="middle" fill="#3b3d42">no alignment step</text>
+<text x="320.0" y="226" font-size="11.5" text-anchor="middle" fill="#3b3d42">fast; weaker on hard</text>
+<text x="460" y="84" font-size="10" font-weight="700" fill="#6a6d73" letter-spacing="0.5">INPUT: SEQ + LIGAND + NA</text>
+<rect x="460.0" y="108.0" width="150.0" height="56.0" rx="6" fill="#eaf0f6" stroke="#cfcdc4"/>
+<text x="535.0" y="140.6" font-size="13" font-weight="700" text-anchor="middle" fill="#17181b">AF3 / Boltz / Chai</text>
+<text x="535.0" y="190" font-size="11.5" text-anchor="middle" fill="#3b3d42">all-atom diffusion</text>
+<text x="535.0" y="208" font-size="11.5" text-anchor="middle" fill="#3b3d42">decoder</text>
+<text x="535.0" y="226" font-size="11.5" text-anchor="middle" fill="#3b3d42">complexes, ions, ligands</text>
+<text x="320.0" y="280" font-size="11" text-anchor="middle" fill="#6a6d73">Ranked head-to-head at CASP, the biennial blind competition</text>
+</svg>

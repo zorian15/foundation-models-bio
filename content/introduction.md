@@ -25,7 +25,7 @@ The **molecular / therapeutic lobe** works at the scale of a single molecule. It
 
 The **genomic / regulatory lobe** works at the scale of a stretch of genome. Its questions are "what does this region of DNA *do*, and what happens if a base changes?" These are the **sequence-to-function** models, which read a long DNA window and predict functional readouts like gene expression, chromatin accessibility, and splicing. AlphaGenome, DeepMind's successor to Enformer, takes a one-megabase window and predicts thousands of such tracks at single-base resolution, matching or beating the best prior models on nearly all variant-effect benchmarks [@avsec2026]. This lobe is Part III (Chapters 11 and 12).
 
-The two lobes are joined by the central dogma of biology: DNA is transcribed and translated into protein. A single mutation can change a protein's shape (molecular lobe) *or* change how much of that protein a cell makes (regulatory lobe), and often you cannot tell which without both views. **Multimodal integration** — building models that reason across DNA, RNA, protein, and cell state at once — is the bridge, and it gets its own chapter (Chapter 13).
+The two lobes are joined by the central dogma of biology: DNA is transcribed and translated into protein. A single mutation can change a protein's shape (molecular lobe) *or* change how much of that protein a cell makes (regulatory lobe), and often you cannot tell which without both views. **Multimodal integration** — building models that reason across DNA, RNA, protein, and cell state at once — is the bridge, and it gets its own chapter (Chapter 14).
 
 !!! analogy "Analogy"
     Think of two lobes of one brain: the molecular side and the genomic side, wired together by the central dogma. Where it leaks: today's models mostly do *not* share weights across the two lobes — a protein language model and a genome model are separate systems. The "one brain" is the aspiration the field is building toward, not the shipping product.
@@ -47,7 +47,7 @@ The depth is calibrated deliberately. This book teaches you enough biology to be
 The honest open problems get named, not hidden. The sharpest current example lives in the regulatory lobe: sequence-to-function models predict variation *across* genes and tissues impressively well, yet they explain variation *across individuals* poorly, often getting even the direction of a personal variant's effect wrong [@huang2023]. A model can top a leaderboard and still miss the question a clinician actually asks. Holding both facts at once — the capability and the gap — is the frame of mind this book is trying to install.
 
 !!! warning "Common trap"
-    Reading a benchmark win as biological truth. A model that leads a variant-effect leaderboard can still fail on personal, inter-individual variation, because the benchmark and the clinical question are not the same distribution. Chapter 15 is about designing evaluations that measure what you actually care about rather than what is easy to score.
+    Reading a benchmark win as biological truth. A model that leads a variant-effect leaderboard can still fail on personal, inter-individual variation, because the benchmark and the clinical question are not the same distribution. Chapter 16 is about designing evaluations that measure what you actually care about rather than what is easy to score.
 
 <figure>
 <img src="assets/figures/chapter-spine.svg" alt="Three boxes left to right connected by arrows: the problem, then the models, then what is still hard.">

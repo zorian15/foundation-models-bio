@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 250" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" role="img" aria-label="The physics-to-learning spectrum of molecular models">
+<defs><marker id="arrow_axis" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#3b3d42"/></marker></defs>
+<text x="20.0" y="34.0" font-size="11" font-weight="700" fill="#6a6d73" letter-spacing="1">ONE AXIS, FROM HAND-CODED PHYSICS TO PURE LEARNING</text>
+<rect x="19.0" y="66.0" width="152.0" height="40.0" rx="6" fill="#eaf0f6" stroke="#cfcdc4"/>
+<text x="95.0" y="89.8" font-size="11" font-weight="600" text-anchor="middle" fill="#17181b">FEP</text>
+<line x1="95" y1="106" x2="95" y2="158" stroke="#cfcdc4" stroke-width="1.4"/>
+<circle cx="95" cy="158" r="3" fill="#3b3d42"/>
+<rect x="179.0" y="66.0" width="152.0" height="40.0" rx="6" fill="#eaf0f6" stroke="#cfcdc4"/>
+<text x="255.0" y="89.8" font-size="11" font-weight="600" text-anchor="middle" fill="#17181b">Docking (Vina)</text>
+<line x1="255" y1="106" x2="255" y2="158" stroke="#cfcdc4" stroke-width="1.4"/>
+<circle cx="255" cy="158" r="3" fill="#3b3d42"/>
+<rect x="339.0" y="66.0" width="152.0" height="40.0" rx="6" fill="#eaf0f6" stroke="#cfcdc4"/>
+<text x="415.0" y="89.8" font-size="11" font-weight="600" text-anchor="middle" fill="#17181b">Learned scoring (Gnina)</text>
+<line x1="415" y1="106" x2="415" y2="158" stroke="#cfcdc4" stroke-width="1.4"/>
+<circle cx="415" cy="158" r="3" fill="#3b3d42"/>
+<rect x="499.0" y="66.0" width="152.0" height="40.0" rx="6" fill="#eaf0f6" stroke="#cfcdc4"/>
+<text x="575.0" y="89.8" font-size="11" font-weight="600" text-anchor="middle" fill="#17181b">Co-folding (Boltz-2)</text>
+<line x1="575" y1="106" x2="575" y2="158" stroke="#cfcdc4" stroke-width="1.4"/>
+<circle cx="575" cy="158" r="3" fill="#3b3d42"/>
+<rect x="659.0" y="66.0" width="152.0" height="40.0" rx="6" fill="#eaf0f6" stroke="#cfcdc4"/>
+<text x="735.0" y="89.8" font-size="11" font-weight="600" text-anchor="middle" fill="#17181b">Pocket generation</text>
+<line x1="735" y1="106" x2="735" y2="158" stroke="#cfcdc4" stroke-width="1.4"/>
+<circle cx="735" cy="158" r="3" fill="#3b3d42"/>
+<line x1="30" y1="158" x2="790" y2="158" stroke="#3b3d42" stroke-width="2" marker-start="url(#arrow_axis)" marker-end="url(#arrow_axis)"/>
+<text x="30" y="182" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12" font-weight="700" fill="#274b6d">MORE PHYSICS</text>
+<text x="790" y="182" text-anchor="end" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12" font-weight="700" fill="#274b6d">MORE LEARNED</text>
+<text x="30" y="212" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10.5" fill="#6a6d73">mechanistic · data-frugal · calibrated · slow · needs a structure</text>
+<text x="790" y="212" text-anchor="end" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10.5" fill="#6a6d73">data-hungry · fast · scales with compute · distribution-bound</text>
+</svg>
