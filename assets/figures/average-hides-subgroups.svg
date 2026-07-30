@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 320" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" role="img" aria-label="Opposite subgroup trends average to a misleading flat line">
+<text x="24.0" y="28.0" font-size="11" font-weight="700" fill="#6a6d73" letter-spacing="1">TWO SUBGROUPS, OPPOSITE TRENDS</text>
+<rect x="70" y="55" width="450" height="210" rx="6" fill="none" stroke="#e4e3dd"/>
+<circle cx="90" cy="239" r="3.4" fill="#274b6d" opacity="0.9"/>
+<circle cx="90" cy="75" r="3.4" fill="#b04a3f" opacity="0.9"/>
+<circle cx="120" cy="244" r="3.4" fill="#274b6d" opacity="0.9"/>
+<circle cx="120" cy="76" r="3.4" fill="#b04a3f" opacity="0.9"/>
+<circle cx="150" cy="225" r="3.4" fill="#274b6d" opacity="0.9"/>
+<circle cx="150" cy="89" r="3.4" fill="#b04a3f" opacity="0.9"/>
+<circle cx="180" cy="224" r="3.4" fill="#274b6d" opacity="0.9"/>
+<circle cx="180" cy="123" r="3.4" fill="#b04a3f" opacity="0.9"/>
+<circle cx="210" cy="214" r="3.4" fill="#274b6d" opacity="0.9"/>
+<circle cx="210" cy="128" r="3.4" fill="#b04a3f" opacity="0.9"/>
+<circle cx="240" cy="194" r="3.4" fill="#274b6d" opacity="0.9"/>
+<circle cx="240" cy="142" r="3.4" fill="#b04a3f" opacity="0.9"/>
+<circle cx="270" cy="172" r="3.4" fill="#274b6d" opacity="0.9"/>
+<circle cx="270" cy="158" r="3.4" fill="#b04a3f" opacity="0.9"/>
+<circle cx="300" cy="155" r="3.4" fill="#274b6d" opacity="0.9"/>
+<circle cx="300" cy="165" r="3.4" fill="#b04a3f" opacity="0.9"/>
+<circle cx="330" cy="161" r="3.4" fill="#274b6d" opacity="0.9"/>
+<circle cx="330" cy="181" r="3.4" fill="#b04a3f" opacity="0.9"/>
+<circle cx="360" cy="139" r="3.4" fill="#274b6d" opacity="0.9"/>
+<circle cx="360" cy="212" r="3.4" fill="#b04a3f" opacity="0.9"/>
+<circle cx="390" cy="131" r="3.4" fill="#274b6d" opacity="0.9"/>
+<circle cx="390" cy="199" r="3.4" fill="#b04a3f" opacity="0.9"/>
+<circle cx="420" cy="120" r="3.4" fill="#274b6d" opacity="0.9"/>
+<circle cx="420" cy="211" r="3.4" fill="#b04a3f" opacity="0.9"/>
+<circle cx="450" cy="103" r="3.4" fill="#274b6d" opacity="0.9"/>
+<circle cx="450" cy="225" r="3.4" fill="#b04a3f" opacity="0.9"/>
+<circle cx="480" cy="113" r="3.4" fill="#274b6d" opacity="0.9"/>
+<circle cx="480" cy="240" r="3.4" fill="#b04a3f" opacity="0.9"/>
+<line x1="90" y1="250" x2="505" y2="85" stroke="#274b6d" stroke-width="2"/>
+<line x1="90" y1="85" x2="505" y2="250" stroke="#b04a3f" stroke-width="2"/>
+<line x1="90" y1="170" x2="505" y2="163" stroke="#6a6d73" stroke-width="2" stroke-dasharray="5 4"/>
+<text x="512" y="86" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" fill="#274b6d">cell type A</text>
+<text x="512" y="253" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" fill="#b04a3f">cell type B</text>
+<text x="512" y="160" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" fill="#6a6d73">pooled</text>
+</svg>

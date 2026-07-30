@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 320" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" role="img" aria-label="Each split strategy tests a different kind of generalization">
+<defs><marker id="arrow_split" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#274b6d"/></marker></defs>
+<text x="24.0" y="26.0" font-size="11" font-weight="700" fill="#6a6d73" letter-spacing="1">THE SPLIT IS THE QUESTION</text>
+<rect x="30.0" y="140.0" width="120.0" height="44.0" rx="6" fill="#eaf0f6" stroke="#cfcdc4"/>
+<text x="90.0" y="166.2" font-size="12" font-weight="600" text-anchor="middle" fill="#17181b">Dataset</text>
+<rect x="290" y="48" width="360" height="40" rx="5" fill="#ffffff" stroke="#cfcdc4"/>
+<text x="304" y="65" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" font-weight="600" fill="#17181b">Homology-aware split</text>
+<text x="304" y="80" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" fill="#6a6d73">tests generalization to a new protein family</text>
+<line x1="152" y1="162" x2="286" y2="68" stroke="#274b6d" stroke-width="1.3" marker-end="url(#arrow_split)"/>
+<rect x="290" y="98" width="360" height="40" rx="5" fill="#ffffff" stroke="#cfcdc4"/>
+<text x="304" y="115" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" font-weight="600" fill="#17181b">Temporal split</text>
+<text x="304" y="130" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" fill="#6a6d73">tests generalization to a future data</text>
+<line x1="152" y1="162" x2="286" y2="118" stroke="#274b6d" stroke-width="1.3" marker-end="url(#arrow_split)"/>
+<rect x="290" y="148" width="360" height="40" rx="5" fill="#ffffff" stroke="#cfcdc4"/>
+<text x="304" y="165" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" font-weight="600" fill="#17181b">Scaffold split</text>
+<text x="304" y="180" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" fill="#6a6d73">tests generalization to a new chemotype</text>
+<line x1="152" y1="162" x2="286" y2="168" stroke="#274b6d" stroke-width="1.3" marker-end="url(#arrow_split)"/>
+<rect x="290" y="198" width="360" height="40" rx="5" fill="#ffffff" stroke="#cfcdc4"/>
+<text x="304" y="215" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" font-weight="600" fill="#17181b">Leave-one-group-out</text>
+<text x="304" y="230" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" fill="#6a6d73">tests generalization to a unseen cell type or gene</text>
+<line x1="152" y1="162" x2="286" y2="218" stroke="#274b6d" stroke-width="1.3" marker-end="url(#arrow_split)"/>
+<rect x="290" y="248" width="360" height="40" rx="5" fill="#ffffff" stroke="#cfcdc4"/>
+<text x="304" y="265" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" font-weight="600" fill="#17181b">Ancestry-aware split</text>
+<text x="304" y="280" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" fill="#6a6d73">tests generalization to a new population</text>
+<line x1="152" y1="162" x2="286" y2="268" stroke="#274b6d" stroke-width="1.3" marker-end="url(#arrow_split)"/>
+</svg>

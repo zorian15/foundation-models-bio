@@ -658,6 +658,122 @@ _TERMS: tuple[Term, ...] = (
         "Missing-modality inference",
         "Predicting or imputing the modalities a sample was not measured in, so a multimodal model can still run; reliable when modalities are redundant, silently wrong when the absent modality carried the needed signal.",
     ),
+    Term(
+        "Batch effect",
+        "Systematic technical variation introduced by when, where, and how samples were processed (the day, sequencing lane, reagent lot, machine, or lab) rather than by the biology under study. When batch is confounded with the variable of interest, a model can learn the batch instead of the biology.",
+    ),
+    Term(
+        "Confounding",
+        "A variable that influences both a model's input and its label, so an observed association may reflect the confounder rather than a real effect. Batch and ancestry are the two confounders that most often fool biological models.",
+    ),
+    Term(
+        "Class imbalance",
+        "The situation where one label, usually the negative, vastly outnumbers the rare positive of interest (a real binder, a pathogenic variant), so overall accuracy is dominated by the majority class and can be high while the model finds none of the rare cases.",
+    ),
+    Term(
+        "Base rate",
+        "The background frequency of the positive class in a dataset. When it is very low, accuracy is dominated by it and precision at a chosen operating point can be poor even when a prevalence-insensitive summary like AUROC looks strong.",
+    ),
+    Term(
+        "Label noise",
+        "Error in the labels themselves, arising from assay measurement noise or disagreement between annotators, which caps how well any model can correlate with the truth it is trained against.",
+    ),
+    Term(
+        "Technical replicate",
+        "A repeat measurement of the same biological sample, isolating the noise of the assay and pipeline from real biological variation.",
+    ),
+    Term(
+        "Biological replicate",
+        "An independent sample from a distinct biological source (a different individual, culture, or animal), capturing true biological variation on top of technical noise.",
+    ),
+    Term(
+        "Effect heterogeneity",
+        "When the effect of the same variant, perturbation, or drug differs across contexts (cell types, genetic backgrounds, environments, or subgroups), so a single averaged effect can misrepresent, or even reverse, what happens in any one of them.",
+    ),
+    Term(
+        "Simpson's paradox",
+        "When a trend that holds within each subgroup reverses or disappears once the subgroups are pooled, because an average over heterogeneous groups need not resemble any group.",
+    ),
+    Term(
+        "Data leakage",
+        "Any path by which information from the test set reaches training, producing performance estimates far better than the deployed model will achieve. In biology it often hides as near-duplicates (homologs, related individuals, shared scaffolds) straddling a random split rather than literally identical examples.",
+    ),
+    Term(
+        "Homology-aware split",
+        "A train/test split that clusters sequences by identity and keeps each cluster wholly on one side, forcing a model to generalize to new protein families instead of reciting close relatives. It is the standard defense against homology leakage.",
+    ),
+    Term(
+        "Temporal split",
+        "A split that trains only on data released before a cutoff date and tests on what came after, mimicking real deployment and defeating memorization of already-known answers; used, for example, to evaluate structure and co-folding models by structure release date.",
+    ),
+    Term(
+        "Scaffold split",
+        "A split that groups small molecules by their shared chemical core (scaffold) so the test set demands genuinely new chemotypes rather than decorated copies of training molecules.",
+    ),
+    Term(
+        "Leave-one-group-out cross-validation",
+        "An evaluation that holds out an entire natural group, such as a cell type, gene, or assay, to test whether a model transfers to a context it never saw during training.",
+    ),
+    Term(
+        "Ancestry-aware split",
+        "A split that holds out a genetic ancestry group so a model, especially a polygenic score, is tested for the population transfer it must achieve before clinical use, since allele frequencies and LD patterns differ across ancestries.",
+    ),
+    Term(
+        "AUROC (area under the ROC curve)",
+        "A threshold-free ranking metric equal to the probability that a model ranks a random positive above a random negative. Under heavy class imbalance it stays flatteringly high because abundant true negatives dominate the false-positive rate.",
+    ),
+    Term(
+        "AUPRC (area under the precision-recall curve)",
+        "A ranking metric that summarizes precision against recall, focused on the positive class. Unlike AUROC it degrades visibly when a rare positive class is hard to separate, making it the honest summary under class imbalance.",
+    ),
+    Term(
+        "Reliability diagram",
+        "A calibration plot that bins predictions by their claimed confidence and plots claimed against observed accuracy; a calibrated model tracks the diagonal, and the average vertical gap from it is the expected calibration error.",
+    ),
+    Term(
+        "Multiple testing correction",
+        "An adjustment applied when many hypotheses are tested at once so that chance findings are not mistaken for real ones; Bonferroni bounds the familywise error rate and Benjamini-Hochberg controls the false-discovery rate.",
+    ),
+    Term(
+        "Confidence interval",
+        "A range reported around an estimate that would contain the true value in a stated fraction of repeated experiments; reporting one, rather than a bare point estimate, is what lets a reader judge whether a benchmark gap is real.",
+    ),
+    Term(
+        "Design-build-test-learn (DBTL)",
+        "The iterative engineering cycle in which a model designs candidates, a lab builds them, an assay tests them, and the results are used to learn an improved model for the next round. It is the shared skeleton of protein design, small-molecule design, and cell engineering in this book.",
+    ),
+    Term(
+        "Active learning",
+        "A setting in which the model chooses which unlabeled examples to have labeled next, spending a limited experimental budget on the most informative candidates rather than a random or purely greedy sample.",
+    ),
+    Term(
+        "Acquisition function",
+        "A scoring rule that ranks candidate experiments by how useful running them would be, trading a candidate's predicted quality against the model's uncertainty about it; expected improvement and upper confidence bound are common choices.",
+    ),
+    Term(
+        "Bayesian optimization",
+        "A framework for optimizing an expensive black-box function in as few evaluations as possible by fitting a cheap surrogate model and using an acquisition function to choose each next query.",
+    ),
+    Term(
+        "Surrogate model",
+        "A cheap, fast model of the expensive quantity you are optimizing (for example a Gaussian process or ensemble on a foundation-model embedding), queried in place of the real assay to decide what to test next; it supplies both a prediction and an uncertainty.",
+    ),
+    Term(
+        "Exploration-exploitation tradeoff",
+        "The choice between testing candidates the model already predicts are good (exploiting current knowledge) and testing candidates it is uncertain about (exploring to learn more); over-committing to either stalls an optimization loop.",
+    ),
+    Term(
+        "Expected improvement (EI)",
+        "An acquisition function that scores a candidate by how much it is expected to beat the best result seen so far, integrating over the surrogate's uncertainty.",
+    ),
+    Term(
+        "Upper confidence bound (UCB)",
+        "An acquisition function that scores a candidate as its predicted mean plus a tunable multiple of its predicted uncertainty, so raising the multiplier favors uncertain long shots and lowering it favors safe bets.",
+    ),
+    Term(
+        "Batched acquisition",
+        "Selecting a diverse set of experiments to run in parallel in one round rather than the single best candidate, matching the plate-at-a-time reality of wet labs; it penalizes candidates that resemble ones already chosen for the batch to avoid a redundant plate.",
+    ),
 )
 
 

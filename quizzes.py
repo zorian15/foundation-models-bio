@@ -886,6 +886,177 @@ _QUIZZES: dict[str, tuple[Question, ...]] = {
             explanation="The current multimodal systems each extend one modality rather than fuse all of them: a structure model that accepts ligands, a DNA model that spans the dogma, a perturbation-to-expression map, and no shipping model holds genome, protein structure, and cell state in one shared representation. The tempting distractor invokes Evo 2, but spanning the dogma from DNA is not the same as ingesting 3D structure or an expression matrix. The unified cell is an organizing aspiration, not a runnable product.",
         ),
     ),
+    "data-realities": (
+        Question(
+            prompt="A collaborator reports a case/control classifier that reaches 0.95 AUROC on scRNA-seq data. You learn that all case samples were processed in one week and all controls the following week. What is the most likely situation and the correct response?",
+            options=(
+                "Batch is confounded with the outcome, so the model may have learned the processing week rather than the disease, and because correction cannot separate two axes that coincide by design, the honest fix is a rebalanced experiment with cases and controls randomized across batches",
+                "The high AUROC is real signal, since a two-week processing window is short enough that any technical drift is negligible and the model can be moved to a validation cohort as is",
+                "The result is probably inflated by a batch effect, and the fix is to run the expression matrix through a correction tool such as ComBat and retrain, which removes the processing artifact while preserving the disease signal, and a principal-component plot colored by processing week should confirm the technical axis is gone before the retrained model is trusted",
+                "The AUROC reflects overfitting to the small sample size, so the remedy is stronger regularization and nested cross-validation, after which the batch structure will no longer drive the score",
+            ),
+            answer=0,
+            explanation="When the batch axis and the case/control axis coincide, they are statistically indistinguishable, so any accuracy can come from either, and a post-hoc tool like ComBat assumes the two are separable, which confounding by design violates: subtracting the batch also subtracts the biology. This is the same failure that made a pneumonia CNN read the scanner instead of the lung. Prevention lives at the bench, by randomizing and balancing samples across batches, not in the analysis.",
+        ),
+        Question(
+            prompt="A missense classifier is 99.7% accurate on a test set where 1 in 400 variants is truly pathogenic. Why is this number nearly uninformative, and what should you look at instead?",
+            options=(
+                "A model calling everything benign already scores about 99.75% at that base rate, so accuracy is dominated by prevalence; the informative quantities are recall of the rare pathogenic class and the precision at the operating point you would actually use",
+                "Accuracy of 99.7% implies an AUROC near 0.5, so the model is performing at chance, and the informative next step is to report the AUROC and confirm it exceeds the random baseline",
+                "High accuracy on imbalanced data indicates the model memorized the pathogenic examples, so the fix is to hold out those examples and re-measure accuracy on unseen variants only",
+                "Accuracy is fine as a headline, but it should be paired with the F1 score computed on the majority benign class, which corrects for the imbalance and reveals the true performance once that benign-class F1 is weighted by its support to fold the rare pathogenic errors back into a single honest number",
+            ),
+            answer=0,
+            explanation="At a 1-in-400 base rate the trivial always-benign predictor is already about 99.75% accurate, so accuracy mostly reports prevalence, not skill. AUROC can look strong yet still hide poor precision, because ranking well overall does not guarantee that the variants above your threshold are enriched for true positives, which is why precision-recall on the rare class, and calibration at the operating point, are what a clinical decision depends on.",
+        ),
+        Question(
+            prompt="Technical replicates of a deep mutational scan agree at Spearman 0.6. A predictor correlates with the measured fitness labels at Spearman 0.55. How should you read the 0.55?",
+            options=(
+                "The achievable correlation with a single noisy label is capped near the square root of the replicate agreement, about 0.77 here, so 0.55 is a solid result with real headroom rather than one already at the data's limit",
+                "A predictor cannot correlate with noisy labels any more strongly than the replicates correlate with each other, so 0.55 is already essentially at the 0.6 ceiling and further modeling is pointless",
+                "The gap from 0.55 up to the 0.6 replicate agreement is the model's remaining error, so closing it would make the predictor almost perfect against the true underlying signal it is meant to recover",
+                "Because the labels are noisy, correlation is the wrong metric entirely, and the model should be re-evaluated with classification accuracy against a pathogenic/benign threshold instead, which converts the noisy continuous fitness labels into a stabler binary target the assay can actually support",
+            ),
+            answer=0,
+            explanation="Measurement noise attenuates correlation: a noise-free predictor of the true signal correlates with a single noisy label only about as well as the square root of the label's reliability, so replicates agreeing at 0.6 set a ceiling near 0.77, not 0.6. A model at 0.55 therefore tracks the true signal at roughly 0.7 after disattenuation, good but not saturated, and a predictor can legitimately exceed the replicate-to-replicate agreement because it beats a second noisy measurement. The way to raise the ceiling is a less noisy assay or more replicates, not simply a bigger model.",
+        ),
+        Question(
+            prompt="A perturbation shows essentially no average effect on a target gene across a pooled dataset, yet it strongly raises the gene in one cell type and strongly lowers it in another. A model trained on the pooled data predicts no effect. What is going on?",
+            options=(
+                "This is effect heterogeneity: the opposite subgroup effects cancel in the pooled average, so the model learns a near-zero mean that describes neither cell type, and capturing it requires modeling the cell-type context rather than the pooled response",
+                "The perturbation genuinely has no reproducible effect, and the apparent subgroup effects are noise that averaging correctly removes, so the model's no-effect prediction is the accurate summary",
+                "The pooled model is underpowered, and adding more cells from both cell types will let the true average effect emerge once the sample size is large enough to overcome the variance",
+                "The two cell types represent a batch effect, so regressing out cell type before training will recover the real, consistent effect that the perturbation has across all cells, the same correction you would apply to strip a sequencing-run artifact out of the expression matrix before modeling",
+            ),
+            answer=0,
+            explanation="This is aggregation over heterogeneous subgroups, a close cousin of Simpson's paradox: a trend present in every subgroup can vanish or reverse once the subgroups are pooled, so an average over heterogeneous contexts can describe no context at all. Cell type here is not a nuisance to remove but the biology to condition on, and it is the same mechanism behind why sequence-to-function models nail cross-tissue averages while missing person-specific effects.",
+        ),
+        Question(
+            prompt="You are evaluating a variant-effect model and considering how to split data into train and test. Why can a random split badly overstate real-world performance on this kind of data?",
+            options=(
+                "Structure such as shared batches or related individuals can straddle the split, so near-duplicate signal leaks from train to test and inflates the estimate; splitting by batch, site, or individual gives an honest read of generalization",
+                "A random split leaves the classes imbalanced in both folds, and the only reliable fix is to oversample the positive class in the test set until the base rate reaches 50%",
+                "Random splits reduce the effective training set, so the model underfits and the test estimate is pessimistic rather than optimistic; using more folds restores an accurate estimate",
+                "Random splitting is the statistically correct default for any dataset, so the estimate is unbiased, and the only concern is variance, which averaging across repeated random splits removes to give a mean you can carry straight through to deployment",
+            ),
+            answer=0,
+            explanation="When batches or relatives appear on both sides of a random split, the test set is no longer independent of training, and the model gets credit for recognizing structure it has effectively already seen, an optimistic leak. The correct partition groups by the source of that structure (batch, site, individual, or gene family) so the test measures transfer to genuinely new conditions, which is exactly the setting deployment will face.",
+        ),
+    ),
+    "evaluation": (
+        Question(
+            prompt="A protein variant-effect model scores 0.70 Spearman under a random split of mutations but only 0.45 under ProteinGym's contiguous and modulo splits. What best explains the gap?",
+            options=(
+                "The random split lets the same positions land in both train and test, so the model memorizes position-level effects; the position-disjoint splits remove that shortcut and measure extrapolation to unseen positions",
+                "The contiguous and modulo splits simply use less training data, so the drop reflects reduced sample size rather than any change in what is being measured, and restoring the random split's training-set size by adding more mutations would lift the position-disjoint score back toward 0.70",
+                "The random split samples the protein uniformly and is therefore the more rigorous test, so 0.70 is the number to trust and report",
+                "Spearman is unstable under resampling, so the gap is noise and both numbers estimate the same underlying skill",
+            ),
+            answer=0,
+            explanation="A random split of mutations can place a given residue position in both train and test, letting the model recall per-position effects instead of generalizing; the contiguous and modulo schemes keep positions disjoint, so the honest number is the lower one because deployment asks about positions the model has not seen. Even position-disjoint splits are not fully leakage-free across proteins, since homologous sequences share evolutionary signal, so a truly clean test also clusters by sequence identity.",
+        ),
+        Question(
+            prompt="A pathogenicity classifier posts AUROC 0.95 on a set where 1% of variants are pathogenic, and a clinician is unmoved. Why, and what should you report instead?",
+            options=(
+                "With 99% negatives the false-positive rate barely moves, so AUROC stays high while precision can be poor; AUPRC and precision among top-ranked calls reflect how many flagged variants are truly pathogenic",
+                "AUROC already corrects for imbalance because it is built from rates, so AUPRC would return the identical value and adds nothing",
+                "The issue is that AUROC rewards overconfident scores, so recalibrating with temperature scaling would lower it to match the true performance, after which the corrected AUROC would fall in line with the precision a clinician actually sees at the chosen operating threshold",
+                "AUROC is a ranking metric and thus invalid for a classification task, so plain accuracy on the full set is the honest summary to report",
+            ),
+            answer=0,
+            explanation="ROC curves use the false-positive rate, which is dominated by abundant true negatives under heavy imbalance, so AUROC stays flattering while precision on the rare positive class collapses; precision-recall metrics focus on exactly that class. Plain accuracy is worse still, since a model calling everything benign scores 99% here, and AUROC's prevalence-independence is precisely what hides the operating-point cost a clinician cares about.",
+        ),
+        Question(
+            prompt="A model orders candidates well (high Spearman) but its predicted probabilities are systematically overconfident. Which statement is correct?",
+            options=(
+                "Good ranking does not imply calibration; the scores can order candidates correctly yet be unusable as probabilities, and temperature scaling repairs calibration without changing the ranking",
+                "High rank correlation guarantees calibration, since a monotonic score and a calibrated probability are the same property described in two ways, so a model with strong Spearman can be read directly as well-calibrated probabilities without any further adjustment",
+                "Overconfidence implies the ranking is also wrong, so the reported Spearman must be an artifact of the particular test set used",
+                "Calibration can only be measured on the training set, so a miscalibration that appears at deployment time cannot be quantified or fixed",
+            ),
+            answer=0,
+            explanation="Ranking is about order and calibration is about the numeric reliability of the scores; a model can be perfect at one and bad at the other, and temperature scaling is monotonic so it fixes calibration while leaving AUROC and Spearman untouched. A variant-effect threshold that drifts from protein to protein is a calibration failure across contexts even when within-protein ranking is fine, which is why a fixed cutoff over-flags on some proteins and under-flags on others.",
+        ),
+        Question(
+            prompt="A sequence-to-function model tops a public variant-effect benchmark, but on your cohort's per-individual expression it barely works. What is the most likely diagnosis?",
+            options=(
+                "The benchmark rewards ranking variation across genes and tissues, while your cohort asks about differences between individuals at one locus, a smaller signal the training objective never rewarded, so the leaderboard rank does not transfer",
+                "The model is overfit to the benchmark, so retraining a larger version on more sequence data would close the gap on your cohort, since the inter-individual signal already lives in those same sequences and only more model capacity is needed to extract the per-person differences",
+                "Your cohort data are simply too noisy, and with a large enough sample the public model's benchmark accuracy would be recovered unchanged",
+                "Public benchmarks and personal-genome prediction are the same distribution, so the failure points to a bug somewhere in your evaluation pipeline",
+            ),
+            answer=0,
+            explanation="Cross-gene and inter-individual prediction are different tests: current models learn from the large sequence differences between loci and stumble on the few scattered variants that separate two people at the same locus, sometimes even inverting the sign of the effect. Scaling the model does not fix this, because it is a distribution-and-objective mismatch rather than a capacity limit; the remedy is to evaluate, and possibly train, on the target distribution itself.",
+        ),
+        Question(
+            prompt="An AI docking-and-co-folding model reports excellent pose accuracy on a benchmark, and a skeptic is uneasy. What is the concern, and what would address it?",
+            options=(
+                "High accuracy can come from complexes near-identical to ones in training; a temporal split on structures released after the cutoff, plus checks for physically valid geometry, tests genuine generalization",
+                "Pose accuracy is a calibrated physical quantity, so a high value cannot be inflated by training-set overlap and needs no additional split to be trusted, because an RMSD below two angstroms measures geometry directly and is unaffected by whether a near-identical complex appeared during training",
+                "The only real fix is to replace RMSD with AUROC as the metric, since AUROC is immune to memorization of specific complexes",
+                "Memorization is impossible for structure models because atomic coordinates are continuous, so an identical complex cannot be recalled from training",
+            ),
+            answer=0,
+            explanation="A low pose error can certify recall of near-duplicate complexes rather than skill, so PoseBusters-style evaluation checks physical validity and generalization to novel sequences, and a temporal or homology-aware split defeats the memorization. RMSD alone can pass on a memorized ligand while the predicted bonds clash or strain, which is why physical-validity filters and sequence-dissimilar test sets, not a metric swap, are what expose the failure.",
+        ),
+    ),
+    "lab-loop": (
+        Question(
+            prompt="You have a trained surrogate model and budget for one more batch of experiments. Across several rounds, a purely greedy strategy that always orders the top predicted candidates tends to fail in which way?",
+            options=(
+                "It keeps sampling near the current predicted best and never gathers the data that would reveal a stronger region elsewhere, so it settles into a local optimum",
+                "It over-samples the regions where the model is most uncertain, burning the budget on candidates the model already scores as poor, spending round after round probing the model's blind spots instead of the region most likely to contain the true optimum",
+                "It reaches the global optimum but only when the surrogate's uncertainty has first been perfectly calibrated on held-out data",
+                "It maximizes information gained per round yet converges far too slowly to help within the few cycles a wet lab allows",
+            ),
+            answer=0,
+            explanation="Greedy exploitation chases the current best estimate and never queries regions the model is wrong-but-hopeful about, so it converges confidently to a local optimum. Acquisition functions like UCB and expected improvement add an uncertainty bonus precisely to escape this. The mirror-image failure is pure exploration, which spreads the budget thin and rarely proposes anything good; Bayesian optimization is the dial between the two.",
+        ),
+        Question(
+            prompt="Active learning depends on calibrated uncertainty in a way that a one-shot ranking task does not. Why?",
+            options=(
+                "The acquisition function weighs a candidate's predicted value against the model's stated uncertainty, so systematically overconfident error bars steer the next experiments toward the wrong candidates, and the error compounds over rounds",
+                "An uncalibrated model cannot produce a rank order over candidates at all, so no shortlist can be formed to hand to the lab",
+                "Calibration is what converts a relative score into an absolute Kd, which the active-learning loop is required to report each round",
+                "Wet-lab assays take a probability rather than a score as their physical input, so the numbers must be calibrated before an experiment can run, and an uncalibrated acquisition score therefore cannot be handed to the synthesis step until it has been mapped onto a proper probability scale",
+            ),
+            answer=0,
+            explanation="In one-shot ranking only the order of scores must be right. In active learning the uncertainty is itself an input to the decision through expected improvement or UCB, so miscalibration corrupts which experiment you choose next, and the damage accumulates round over round. Because deep models are often overconfident, practitioners frequently put a better-calibrated Gaussian process or ensemble head on a frozen embedding and drive acquisition from its uncertainty.",
+        ),
+        Question(
+            prompt="A collaborator runs one 96-well plate per round. You rank every candidate by expected improvement and send the top 96. What is the main weakness of this batch?",
+            options=(
+                "The highest-scoring candidates are usually near-duplicates in the same promising region, so the plate is redundant and teaches little more than a single well would",
+                "Expected improvement is undefined for more than one candidate at a time, which makes the resulting ranking invalid, so scoring a full 96-well plate at once has no principled basis and the ordering it produces cannot be trusted",
+                "Sending 96 candidates at once violates the assumption that the assay readout is noise-free",
+                "Batched selection is always less efficient than sequential selection, so the plate ought to be run one well at a time",
+            ),
+            answer=0,
+            explanation="A greedy top-k by any single-point acquisition score clusters candidates in one region, so most of the plate is redundant. Batch-aware acquisition fixes this by penalizing a candidate for resembling ones already chosen, forcing diversity across the wells. Sequential selection is more sample-efficient in theory, but a lab cannot iterate one well at a time, so batch diversity is how you recover the efficiency parallelism costs.",
+        ),
+        Question(
+            prompt="A wet-lab partner can synthesize and assay about 20 compounds this quarter. Which delivery is the most actionable?",
+            options=(
+                "A shortlist of roughly 20 ranked candidates, each with a calibrated confidence and the reason it was chosen, spread across enough diversity to make the round informative",
+                "The complete scored library of two million compounds sorted by raw docking score, leaving the lab free to pick its own cutoff, which respects the partner's expertise by letting them apply whatever threshold their assay capacity and chemistry intuition suggest",
+                "The single highest-scoring compound, since devoting the whole quarter to the top prediction gives the best shot at a hit",
+                "The 20 highest raw scores, reported with the numeric scores presented directly as predicted binding affinities",
+            ),
+            answer=0,
+            explanation="Actionable means matched to throughput, ranked, calibrated, and diverse enough to learn from. Dumping two million rows offloads the real decision back onto the partner and ignores their capacity; betting the whole quarter on one pick wastes the round's learning; and quoting a docking score as a Kd overclaims what the number means. A portfolio of mostly strong bets plus a few exploratory picks keeps the loop informative.",
+        ),
+        Question(
+            prompt="Across DBTL rounds, why are the measurements from your own last round often more valuable for the next model than a much larger public dataset?",
+            options=(
+                "They are drawn from exactly the target, assay, and design distribution you are optimizing, so they inform the model precisely where it is being asked to predict",
+                "Once a few rounds accumulate, they simply outnumber the available public datasets for the task, so the sheer count of your own labels overtakes the public corpus and that growing volume is what makes them the more valuable training signal",
+                "They are free of measurement noise, because they all come from one controlled laboratory",
+                "They remove the need for calibrated uncertainty, since the model has now observed the target directly",
+            ),
+            answer=0,
+            explanation="On-distribution labels are worth more per point than off-distribution ones, because the generative model and the surrogate are being pushed into a region public data barely covers. This is the flywheel that makes the loop compound. But wet-lab noise and small batch sizes cap how fast it spins, so any single round teaches less than its raw label count suggests.",
+        ),
+    ),
 }
 
 

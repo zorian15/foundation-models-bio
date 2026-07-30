@@ -14,6 +14,7 @@ sequence becoming a structure) and are written to the assets root.
 
 from __future__ import annotations
 
+import math
 import random
 from pathlib import Path
 
@@ -2664,7 +2665,524 @@ def fig_missing_modality_matrix():
     return write_svg("missing-modality-matrix.svg", svg)
 
 
+def fig_class_imbalance_base_rate():
+    W, H = 560, 320
+    body = [eyebrow(24, 28, "THE RARE POSITIVE HIDES IN PLAIN SIGHT")]
+    body.append(
+        f'<rect x="60" y="55" width="440" height="180" rx="6" fill="#ffffff" stroke="{RULE_STRONG}"/>'
+    )
+    positives = {(2, 1), (7, 4), (10, 6)}
+    for row in range(8):
+        for col in range(12):
+            cx = 90 + col * 35
+            cy = 78 + row * 21
+            if (col, row) in positives:
+                body.append(f'<circle cx="{cx}" cy="{cy}" r="7" fill="{BRICK}"/>')
+            else:
+                body.append(
+                    f'<circle cx="{cx}" cy="{cy}" r="4.5" fill="{MUTED}" opacity="0.55"/>'
+                )
+    body.append(
+        f'<text x="60" y="266" font-family="{SANS}" font-size="11" fill="{INK_SOFT}">A classifier that labels every dot "negative" scores ~97% accuracy</text>'
+    )
+    body.append(
+        f'<text x="60" y="284" font-family="{SANS}" font-size="11" fill="{BRICK}">and finds 0 of the 3 real positives.</text>'
+    )
+    return write_svg(
+        "class-imbalance-base-rate.svg",
+        svg_doc(
+            W, H, "Accuracy is near-perfect while the rare positive is missed", body
+        ),
+    )
+
+
+def fig_batch_effect_confounder():
+    W, H = 600, 320
+    body = [eyebrow(24, 28, "SAMPLES SPLIT BY BATCH, NOT BIOLOGY")]
+    body.append(
+        f'<rect x="70" y="55" width="470" height="205" rx="6" fill="none" stroke="{RULE}"/>'
+    )
+    rng = random.Random(11)
+    for cx0 in (210, 400):
+        for _ in range(22):
+            px = cx0 + rng.gauss(0, 36)
+            py = 157 + rng.gauss(0, 44)
+            px = min(max(px, 80), 530)
+            py = min(max(py, 62), 252)
+            color = ACCENT if rng.random() < 0.5 else AMBER
+            body.append(
+                f'<circle cx="{px:.0f}" cy="{py:.0f}" r="4" fill="{color}" opacity="0.9"/>'
+            )
+    body.append(
+        f'<text x="210" y="278" text-anchor="middle" font-family="{SANS}" font-size="10.5" fill="{MUTED}">batch 1</text>'
+    )
+    body.append(
+        f'<text x="400" y="278" text-anchor="middle" font-family="{SANS}" font-size="10.5" fill="{MUTED}">batch 2</text>'
+    )
+    body.append(
+        f'<circle cx="80" cy="300" r="5" fill="{ACCENT}"/><text x="92" y="304" font-family="{SANS}" font-size="10" fill="{MUTED}">treated</text>'
+    )
+    body.append(
+        f'<circle cx="170" cy="300" r="5" fill="{AMBER}"/><text x="182" y="304" font-family="{SANS}" font-size="10" fill="{MUTED}">control — mixed within each batch</text>'
+    )
+    return write_svg(
+        "batch-effect-confounder.svg",
+        svg_doc(
+            W, H, "Embedding space splits by batch while conditions mix within", body
+        ),
+    )
+
+
+def fig_average_hides_subgroups():
+    W, H = 600, 320
+    body = [eyebrow(24, 28, "TWO SUBGROUPS, OPPOSITE TRENDS")]
+    body.append(
+        f'<rect x="70" y="55" width="450" height="210" rx="6" fill="none" stroke="{RULE}"/>'
+    )
+    rng = random.Random(5)
+    # Subgroup A rises, B falls; pooled is nearly flat.
+    for x in range(90, 505, 30):
+        ta = (x - 90) / 415
+        ya = 250 - ta * 165 + rng.gauss(0, 9)
+        yb = 85 + ta * 165 + rng.gauss(0, 9)
+        body.append(
+            f'<circle cx="{x}" cy="{ya:.0f}" r="3.4" fill="{ACCENT}" opacity="0.9"/>'
+        )
+        body.append(
+            f'<circle cx="{x}" cy="{yb:.0f}" r="3.4" fill="{BRICK}" opacity="0.9"/>'
+        )
+    body.append(
+        f'<line x1="90" y1="250" x2="505" y2="85" stroke="{ACCENT}" stroke-width="2"/>'
+    )
+    body.append(
+        f'<line x1="90" y1="85" x2="505" y2="250" stroke="{BRICK}" stroke-width="2"/>'
+    )
+    body.append(
+        f'<line x1="90" y1="170" x2="505" y2="163" stroke="{MUTED}" stroke-width="2" stroke-dasharray="5 4"/>'
+    )
+    body.append(
+        f'<text x="512" y="86" font-family="{SANS}" font-size="10" fill="{ACCENT}">cell type A</text>'
+    )
+    body.append(
+        f'<text x="512" y="253" font-family="{SANS}" font-size="10" fill="{BRICK}">cell type B</text>'
+    )
+    body.append(
+        f'<text x="512" y="160" font-family="{SANS}" font-size="10" fill="{MUTED}">pooled</text>'
+    )
+    return write_svg(
+        "average-hides-subgroups.svg",
+        svg_doc(
+            W, H, "Opposite subgroup trends average to a misleading flat line", body
+        ),
+    )
+
+
+def fig_auroc_vs_auprc_imbalance():
+    W, H = 640, 300
+    body = [eyebrow(24, 28, "SAME MODEL, TWO VERDICTS UNDER IMBALANCE")]
+    # ROC panel.
+    body.append(
+        f'<rect x="60" y="60" width="240" height="200" rx="4" fill="none" stroke="{RULE}"/>'
+    )
+    body.append(
+        f'<text x="180" y="52" text-anchor="middle" font-family="{SANS}" font-size="11" font-weight="600" fill="{INK}">ROC curve</text>'
+    )
+    body.append(
+        f'<line x1="60" y1="260" x2="300" y2="60" stroke="{MUTED}" stroke-width="1" stroke-dasharray="4 3"/>'
+    )
+    body.append(
+        f'<path d="M 60 260 Q 72 90 300 60" fill="none" stroke="{ACCENT}" stroke-width="2.2"/>'
+    )
+    body.append(
+        f'<text x="200" y="150" font-family="{SANS}" font-size="11" fill="{ACCENT}">AUROC ~ 0.95</text>'
+    )
+    body.append(
+        f'<text x="180" y="278" text-anchor="middle" font-family="{SANS}" font-size="9.5" fill="{MUTED}">false positive rate to true positive rate</text>'
+    )
+    # PR panel.
+    body.append(
+        f'<rect x="360" y="60" width="240" height="200" rx="4" fill="none" stroke="{RULE}"/>'
+    )
+    body.append(
+        f'<text x="480" y="52" text-anchor="middle" font-family="{SANS}" font-size="11" font-weight="600" fill="{INK}">precision-recall curve</text>'
+    )
+    body.append(
+        f'<line x1="360" y1="252" x2="600" y2="252" stroke="{MUTED}" stroke-width="1" stroke-dasharray="2 3"/>'
+    )
+    body.append(
+        f'<text x="366" y="248" font-family="{SANS}" font-size="8.5" fill="{MUTED}">baseline = prevalence</text>'
+    )
+    body.append(
+        f'<path d="M 360 95 Q 470 235 600 240" fill="none" stroke="{BRICK}" stroke-width="2.2"/>'
+    )
+    body.append(
+        f'<text x="470" y="120" font-family="{SANS}" font-size="11" fill="{BRICK}">AUPRC ~ 0.30</text>'
+    )
+    body.append(
+        f'<text x="480" y="278" text-anchor="middle" font-family="{SANS}" font-size="9.5" fill="{MUTED}">recall to precision</text>'
+    )
+    return write_svg(
+        "auroc-vs-auprc-imbalance.svg",
+        svg_doc(W, H, "AUROC flatters while AUPRC exposes poor precision", body),
+    )
+
+
+def fig_split_defines_question():
+    W, H = 680, 320
+    defs = arrow_marker(ACCENT, "arrow_split")
+    body = [defs, eyebrow(24, 26, "THE SPLIT IS THE QUESTION")]
+    body += node_box(
+        30, 140, 120, 44, "Dataset", font_size=12, weight=600, fill=ACCENT_SOFT
+    )
+    rows = [
+        ("Homology-aware split", "new protein family"),
+        ("Temporal split", "future data"),
+        ("Scaffold split", "new chemotype"),
+        ("Leave-one-group-out", "unseen cell type or gene"),
+        ("Ancestry-aware split", "new population"),
+    ]
+    rx, rw, rh = 290, 360, 40
+    for i, (title, detail) in enumerate(rows):
+        ry = 48 + i * 50
+        body.append(
+            f'<rect x="{rx}" y="{ry}" width="{rw}" height="{rh}" rx="5" fill="#ffffff" stroke="{RULE_STRONG}"/>'
+        )
+        body.append(
+            f'<text x="{rx + 14}" y="{ry + 17}" font-family="{SANS}" font-size="11" font-weight="600" fill="{INK}">{title}</text>'
+        )
+        body.append(
+            f'<text x="{rx + 14}" y="{ry + 32}" font-family="{SANS}" font-size="10" fill="{MUTED}">tests generalization to a {detail}</text>'
+        )
+        body.append(
+            f'<line x1="152" y1="162" x2="{rx - 4}" y2="{ry + 20}" stroke="{ACCENT}" stroke-width="1.3" marker-end="url(#arrow_split)"/>'
+        )
+    return write_svg(
+        "split-defines-question.svg",
+        svg_doc(
+            W, H, "Each split strategy tests a different kind of generalization", body
+        ),
+    )
+
+
+def fig_leakage_inflates_score():
+    W, H = 680, 250
+    body = [eyebrow(24, 28, "A RANDOM SPLIT LEAKS AND INFLATES THE SCORE")]
+    rows = [
+        (75, "Random split", True, 240, "0.72"),
+        (160, "Homology-aware split", False, 150, "0.55"),
+    ]
+    for y, label, leak, blen, val in rows:
+        body.append(
+            f'<text x="30" y="{y + 26}" font-family="{SANS}" font-size="11" font-weight="600" fill="{INK}">{label}</text>'
+        )
+        body.append(
+            f'<rect x="200" y="{y}" width="64" height="40" rx="4" fill="{ACCENT_SOFT}" stroke="{RULE_STRONG}"/><text x="232" y="{y + 24}" text-anchor="middle" font-family="{SANS}" font-size="10" fill="{INK}">train</text>'
+        )
+        body.append(
+            f'<rect x="272" y="{y}" width="64" height="40" rx="4" fill="#ffffff" stroke="{RULE_STRONG}"/><text x="304" y="{y + 24}" text-anchor="middle" font-family="{SANS}" font-size="10" fill="{INK}">test</text>'
+        )
+        if leak:
+            body.append(
+                f'<path d="M 232 {y} Q 268 {y - 30} 304 {y}" fill="none" stroke="{BRICK}" stroke-width="1.5" stroke-dasharray="3 2"/>'
+            )
+            body.append(
+                f'<text x="268" y="{y - 34}" text-anchor="middle" font-family="{SANS}" font-size="9" fill="{BRICK}">a homolog leaks across</text>'
+            )
+        else:
+            body.append(
+                f'<text x="268" y="{y + 56}" text-anchor="middle" font-family="{SANS}" font-size="9" fill="{MUTED}">cluster kept in train</text>'
+            )
+        body.append(
+            f'<rect x="390" y="{y + 7}" width="{blen}" height="26" rx="3" fill="{ACCENT}"/>'
+        )
+        body.append(
+            f'<text x="{390 + blen + 8}" y="{y + 26}" font-family="{SANS}" font-size="11" font-weight="600" fill="{INK}">{val}</text>'
+        )
+    # Leakage bracket spanning the difference between the two bar ends.
+    body.append(
+        f'<path d="M 540 120 h 90 v 6" fill="none" stroke="{BRICK}" stroke-width="1.4"/>'
+    )
+    body.append(
+        f'<text x="585" y="134" text-anchor="middle" font-family="{SANS}" font-size="10" fill="{BRICK}">leakage (inflation)</text>'
+    )
+    return write_svg(
+        "leakage-inflates-score.svg",
+        svg_doc(W, H, "The gap between the two bars is the leakage", body),
+    )
+
+
+def fig_calibration_reliability():
+    W, H = 560, 320
+    body = [eyebrow(24, 28, "RANKING AND CALIBRATION ARE DIFFERENT VIRTUES")]
+    body.append(
+        f'<rect x="70" y="55" width="400" height="205" rx="4" fill="none" stroke="{RULE}"/>'
+    )
+    body.append(
+        f'<line x1="70" y1="260" x2="470" y2="55" stroke="{MUTED}" stroke-width="1" stroke-dasharray="4 3"/>'
+    )
+    body.append(
+        f'<text x="380" y="78" font-family="{SANS}" font-size="9" fill="{MUTED}">perfect calibration</text>'
+    )
+    body.append(
+        f'<path d="M 70 260 C 210 245 340 190 470 55" fill="none" stroke="{BRICK}" stroke-width="2.2"/>'
+    )
+    body.append(
+        f'<text x="300" y="228" font-family="{SANS}" font-size="10.5" fill="{BRICK}">overconfident</text>'
+    )
+    body.append(
+        f'<path d="M 70 260 Q 260 168 470 55" fill="none" stroke="{ACCENT}" stroke-width="2.2"/>'
+    )
+    body.append(
+        f'<text x="330" y="150" font-family="{SANS}" font-size="10.5" fill="{ACCENT}">after temperature scaling</text>'
+    )
+    body.append(
+        f'<text x="270" y="288" text-anchor="middle" font-family="{SANS}" font-size="9.5" fill="{MUTED}">predicted confidence to observed accuracy · gap = calibration error</text>'
+    )
+    return write_svg(
+        "calibration-reliability.svg",
+        svg_doc(
+            W,
+            H,
+            "An overconfident curve can rank perfectly yet report wrong probabilities",
+            body,
+        ),
+    )
+
+
+def fig_benchmark_to_assay_shift():
+    W, H = 640, 300
+    defs = arrow_marker(BRICK, "arrow_shift")
+    body = [defs, eyebrow(24, 28, "THE LEADERBOARD RARELY TRANSFERS")]
+    body.append(
+        f'<ellipse cx="180" cy="130" rx="95" ry="52" fill="{ACCENT_SOFT}" stroke="{ACCENT}" opacity="0.75"/>'
+    )
+    body.append(
+        f'<text x="180" y="70" text-anchor="middle" font-family="{SANS}" font-size="10.5" fill="{ACCENT}">public benchmark</text>'
+    )
+    body.append(
+        f'<ellipse cx="270" cy="185" rx="95" ry="52" fill="#f4ede0" stroke="{AMBER}" opacity="0.75"/>'
+    )
+    body.append(
+        f'<text x="300" y="238" text-anchor="middle" font-family="{SANS}" font-size="10.5" fill="{AMBER}">your assay</text>'
+    )
+    body.append(
+        f'<line x1="180" y1="130" x2="270" y2="185" stroke="{MUTED}" stroke-width="1.4" stroke-dasharray="3 3"/>'
+    )
+    body.append(
+        f'<text x="205" y="150" font-family="{SANS}" font-size="9" fill="{MUTED}">shift</text>'
+    )
+    # Score bars.
+    body.append(
+        f'<line x1="450" y1="240" x2="610" y2="240" stroke="{RULE_STRONG}" stroke-width="1"/>'
+    )
+    body.append(
+        f'<rect x="470" y="95" width="48" height="145" fill="{ACCENT}" rx="2"/><text x="494" y="88" text-anchor="middle" font-family="{SANS}" font-size="10.5" fill="{INK}">0.90</text>'
+    )
+    body.append(
+        f'<text x="494" y="256" text-anchor="middle" font-family="{SANS}" font-size="9" fill="{MUTED}">benchmark</text>'
+    )
+    body.append(
+        f'<rect x="548" y="168" width="48" height="72" fill="{BRICK}" rx="2"/><text x="572" y="161" text-anchor="middle" font-family="{SANS}" font-size="10.5" fill="{INK}">0.55</text>'
+    )
+    body.append(
+        f'<text x="572" y="256" text-anchor="middle" font-family="{SANS}" font-size="9" fill="{MUTED}">your assay</text>'
+    )
+    body.append(
+        f'<line x1="518" y1="100" x2="548" y2="165" stroke="{BRICK}" stroke-width="1.5" marker-end="url(#arrow_shift)"/>'
+    )
+    return write_svg(
+        "benchmark-to-assay-shift.svg",
+        svg_doc(
+            W,
+            H,
+            "A different distribution means the honest number is the shorter bar",
+            body,
+        ),
+    )
+
+
+def fig_design_build_test_learn_cycle():
+    W, H = 600, 350
+    defs = arrow_marker(ACCENT, "arrow_dbtl")
+    body = [defs]
+    body += node_box(
+        245, 40, 110, 36, "Design", font_size=12, weight=600, fill=ACCENT_SOFT
+    )
+    body += node_box(
+        430,
+        160,
+        110,
+        36,
+        "Build",
+        font_size=12,
+        weight=600,
+        fill=AMBER,
+        text_fill="#ffffff",
+    )
+    body += node_box(
+        245,
+        285,
+        110,
+        36,
+        "Test",
+        font_size=12,
+        weight=600,
+        fill=AMBER,
+        text_fill="#ffffff",
+    )
+    body += node_box(
+        60, 160, 110, 36, "Learn", font_size=12, weight=600, fill=ACCENT_SOFT
+    )
+    # Clockwise arcs.
+    body.append(
+        f'<path d="M 358 62 Q 470 80 486 158" fill="none" stroke="{ACCENT}" stroke-width="1.8" marker-end="url(#arrow_dbtl)"/>'
+    )
+    body.append(
+        f'<path d="M 486 198 Q 470 290 358 300" fill="none" stroke="{ACCENT}" stroke-width="1.8" marker-end="url(#arrow_dbtl)"/>'
+    )
+    body.append(
+        f'<path d="M 242 300 Q 130 290 114 198" fill="none" stroke="{ACCENT}" stroke-width="1.8" marker-end="url(#arrow_dbtl)"/>'
+    )
+    body.append(
+        f'<path d="M 114 158 Q 130 80 242 62" fill="none" stroke="{ACCENT}" stroke-width="1.8" marker-end="url(#arrow_dbtl)"/>'
+    )
+    body.append(
+        f'<text x="300" y="176" text-anchor="middle" font-family="{SANS}" font-size="10.5" fill="{MUTED}">each turn adds</text>'
+    )
+    body.append(
+        f'<text x="300" y="191" text-anchor="middle" font-family="{SANS}" font-size="10.5" fill="{MUTED}">on-target labeled data</text>'
+    )
+    body.append(
+        f'<text x="300" y="30" text-anchor="middle" font-family="{SANS}" font-size="10" fill="{MUTED}">model proposes candidates</text>'
+    )
+    body.append(
+        f'<text x="300" y="338" text-anchor="middle" font-family="{SANS}" font-size="10" fill="{MUTED}">assay the readout</text>'
+    )
+    return write_svg(
+        "design-build-test-learn-cycle.svg",
+        svg_doc(W, H, "The design-build-test-learn loop is the unit of progress", body),
+    )
+
+
+def fig_acquisition_explore_exploit():
+    W, H = 620, 320
+    body = [eyebrow(24, 28, "THE NEXT EXPERIMENT IS NOT JUST THE TOP PREDICTION")]
+    body.append(
+        f'<rect x="70" y="55" width="490" height="205" rx="4" fill="none" stroke="{RULE}"/>'
+    )
+    observed = [140, 270, 430]
+
+    def mean_y(x):
+        return (
+            175
+            - 62 * math.exp(-(((x - 445) / 70) ** 2))
+            - 26 * math.exp(-(((x - 190) / 55) ** 2))
+        )
+
+    def hw(x):
+        d = min(abs(x - o) for o in observed)
+        return min(9 + 0.16 * d, 46)
+
+    xs = [80 + i * (470 / 30) for i in range(31)]
+    upper = " ".join(f"{x:.0f},{mean_y(x) - hw(x):.0f}" for x in xs)
+    lower = " ".join(f"{x:.0f},{mean_y(x) + hw(x):.0f}" for x in reversed(xs))
+    body.append(
+        f'<polygon points="{upper} {lower}" fill="{ACCENT_SOFT}" opacity="0.7" stroke="none"/>'
+    )
+    body.append(
+        f'<polyline points="{" ".join(f"{x:.0f},{mean_y(x):.0f}" for x in xs)}" fill="none" stroke="{ACCENT}" stroke-width="2"/>'
+    )
+    for o in observed:
+        body.append(f'<circle cx="{o}" cy="{mean_y(o):.0f}" r="4.5" fill="{INK}"/>')
+    body.append(
+        f'<line x1="445" y1="70" x2="445" y2="250" stroke="{AMBER}" stroke-width="1.6" stroke-dasharray="4 3"/>'
+    )
+    body.append(
+        f'<text x="445" y="66" text-anchor="middle" font-family="{SANS}" font-size="10" font-weight="700" fill="{AMBER}">EXPLOIT</text>'
+    )
+    body.append(
+        f'<line x1="345" y1="70" x2="345" y2="250" stroke="{VIOLET}" stroke-width="1.6" stroke-dasharray="4 3"/>'
+    )
+    body.append(
+        f'<text x="345" y="66" text-anchor="middle" font-family="{SANS}" font-size="10" font-weight="700" fill="{VIOLET}">EXPLORE</text>'
+    )
+    body.append(
+        f'<text x="315" y="286" text-anchor="middle" font-family="{SANS}" font-size="9.5" fill="{MUTED}">design space to predicted value (band = uncertainty; dots = measured)</text>'
+    )
+    return write_svg(
+        "acquisition-explore-exploit.svg",
+        svg_doc(W, H, "Acquisition weighs predicted value against uncertainty", body),
+    )
+
+
+def fig_shortlist_to_throughput():
+    W, H = 680, 300
+    defs = arrow_marker(ACCENT, "arrow_stt")
+    body = [defs, eyebrow(24, 28, "SIZED TO THE WELLS, NOT THE MODEL")]
+    body.append(
+        f'<rect x="50" y="70" width="70" height="180" rx="4" fill="{ACCENT_SOFT}" stroke="{RULE_STRONG}"/>'
+    )
+    body.append(
+        f'<text x="85" y="62" text-anchor="middle" font-family="{SANS}" font-size="10" fill="{INK}">model output</text>'
+    )
+    body.append(
+        f'<text x="85" y="165" text-anchor="middle" font-family="{SANS}" font-size="9.5" fill="{MUTED}">~millions</text>'
+    )
+    body.append(
+        f'<text x="85" y="179" text-anchor="middle" font-family="{SANS}" font-size="9.5" fill="{MUTED}">scored</text>'
+    )
+    body.append(
+        f'<line x1="122" y1="160" x2="242" y2="130" stroke="{ACCENT}" stroke-width="1.6" marker-end="url(#arrow_stt)"/>'
+    )
+    shortlist = [
+        ("#1", 70, "fits pocket"),
+        ("#2", 58, "novel scaffold"),
+        ("#3", 44, "high-conf"),
+        ("#4", 30, "explore pick"),
+    ]
+    for i, (rank, blen, reason) in enumerate(shortlist):
+        ry = 78 + i * 44
+        body += node_box(250, ry, 60, 32, rank, font_size=11, weight=600)
+        body.append(
+            f'<rect x="320" y="{ry + 6}" width="{blen}" height="10" rx="2" fill="{ACCENT}"/>'
+        )
+        body.append(
+            f'<text x="{320 + blen + 8}" y="{ry + 24}" font-family="{SANS}" font-size="9.5" fill="{MUTED}">{reason}</text>'
+        )
+    body.append(
+        f'<line x1="470" y1="150" x2="540" y2="150" stroke="{ACCENT}" stroke-width="1.6" marker-end="url(#arrow_stt)"/>'
+    )
+    for r in range(4):
+        for c in range(3):
+            body.append(
+                f'<circle cx="{560 + c * 26}" cy="{95 + r * 30}" r="9" fill="none" stroke="{AMBER}" stroke-width="1.5"/>'
+            )
+    body.append(
+        f'<text x="586" y="235" text-anchor="middle" font-family="{SANS}" font-size="9.5" fill="{MUTED}">wet-lab capacity,</text>'
+    )
+    body.append(
+        f'<text x="586" y="249" text-anchor="middle" font-family="{SANS}" font-size="9.5" fill="{MUTED}">this round</text>'
+    )
+    return write_svg(
+        "shortlist-to-throughput.svg",
+        svg_doc(
+            W, H, "Deliver a ranked shortlist matched to the partner's throughput", body
+        ),
+    )
+
+
 FIGURES = (
+    fig_class_imbalance_base_rate,
+    fig_batch_effect_confounder,
+    fig_average_hides_subgroups,
+    fig_auroc_vs_auprc_imbalance,
+    fig_split_defines_question,
+    fig_leakage_inflates_score,
+    fig_calibration_reliability,
+    fig_benchmark_to_assay_shift,
+    fig_design_build_test_learn_cycle,
+    fig_acquisition_explore_exploit,
+    fig_shortlist_to_throughput,
     fig_two_lobes_meet,
     fig_fusion_strategies,
     fig_missing_modality_matrix,
