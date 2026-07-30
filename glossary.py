@@ -626,6 +626,38 @@ _TERMS: tuple[Term, ...] = (
         "Variant of uncertain significance (VUS)",
         "A variant observed in a patient that cannot be confidently classified as benign or pathogenic on current evidence. Well-calibrated variant-effect predictors are used as one line of evidence toward reclassifying such variants.",
     ),
+    Term(
+        "Multimodal fusion",
+        "The step where a model combines information from more than one modality; the main patterns are early fusion, late fusion, a shared latent space, and cross-attention.",
+    ),
+    Term(
+        "Early fusion",
+        "Joining the raw inputs from several modalities at the start so a single network learns over the combined input, as in a co-folder that folds a protein and its ligand together.",
+    ),
+    Term(
+        "Late fusion",
+        "Modeling each modality with its own separate model and combining only their outputs at the end; simple, but no modality can inform another.",
+    ),
+    Term(
+        "Shared latent space",
+        "A common embedding space into which modality-specific encoders each map their input, so related items from different modalities (a protein and its gene) land near each other and can be compared or combined.",
+    ),
+    Term(
+        "Cross-attention",
+        "The attention operation applied across modalities, letting one modality's representation attend to another's rather than only to positions within its own sequence.",
+    ),
+    Term(
+        "Contrastive alignment",
+        "Training on known cross-modal pairs so that matching items from two modalities are pulled together in a shared space and mismatched ones pushed apart; a common way to build a shared latent space.",
+    ),
+    Term(
+        "Paired data",
+        "Samples measured in more than one modality at once (for example, the same cells profiled for both expression and chromatin); the scarce resource that multimodal models most need and most lack.",
+    ),
+    Term(
+        "Missing-modality inference",
+        "Predicting or imputing the modalities a sample was not measured in, so a multimodal model can still run; reliable when modalities are redundant, silently wrong when the absent modality carried the needed signal.",
+    ),
 )
 
 

@@ -818,6 +818,74 @@ _QUIZZES: dict[str, tuple[Question, ...]] = {
             explanation="The documented failure (Huang et al. 2023; Sasse et al. 2023) is specifically the cross-gene versus inter-individual gap: strong accuracy at ranking genes coexists with poor prediction of how one person's genome differs from another's. The near-miss names a real concern, but the benchmarks isolate the cross-gene/inter-individual distinction as the core problem, independent of cell-line domain shift.",
         ),
     ),
+    "multimodal-integration": (
+        Question(
+            prompt="A rare noncoding variant sits 2 kb upstream of a disease gene. A protein language model scores the gene's protein as unaffected; a sequence-to-function model predicts a large drop in the gene's expression. What is the most defensible reading?",
+            options=(
+                "The variant likely acts through the regulatory lobe by lowering the gene's dose, a mechanism the protein-level view is structurally blind to",
+                "The protein model is the more reliable of the two here, so the variant is probably benign and the expression prediction is an artifact of batch effects",
+                "The disagreement means neither model can be trusted, and the variant's mechanism is unresolvable without commissioning an entirely new experimental assay",
+                "Because the variant is noncoding, both models are out of their domain, so the expression prediction should be discarded along with the protein score",
+            ),
+            answer=0,
+            explanation="A variant can act through either lobe, and a promoter or enhancer change that alters dose is exactly what a sequence-to-function model catches and what a protein-structure or protein-language model cannot see. The two models are not competing on one question; they answer different questions (is the protein broken? is the dose changed?), so their disagreement is complementary, not contradictory. Treating the protein view as the tiebreaker inverts which model is actually in-domain for a noncoding variant.",
+        ),
+        Question(
+            prompt="A colleague calls their pipeline multimodal because it runs AlphaFold3 for structure and a Perturb-seq model for expression, then averages the two confidence scores into one ranking. How should you characterize it?",
+            options=(
+                "A shared-latent-space model, because both scores are ultimately projected into one common ranking axis at the very end of the pipeline",
+                "Cross-attention fusion, since each model's output is used to reweight the other model's output before the final ranking is produced",
+                "Contrastive alignment, because matching high-confidence cases from the two separate models are pulled together in the final combined score",
+                "Late fusion, because the modalities are modeled separately and only their outputs are combined, so neither can inform the other",
+            ),
+            answer=3,
+            explanation="Combining independent per-modality outputs at the end is late fusion, and its defining weakness is that no modality ever conditions on another. The tempting near-miss is a shared latent space, but a shared latent space combines representations mid-network so modalities constrain each other, whereas averaging final scores combines only outputs. The distinction matters because the interesting multimodal claim is precisely the one late fusion cannot make.",
+        ),
+        Question(
+            prompt="Evo 2 is described as spanning DNA, RNA, and protein in one stream. What does this most accurately mean?",
+            options=(
+                "It is a single DNA model, and because coding and regulatory sequence live in DNA, it learns RNA and protein features from nucleotides alone without a separate fusion step",
+                "It ingests three distinct input types, a DNA track, an RNA-seq matrix, and a protein structure, and fuses them together with cross-attention layers",
+                "It runs three specialized sub-models, one per molecule type, and routes each incoming input to whichever expert module matches it",
+                "It tokenizes proteins and RNA into their own separate alphabets and interleaves all three token types together in one shared context window",
+            ),
+            answer=0,
+            explanation="Evo 2 has one token type, nucleotides, and its span across the central dogma comes from the fact that DNA already contains the coding regions that become proteins and the regulatory regions that set expression, so features of all three emerge from sequence alone. The subtlety the distractors exploit is that spanning DNA, RNA, and protein does not mean reading a structure or an expression matrix; it reads only sequence, which is both the elegance and the ceiling of the approach.",
+        ),
+        Question(
+            prompt="On a standard pose-prediction benchmark, a co-folding model beats classical docking. Your team wants to use it on a target family absent from the PDB. What is the best-calibrated expectation?",
+            options=(
+                "Accuracy may drop and some predicted poses may be physically invalid, because much of the benchmark performance reflects recall of training-like complexes rather than generalization",
+                "The benchmark win should transfer almost directly, since co-folding models learn the underlying physics of binding rather than memorizing any specific complexes",
+                "Performance will be essentially identical to docking, since both methods rely on the same rigid-receptor assumption regardless of the particular target family",
+                "The model will simply refuse to predict for the unseen family, because co-folders are calibrated to abstain whenever they fall outside their training distribution",
+            ),
+            answer=0,
+            explanation="Audits find co-folding models lean heavily on memorized, training-similar poses and can emit stereochemically or geometrically invalid structures, so a leaderboard win does not license trust on a novel target. The second-layer detail is that co-folders actually relax the rigid-receptor assumption docking made, folding pocket and ligand jointly, so the honest read is real capability with weak out-of-distribution generalization, not no better than docking.",
+        ),
+        Question(
+            prompt="Why is paired data the central bottleneck for models that fuse modalities, rather than model capacity?",
+            options=(
+                "Because assays consume the sample and run on different platforms, so the count of samples measured in every modality at once is tiny next to the count measured in any single one",
+                "Because paired samples are computationally expensive to store, so training sets end up capped by available disk space rather than by the underlying biology",
+                "Because paired measurements are inherently noisier than single-modality ones, so adding modalities lowers the usable signal faster than it adds information",
+                "Because regulators require paired validation before publication, so most labs deliberately avoid generating fully paired datasets for compliance reasons",
+            ),
+            answer=0,
+            explanation="Multimodal training most wants samples seen in every modality simultaneously, but each assay is destructive and platform-specific, so the fully paired corner of the samples-by-modalities matrix is the sparsest region there is. The consequence is that integration models must transfer from abundant single-modality data or impute the missing modalities, and missing-modality inference fails silently exactly when the absent modality carried the signal. The bottleneck is how the data is generated, not network size.",
+        ),
+        Question(
+            prompt="A reviewer claims a new system is the unified virtual cell, one model reasoning over genome, protein structure, and cell state together. Based on the current state of the field, what is the most accurate response?",
+            options=(
+                "Overstated: today's systems are each unimodal-plus (a co-folder, a sequence model, a perturbation map), and none carries all three in one shared representation yet",
+                "Correct, since a State model combined with AlphaFold3 already shares a single common latent representation spanning all three of those modalities",
+                "Correct in principle, because Evo 2's central-dogma span already encodes 3D structure and cell state implicitly from the DNA sequence it reads",
+                "Overstated only about cell state, since genome and protein structure have in fact already been unified together inside a single shipped model",
+            ),
+            answer=0,
+            explanation="The current multimodal systems each extend one modality rather than fuse all of them: a structure model that accepts ligands, a DNA model that spans the dogma, a perturbation-to-expression map, and no shipping model holds genome, protein structure, and cell state in one shared representation. The tempting distractor invokes Evo 2, but spanning the dogma from DNA is not the same as ingesting 3D structure or an expression matrix. The unified cell is an organizing aspiration, not a runnable product.",
+        ),
+    ),
 }
 
 

@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 360" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" role="img" aria-label="Three ways to fuse modalities into one input">
+<defs><marker id="arrow_fs" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#274b6d"/></marker></defs>
+<text x="250.0" y="58.0" font-size="11" font-weight="700" fill="#6a6d73" letter-spacing="1">JOINT CO-FOLDING · EARLY FUSION</text>
+<rect x="250.0" y="70.0" width="200.0" height="44.0" rx="6" fill="#eaf0f6" stroke="#cfcdc4"/>
+<text x="350.0" y="95.3" font-size="9.5" font-weight="600" text-anchor="middle" fill="#17181b">one network (AF3 / Boltz / Chai)</text>
+<rect x="490.0" y="70.0" width="160.0" height="44.0" rx="6" fill="#ffffff" stroke="#cfcdc4"/>
+<text x="570.0" y="95.3" font-size="9.5" font-weight="400" text-anchor="middle" fill="#17181b">bound complex</text>
+<rect x="40.0" y="50.0" width="80.0" height="22.0" rx="6" fill="#ffffff" stroke="#cfcdc4"/>
+<text x="80.0" y="64.5" font-size="10" font-weight="400" text-anchor="middle" fill="#17181b">protein</text>
+<rect x="40.0" y="78.0" width="80.0" height="22.0" rx="6" fill="#ffffff" stroke="#cfcdc4"/>
+<text x="80.0" y="92.5" font-size="10" font-weight="400" text-anchor="middle" fill="#17181b">ligand</text>
+<rect x="40.0" y="106.0" width="80.0" height="22.0" rx="6" fill="#ffffff" stroke="#cfcdc4"/>
+<text x="80.0" y="120.5" font-size="10" font-weight="400" text-anchor="middle" fill="#17181b">ion</text>
+<line x1="124" y1="92" x2="248" y2="92" stroke="#274b6d" stroke-width="1.8" marker-end="url(#arrow_fs)"/>
+<line x1="452" y1="92" x2="488" y2="92" stroke="#274b6d" stroke-width="1.8" marker-end="url(#arrow_fs)"/>
+<text x="250.0" y="163.0" font-size="11" font-weight="700" fill="#6a6d73" letter-spacing="1">UNIFIED STREAM · ONE ALPHABET</text>
+<rect x="250.0" y="175.0" width="200.0" height="44.0" rx="6" fill="#eaf0f6" stroke="#cfcdc4"/>
+<text x="350.0" y="200.3" font-size="9.5" font-weight="600" text-anchor="middle" fill="#17181b">one DNA model (Evo 2)</text>
+<rect x="490.0" y="175.0" width="160.0" height="44.0" rx="6" fill="#ffffff" stroke="#cfcdc4"/>
+<text x="570.0" y="200.3" font-size="9.5" font-weight="400" text-anchor="middle" fill="#17181b">DNA / RNA / protein features</text>
+<rect x="40.0" y="175.0" width="110.0" height="44.0" rx="6" fill="#ffffff" stroke="#cfcdc4"/>
+<text x="95.0" y="200.5" font-size="10" font-weight="400" text-anchor="middle" fill="#17181b">DNA</text>
+<line x1="152" y1="197" x2="248" y2="197" stroke="#274b6d" stroke-width="1.8" marker-end="url(#arrow_fs)"/>
+<line x1="452" y1="197" x2="488" y2="197" stroke="#274b6d" stroke-width="1.8" marker-end="url(#arrow_fs)"/>
+<text x="250.0" y="268.0" font-size="11" font-weight="700" fill="#6a6d73" letter-spacing="1">CROSS-MODAL MAP · TRANSLATE</text>
+<rect x="250.0" y="280.0" width="200.0" height="44.0" rx="6" fill="#eaf0f6" stroke="#cfcdc4"/>
+<text x="350.0" y="305.3" font-size="9.5" font-weight="600" text-anchor="middle" fill="#17181b">encoder to decoder (GEARS / State)</text>
+<rect x="490.0" y="280.0" width="160.0" height="44.0" rx="6" fill="#ffffff" stroke="#cfcdc4"/>
+<text x="570.0" y="305.3" font-size="9.5" font-weight="400" text-anchor="middle" fill="#17181b">expression shift</text>
+<rect x="40.0" y="280.0" width="110.0" height="44.0" rx="6" fill="#ffffff" stroke="#cfcdc4"/>
+<text x="95.0" y="305.5" font-size="10" font-weight="400" text-anchor="middle" fill="#17181b">perturbation</text>
+<line x1="152" y1="302" x2="248" y2="302" stroke="#274b6d" stroke-width="1.8" marker-end="url(#arrow_fs)"/>
+<line x1="452" y1="302" x2="488" y2="302" stroke="#274b6d" stroke-width="1.8" marker-end="url(#arrow_fs)"/>
+</svg>

@@ -2487,7 +2487,187 @@ def fig_coding_vs_noncoding_solved():
     return write_svg("coding-vs-noncoding-solved.svg", svg)
 
 
+def fig_two_lobes_meet():
+    W, H = 640, 300
+    defs = arrow_marker(ACCENT, "arrow_tlm")
+    body = [defs]
+    body.append(eyebrow(24, 28, "ONE VARIANT, TWO POSSIBLE LOBES"))
+    # The variant chip at top center.
+    body += node_box(
+        285,
+        40,
+        70,
+        32,
+        "variant",
+        font_size=11,
+        fill="#ffffff",
+        stroke=AMBER,
+        weight=600,
+    )
+    # The two lobes.
+    body += node_box(
+        30, 95, 220, 56, "molecular lobe", font_size=13, weight=600, fill=ACCENT_SOFT
+    )
+    body += node_box(
+        390, 95, 220, 56, "genomic lobe", font_size=13, weight=600, fill=ACCENT_SOFT
+    )
+    for cx, l1, l2 in [
+        (140, "protein sequence to structure", "does the protein still work?"),
+        (500, "DNA window to expression", "how much protein is made?"),
+    ]:
+        body.append(
+            f'<text x="{cx}" y="171" text-anchor="middle" font-family="{SANS}" font-size="10" fill="{MUTED}">{l1}</text>'
+        )
+        body.append(
+            f'<text x="{cx}" y="186" text-anchor="middle" font-family="{SANS}" font-size="10" fill="{MUTED}">{l2}</text>'
+        )
+    # Variant to each lobe.
+    body.append(
+        f'<line x1="305" y1="70" x2="160" y2="93" stroke="{ACCENT}" stroke-width="1.6" marker-end="url(#arrow_tlm)"/>'
+    )
+    body.append(
+        f'<line x1="335" y1="70" x2="480" y2="93" stroke="{ACCENT}" stroke-width="1.6" marker-end="url(#arrow_tlm)"/>'
+    )
+    # The integrated model at the bottom.
+    body += node_box(
+        240,
+        232,
+        160,
+        44,
+        "integrated model",
+        font_size=12,
+        weight=600,
+        fill=ACCENT_SOFT,
+        stroke=ACCENT,
+    )
+    body.append(
+        f'<line x1="232" y1="151" x2="270" y2="230" stroke="{ACCENT}" stroke-width="1.6" marker-end="url(#arrow_tlm)"/>'
+    )
+    body.append(
+        f'<line x1="408" y1="151" x2="370" y2="230" stroke="{ACCENT}" stroke-width="1.6" marker-end="url(#arrow_tlm)"/>'
+    )
+    svg = svg_doc(
+        W,
+        H,
+        "One variant can act through either lobe, so integration localizes the mechanism",
+        body,
+    )
+    return write_svg("two-lobes-meet.svg", svg)
+
+
+def fig_fusion_strategies():
+    W, H = 680, 360
+    defs = arrow_marker(ACCENT, "arrow_fs")
+    body = [defs]
+    rows = [
+        (
+            70,
+            "JOINT CO-FOLDING · EARLY FUSION",
+            "one network (AF3 / Boltz / Chai)",
+            "bound complex",
+            [("protein", 50), ("ligand", 78), ("ion", 106)],
+        ),
+        (
+            175,
+            "UNIFIED STREAM · ONE ALPHABET",
+            "one DNA model (Evo 2)",
+            "DNA / RNA / protein features",
+            [("DNA", 175)],
+        ),
+        (
+            280,
+            "CROSS-MODAL MAP · TRANSLATE",
+            "encoder to decoder (GEARS / State)",
+            "expression shift",
+            [("perturbation", 280)],
+        ),
+    ]
+    for cy, head, center, out, inputs in rows:
+        body.append(eyebrow(250, cy - 12, head))
+        body += node_box(
+            250, cy, 200, 44, center, font_size=9.5, weight=600, fill=ACCENT_SOFT
+        )
+        body += node_box(490, cy, 160, 44, out, font_size=9.5, fill="#ffffff")
+        if len(inputs) == 1:
+            label, iy = inputs[0]
+            body += node_box(40, cy, 110, 44, label, font_size=10)
+            body.append(
+                f'<line x1="152" y1="{cy + 22}" x2="248" y2="{cy + 22}" stroke="{ACCENT}" stroke-width="1.8" marker-end="url(#arrow_fs)"/>'
+            )
+        else:
+            for label, iy in inputs:
+                body += node_box(40, iy, 80, 22, label, font_size=10)
+            body.append(
+                f'<line x1="124" y1="{cy + 22}" x2="248" y2="{cy + 22}" stroke="{ACCENT}" stroke-width="1.8" marker-end="url(#arrow_fs)"/>'
+            )
+        body.append(
+            f'<line x1="452" y1="{cy + 22}" x2="488" y2="{cy + 22}" stroke="{ACCENT}" stroke-width="1.8" marker-end="url(#arrow_fs)"/>'
+        )
+    svg = svg_doc(W, H, "Three ways to fuse modalities into one input", body)
+    return write_svg("fusion-strategies.svg", svg)
+
+
+def fig_missing_modality_matrix():
+    W, H = 680, 320
+    body = [eyebrow(24, 28, "ALMOST NO SAMPLE IS MEASURED EVERY WAY")]
+    cols = ["DNA", "expression", "structure", "perturbation"]
+    matrix = [
+        [1, 1, 1, 1],
+        [1, 1, 0, 0],
+        [1, 1, 0, 0],
+        [1, 0, 0, 0],
+        [1, 1, 1, 1],
+        [1, 1, 0, 0],
+        [1, 0, 0, 1],
+        [1, 1, 0, 0],
+    ]
+    gx, gy, cw, ch, gap = 180, 78, 90, 26, 4
+    for j, name in enumerate(cols):
+        body.append(
+            f'<text x="{gx + j * (cw + gap) + cw / 2:.0f}" y="70" text-anchor="middle" font-family="{SANS}" font-size="10" fill="{INK_SOFT}">{name}</text>'
+        )
+    for i, row in enumerate(matrix):
+        ry = gy + i * (ch + gap)
+        for j, filled in enumerate(row):
+            cxx = gx + j * (cw + gap)
+            if filled:
+                body.append(
+                    f'<rect x="{cxx}" y="{ry}" width="{cw}" height="{ch}" rx="3" fill="{ACCENT}"/>'
+                )
+            else:
+                body.append(
+                    f'<rect x="{cxx}" y="{ry}" width="{cw}" height="{ch}" rx="3" fill="{PAPER}" stroke="{RULE}"/>'
+                )
+        if all(row):
+            body.append(
+                f'<rect x="{gx - 3}" y="{ry - 3}" width="{4 * (cw + gap) - gap + 6}" height="{ch + 6}" rx="4" fill="none" stroke="{AMBER}" stroke-width="1.8"/>'
+            )
+            body.append(
+                f'<text x="{gx + 4 * (cw + gap) + 6:.0f}" y="{ry + 17}" font-family="{SANS}" font-size="9.5" fill="{AMBER}">fully paired (rare)</text>'
+            )
+    ly = gy + len(matrix) * (ch + gap) + 16
+    body.append(
+        f'<rect x="{gx}" y="{ly - 10}" width="14" height="12" rx="2" fill="{ACCENT}"/>'
+    )
+    body.append(
+        f'<text x="{gx + 20}" y="{ly}" font-family="{SANS}" font-size="10" fill="{MUTED}">measured</text>'
+    )
+    body.append(
+        f'<rect x="{gx + 100}" y="{ly - 10}" width="14" height="12" rx="2" fill="{PAPER}" stroke="{RULE}"/>'
+    )
+    body.append(
+        f'<text x="{gx + 120}" y="{ly}" font-family="{SANS}" font-size="10" fill="{MUTED}">not measured · rows are samples</text>'
+    )
+    svg = svg_doc(
+        W, H, "A samples-by-modalities matrix with a tiny fully paired subset", body
+    )
+    return write_svg("missing-modality-matrix.svg", svg)
+
+
 FIGURES = (
+    fig_two_lobes_meet,
+    fig_fusion_strategies,
+    fig_missing_modality_matrix,
     fig_sequence_to_function_map,
     fig_supervised_vs_selfsupervised,
     fig_context_resolution,

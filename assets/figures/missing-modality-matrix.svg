@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 320" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" role="img" aria-label="A samples-by-modalities matrix with a tiny fully paired subset">
+<text x="24.0" y="28.0" font-size="11" font-weight="700" fill="#6a6d73" letter-spacing="1">ALMOST NO SAMPLE IS MEASURED EVERY WAY</text>
+<text x="225" y="70" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" fill="#3b3d42">DNA</text>
+<text x="319" y="70" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" fill="#3b3d42">expression</text>
+<text x="413" y="70" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" fill="#3b3d42">structure</text>
+<text x="507" y="70" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" fill="#3b3d42">perturbation</text>
+<rect x="180" y="78" width="90" height="26" rx="3" fill="#274b6d"/>
+<rect x="274" y="78" width="90" height="26" rx="3" fill="#274b6d"/>
+<rect x="368" y="78" width="90" height="26" rx="3" fill="#274b6d"/>
+<rect x="462" y="78" width="90" height="26" rx="3" fill="#274b6d"/>
+<rect x="177" y="75" width="378" height="32" rx="4" fill="none" stroke="#9c6b12" stroke-width="1.8"/>
+<text x="562" y="95" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="9.5" fill="#9c6b12">fully paired (rare)</text>
+<rect x="180" y="108" width="90" height="26" rx="3" fill="#274b6d"/>
+<rect x="274" y="108" width="90" height="26" rx="3" fill="#274b6d"/>
+<rect x="368" y="108" width="90" height="26" rx="3" fill="#f4f3ee" stroke="#e4e3dd"/>
+<rect x="462" y="108" width="90" height="26" rx="3" fill="#f4f3ee" stroke="#e4e3dd"/>
+<rect x="180" y="138" width="90" height="26" rx="3" fill="#274b6d"/>
+<rect x="274" y="138" width="90" height="26" rx="3" fill="#274b6d"/>
+<rect x="368" y="138" width="90" height="26" rx="3" fill="#f4f3ee" stroke="#e4e3dd"/>
+<rect x="462" y="138" width="90" height="26" rx="3" fill="#f4f3ee" stroke="#e4e3dd"/>
+<rect x="180" y="168" width="90" height="26" rx="3" fill="#274b6d"/>
+<rect x="274" y="168" width="90" height="26" rx="3" fill="#f4f3ee" stroke="#e4e3dd"/>
+<rect x="368" y="168" width="90" height="26" rx="3" fill="#f4f3ee" stroke="#e4e3dd"/>
+<rect x="462" y="168" width="90" height="26" rx="3" fill="#f4f3ee" stroke="#e4e3dd"/>
+<rect x="180" y="198" width="90" height="26" rx="3" fill="#274b6d"/>
+<rect x="274" y="198" width="90" height="26" rx="3" fill="#274b6d"/>
+<rect x="368" y="198" width="90" height="26" rx="3" fill="#274b6d"/>
+<rect x="462" y="198" width="90" height="26" rx="3" fill="#274b6d"/>
+<rect x="177" y="195" width="378" height="32" rx="4" fill="none" stroke="#9c6b12" stroke-width="1.8"/>
+<text x="562" y="215" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="9.5" fill="#9c6b12">fully paired (rare)</text>
+<rect x="180" y="228" width="90" height="26" rx="3" fill="#274b6d"/>
+<rect x="274" y="228" width="90" height="26" rx="3" fill="#274b6d"/>
+<rect x="368" y="228" width="90" height="26" rx="3" fill="#f4f3ee" stroke="#e4e3dd"/>
+<rect x="462" y="228" width="90" height="26" rx="3" fill="#f4f3ee" stroke="#e4e3dd"/>
+<rect x="180" y="258" width="90" height="26" rx="3" fill="#274b6d"/>
+<rect x="274" y="258" width="90" height="26" rx="3" fill="#f4f3ee" stroke="#e4e3dd"/>
+<rect x="368" y="258" width="90" height="26" rx="3" fill="#f4f3ee" stroke="#e4e3dd"/>
+<rect x="462" y="258" width="90" height="26" rx="3" fill="#274b6d"/>
+<rect x="180" y="288" width="90" height="26" rx="3" fill="#274b6d"/>
+<rect x="274" y="288" width="90" height="26" rx="3" fill="#274b6d"/>
+<rect x="368" y="288" width="90" height="26" rx="3" fill="#f4f3ee" stroke="#e4e3dd"/>
+<rect x="462" y="288" width="90" height="26" rx="3" fill="#f4f3ee" stroke="#e4e3dd"/>
+<rect x="180" y="324" width="14" height="12" rx="2" fill="#274b6d"/>
+<text x="200" y="334" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" fill="#6a6d73">measured</text>
+<rect x="280" y="324" width="14" height="12" rx="2" fill="#f4f3ee" stroke="#e4e3dd"/>
+<text x="300" y="334" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" fill="#6a6d73">not measured · rows are samples</text>
+</svg>
