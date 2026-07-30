@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 250" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" role="img" aria-label="Coding versus noncoding variants route to different models">
+<defs><marker id="arrow_v2r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#274b6d"/></marker></defs>
+<line x1="150" y1="70" x2="300" y2="70" stroke="#cfcdc4" stroke-width="1.4" stroke-dasharray="3 3"/>
+<rect x="50.0" y="58.0" width="100.0" height="26.0" rx="6" fill="#eaf0f6" stroke="#cfcdc4"/>
+<text x="100.0" y="74.5" font-size="10" font-weight="400" text-anchor="middle" fill="#17181b">Enhancer</text>
+<rect x="300" y="58" width="40" height="26" rx="2" fill="#274b6d"/>
+<rect x="360" y="58" width="40" height="26" rx="2" fill="#274b6d"/>
+<rect x="420" y="58" width="40" height="26" rx="2" fill="#274b6d"/>
+<line x1="340" y1="71" x2="360" y2="71" stroke="#3b3d42" stroke-width="1.4"/>
+<line x1="400" y1="71" x2="420" y2="71" stroke="#3b3d42" stroke-width="1.4"/>
+<line x1="100" y1="56" x2="100" y2="40" stroke="#b04a3f" stroke-width="1.6"/>
+<circle cx="100" cy="36" r="4" fill="#b04a3f"/>
+<text x="100" y="28" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="9.5" fill="#3b3d42">regulatory · common, small effect</text>
+<line x1="380" y1="56" x2="380" y2="40" stroke="#b04a3f" stroke-width="1.6"/>
+<circle cx="380" cy="36" r="4" fill="#b04a3f"/>
+<text x="380" y="28" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="9.5" fill="#3b3d42">missense · rare, large effect</text>
+<line x1="100" y1="84" x2="100" y2="126" stroke="#274b6d" stroke-width="1.6" marker-end="url(#arrow_v2r)"/>
+<rect x="10.0" y="128.0" width="180.0" height="44.0" rx="6" fill="#ffffff" stroke="#cfcdc4"/>
+<text x="100.0" y="153.5" font-size="10" font-weight="400" text-anchor="middle" fill="#17181b">Does it change the gene's dose?</text>
+<line x1="100" y1="172" x2="100" y2="196" stroke="#274b6d" stroke-width="1.6" marker-end="url(#arrow_v2r)"/>
+<rect x="10.0" y="198.0" width="180.0" height="34.0" rx="6" fill="#eaf0f6" stroke="#cfcdc4"/>
+<text x="100.0" y="218.3" font-size="9.5" font-weight="600" text-anchor="middle" fill="#17181b">Noncoding / sequence-to-function</text>
+<line x1="380" y1="84" x2="380" y2="126" stroke="#274b6d" stroke-width="1.6" marker-end="url(#arrow_v2r)"/>
+<rect x="290.0" y="128.0" width="180.0" height="44.0" rx="6" fill="#ffffff" stroke="#cfcdc4"/>
+<text x="380.0" y="153.5" font-size="10" font-weight="400" text-anchor="middle" fill="#17181b">Does it break the protein?</text>
+<line x1="380" y1="172" x2="380" y2="196" stroke="#274b6d" stroke-width="1.6" marker-end="url(#arrow_v2r)"/>
+<rect x="290.0" y="198.0" width="180.0" height="34.0" rx="6" fill="#eaf0f6" stroke="#cfcdc4"/>
+<text x="380.0" y="218.3" font-size="9.5" font-weight="600" text-anchor="middle" fill="#17181b">Coding / missense predictors</text>
+</svg>
