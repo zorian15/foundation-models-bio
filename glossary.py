@@ -774,6 +774,18 @@ _TERMS: tuple[Term, ...] = (
         "Batched acquisition",
         "Selecting a diverse set of experiments to run in parallel in one round rather than the single best candidate, matching the plate-at-a-time reality of wet labs; it penalizes candidates that resemble ones already chosen for the batch to avoid a redundant plate.",
     ),
+    Term(
+        "AI virtual cell (AIVC)",
+        "The field's aspirational goal of a multi-scale, multi-modal model that represents a cell's state and predicts its response to arbitrary perturbations across molecules, cells, and tissues. No single current model realizes it; today's systems each fuse only two or three modalities for one task.",
+    ),
+    Term(
+        "In-silico experiment",
+        "Running an assay inside a computational model instead of at the bench, for example screening perturbations against a virtual cell. It reorders which candidates reach the lab rather than removing the need to validate them there.",
+    ),
+    Term(
+        "Self-driving lab",
+        "A closed design-build-test-learn loop in which a model proposes experiments, robotics execute them, and the results retrain the model with no human in each cycle. The automation targets throughput of the loop, not the elimination of physical validation.",
+    ),
 )
 
 

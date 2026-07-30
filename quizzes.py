@@ -1057,6 +1057,63 @@ _QUIZZES: dict[str, tuple[Question, ...]] = {
             explanation="On-distribution labels are worth more per point than off-distribution ones, because the generative model and the surrogate are being pushed into a region public data barely covers. This is the flywheel that makes the loop compound. But wet-lab noise and small batch sizes cap how fast it spins, so any single round teaches less than its raw label count suggests.",
         ),
     ),
+    "outlook": (
+        Question(
+            prompt="A 2026 preprint calls its model a virtual cell and reports strong accuracy predicting held-out perturbations. Based on this book's framing, what is the sharpest thing to check before believing the label?",
+            options=(
+                "Whether the held-out perturbations were in cell types absent from training, since in-distribution and cross-cell-type prediction are different problems and the label implies the harder one",
+                "Whether the model was trained on Perturb-seq rather than bulk RNA-seq, since only single-cell readouts can support a virtual-cell claim in the first place",
+                "Whether the model uses cross-attention rather than late fusion, since only genuine cross-attention should count as true multimodal integration here",
+                "Whether the parameter count exceeds that of the largest DNA language models, since raw scale is what distinguishes a virtual cell from an ordinary perturbation model",
+            ),
+            answer=0,
+            explanation="The gap between a demo and the vision is cross-context extrapolation, so the load-bearing question is what was held out. A model can nail a held-out perturbation within a screened cell line while failing on a new cell type, which is exactly the arbitrary-perturbation, arbitrary-context prediction the virtual-cell name promises. The distractors name real distinctions (readout type, fusion mechanism, scale) but none is what separates the impressive in-distribution result from the aspirational claim.",
+        ),
+        Question(
+            prompt="Structure prediction largely fell out of scaling protein-sequence models. Why is it a mistake to assume a general virtual cell will similarly fall out of scaling perturbation atlases?",
+            options=(
+                "Because perturbation data is single-cell and noisier than sequence data, so more of it mostly adds count noise rather than usable training signal",
+                "Because a cell's response to an unseen perturbation in an unscreened context is a causal counterfactual, and densely observing the perturbations you did run does not guarantee the ones you did not",
+                "Because protein structure has a public ground-truth database while perturbation responses have none, so there is nothing to scale a model against",
+                "Because transcriptomes lack any deterministic mapping from input to output, so no model can fit them at any scale no matter how much data is collected",
+            ),
+            answer=1,
+            explanation="Folding scaled because a fold is a near-deterministic function of sequence that the Protein Data Bank samples densely, so coverage buys the function. Predicting a novel perturbation in a new cell type is extrapolation to a counterfactual the data never sampled, and scale buys coverage of the sampled space, not extrapolation beyond it. The last option overstates the case: transcriptomes are noisy and context-dependent but not unlearnable, and perturbation atlases do exist.",
+        ),
+        Question(
+            prompt="Which pairing correctly sorts a near-term item from an aspirational one?",
+            options=(
+                "Near-term: replacing wet-lab validation with in-silico assays. Aspirational: better co-folding of protein-ligand complexes over the next few years",
+                "Near-term: predicting an arbitrary person's variant effect on their own expression. Aspirational: growing steadily larger perturbation atlases",
+                "Near-term: larger perturbation atlases that rank what to screen next. Aspirational: a general virtual cell predicting arbitrary perturbations across cell types",
+                "Near-term: one model carrying genome, structure, and cell state in a shared representation. Aspirational: routine variant scoring as a line of clinical evidence",
+            ),
+            answer=2,
+            explanation="The near-term list is the straight-line extension of what already works: better design, bigger atlases, faster loops, variant scoring as one input among several. The aspirational list is the causal, in-vivo, and personal problems. The other options each invert the sort by putting an aspirational item (replacing the bench, personal-genome prediction, one unified shared-representation model) on the near-term side, or demoting a shipping capability to aspirational.",
+        ),
+        Question(
+            prompt="What is the most defensible reading of the claim that in-silico experiments will replace wet-lab validation?",
+            options=(
+                "It is imminent for property prediction but not for structure, since predicted properties are already trusted and acted on without any confirmatory assay",
+                "It becomes correct as soon as a model beats experimental reproducibility, which several perturbation models already do on standard pseudobulk benchmarks today",
+                "It is close to a category error, because the models are trained and judged against wet-lab data, so replacing the bench presupposes the bench that would validate the replacement",
+                "It is achievable specifically for variant effects, where large population databases can substitute for functional assays entirely and end the need for experiments",
+            ),
+            answer=2,
+            explanation="The models' ground truth is wet-lab measurement, so a model trustworthy enough to retire the bench would first have to be validated by the very bench it retires, which is circular. The realistic near-term value is triage: turning an intractable search into an enriched shortlist so the bench spends its budget better. The reproducibility-parity option misreads a pseudobulk correlation as reproducibility, and the others overstate how far any single task has actually displaced experiment.",
+        ),
+        Question(
+            prompt="The book closes by saying foundation models moved the bottleneck. Moved it from what to what?",
+            options=(
+                "From proposing candidate biology, which is now cheap and fast, to testing and validating those proposals well in the right system",
+                "From slow model training to slow inference, since biological foundation models are now expensive to query at whole-genome scale in production",
+                "From a shortage of sequence data to a shortage of labeled structures, which has now become the single binding constraint on further progress",
+                "From wet-lab experiments, which these models now largely replace, to computational infrastructure and the availability of enough GPUs to run them",
+            ),
+            answer=0,
+            explanation="Generating good hypotheses (a target, a fold, a variant that might matter) used to be the slow, expensive step; models made proposing cheap and relocated the hard part to validation, honest evaluation, and choosing the right experimental system. That reframes the practitioner's job as bridging biology and ML with evaluation that measures the real question. The inference-cost and GPU options name real engineering concerns but not the conceptual shift, and the data-economics option describes a problem that predates foundation models.",
+        ),
+    ),
 }
 
 

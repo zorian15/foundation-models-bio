@@ -1310,6 +1310,25 @@ _ENTRIES: tuple[Reference, ...] = (
         arxiv="",
         url="https://doi.org/10.1109/JPROC.2015.2494218",
     ),
+    Reference(
+        key="bunne2024",
+        authors=(
+            "Bunne, C.",
+            "Roohani, Y.",
+            "Rosen, Y.",
+            "Gupta, A.",
+            "Zhang, X.",
+            "Roed, M.",
+            "Alexandrov, T.",
+            "AlQuraishi, M.",
+        ),
+        truncated=True,
+        year=2024,
+        title="How to build the virtual cell with artificial intelligence: Priorities and opportunities",
+        venue="Cell",
+        arxiv="",
+        url="https://doi.org/10.1016/j.cell.2024.11.015",
+    ),
 )
 
 

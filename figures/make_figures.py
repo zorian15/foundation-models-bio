@@ -3171,7 +3171,117 @@ def fig_shortlist_to_throughput():
     )
 
 
+def fig_virtual_cell_vision_vs_today():
+    W, H = 720, 320
+    defs = arrow_marker(ACCENT, "arrow_vc")
+    body = [defs]
+    body.append(
+        f'<line x1="360" y1="50" x2="360" y2="290" stroke="{RULE}" stroke-width="1"/>'
+    )
+    # The vision: one model.
+    body.append(eyebrow(30, 34, "THE VISION"))
+    body.append(
+        f'<text x="160" y="90" text-anchor="middle" font-family="{SANS}" font-size="10" fill="{MUTED}">any cell state + any perturbation</text>'
+    )
+    body.append(
+        f'<line x1="160" y1="96" x2="160" y2="116" stroke="{ACCENT}" stroke-width="1.8" marker-end="url(#arrow_vc)"/>'
+    )
+    body += node_box(
+        40,
+        120,
+        240,
+        56,
+        "The virtual cell",
+        font_size=13,
+        weight=600,
+        fill=ACCENT_SOFT,
+        stroke=ACCENT,
+    )
+    body.append(
+        f'<line x1="160" y1="176" x2="160" y2="196" stroke="{ACCENT}" stroke-width="1.8" marker-end="url(#arrow_vc)"/>'
+    )
+    body.append(
+        f'<text x="160" y="214" text-anchor="middle" font-family="{SANS}" font-size="10" fill="{MUTED}">predicted multi-modal response</text>'
+    )
+    # Today: three narrow models.
+    body.append(eyebrow(410, 34, "TODAY"))
+    today = [
+        (70, "Co-folder", "structure + ligand, one complex"),
+        (140, "DNA model (Evo 2)", "spans the central dogma, from sequence"),
+        (210, "Perturbation model (State)", "perturbation to expression shift"),
+    ]
+    for y, label, detail in today:
+        body += node_box(420, y, 250, 34, label, font_size=11, weight=600)
+        body.append(
+            f'<text x="545" y="{y + 50}" text-anchor="middle" font-family="{SANS}" font-size="9.5" fill="{MUTED}">{detail}</text>'
+        )
+    body.append(
+        f'<text x="545" y="292" text-anchor="middle" font-family="{SANS}" font-size="9.5" fill="{BRICK}">no shared weights among the three</text>'
+    )
+    return write_svg(
+        "virtual-cell-vision-vs-today.svg",
+        svg_doc(W, H, "One model in the vision, three narrow ones in practice", body),
+    )
+
+
+def fig_imminent_vs_aspirational():
+    W, H = 800, 340
+    defs = arrow_marker(INK_SOFT, "arrow_iva")
+    body = [defs, eyebrow(24, 28, "NEAR TERM VERSUS FAR TERM IS A KIND OF PROBLEM")]
+    axis_y = 180
+    body.append(
+        f'<line x1="40" y1="{axis_y}" x2="760" y2="{axis_y}" stroke="{INK_SOFT}" stroke-width="2" marker-start="url(#arrow_iva)" marker-end="url(#arrow_iva)"/>'
+    )
+    body.append(
+        f'<text x="40" y="166" font-family="{SANS}" font-size="11" font-weight="700" fill="{ACCENT}">IMMINENT · plausible</text>'
+    )
+    body.append(
+        f'<text x="760" y="166" text-anchor="end" font-family="{SANS}" font-size="11" font-weight="700" fill="{BRICK}">ASPIRATIONAL · uncertain</text>'
+    )
+    chips = [
+        (115, "above", "Better co-folding &amp; design"),
+        (305, "above", "Variant scoring (one line)"),
+        (515, "above", "General virtual cell"),
+        (690, "above", "Personal-genome prediction"),
+        (115, "below", "Larger perturbation atlases"),
+        (305, "below", "Faster DBTL loops"),
+        (515, "below", "Replace wet-lab validation"),
+    ]
+    cw = 175
+    for cx, side, label in chips:
+        cy = 90 if side == "above" else 246
+        fill = ACCENT_SOFT if cx < 400 else "#f4ede0"
+        stroke = ACCENT if cx < 400 else AMBER
+        body += node_box(
+            cx - cw / 2,
+            cy,
+            cw,
+            32,
+            label,
+            font_size=9.5,
+            weight=600,
+            fill=fill,
+            stroke=stroke,
+        )
+        y0 = cy + 32 if side == "above" else cy
+        body.append(
+            f'<line x1="{cx}" y1="{y0}" x2="{cx}" y2="{axis_y}" stroke="{RULE_STRONG}" stroke-width="1.2"/>'
+        )
+        body.append(f'<circle cx="{cx}" cy="{axis_y}" r="3" fill="{INK_SOFT}"/>')
+    body.append(
+        f'<text x="400" y="315" text-anchor="middle" font-family="{SANS}" font-size="10" fill="{MUTED}">what pushes an item rightward: causal, in-vivo, or personal — not compute</text>'
+    )
+    return write_svg(
+        "imminent-vs-aspirational.svg",
+        svg_doc(
+            W, H, "Near versus far term is sorted by kind of problem, not compute", body
+        ),
+    )
+
+
 FIGURES = (
+    fig_virtual_cell_vision_vs_today,
+    fig_imminent_vs_aspirational,
     fig_class_imbalance_base_rate,
     fig_batch_effect_confounder,
     fig_average_hides_subgroups,
