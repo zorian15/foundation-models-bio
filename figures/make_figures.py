@@ -3171,7 +3171,500 @@ def fig_shortlist_to_throughput():
     )
 
 
+def fig_virtual_cell_vision_vs_today():
+    W, H = 720, 320
+    defs = arrow_marker(ACCENT, "arrow_vc")
+    body = [defs]
+    body.append(
+        f'<line x1="360" y1="50" x2="360" y2="290" stroke="{RULE}" stroke-width="1"/>'
+    )
+    # The vision: one model.
+    body.append(eyebrow(30, 34, "THE VISION"))
+    body.append(
+        f'<text x="160" y="90" text-anchor="middle" font-family="{SANS}" font-size="10" fill="{MUTED}">any cell state + any perturbation</text>'
+    )
+    body.append(
+        f'<line x1="160" y1="96" x2="160" y2="116" stroke="{ACCENT}" stroke-width="1.8" marker-end="url(#arrow_vc)"/>'
+    )
+    body += node_box(
+        40,
+        120,
+        240,
+        56,
+        "The virtual cell",
+        font_size=13,
+        weight=600,
+        fill=ACCENT_SOFT,
+        stroke=ACCENT,
+    )
+    body.append(
+        f'<line x1="160" y1="176" x2="160" y2="196" stroke="{ACCENT}" stroke-width="1.8" marker-end="url(#arrow_vc)"/>'
+    )
+    body.append(
+        f'<text x="160" y="214" text-anchor="middle" font-family="{SANS}" font-size="10" fill="{MUTED}">predicted multi-modal response</text>'
+    )
+    # Today: three narrow models.
+    body.append(eyebrow(410, 34, "TODAY"))
+    today = [
+        (70, "Co-folder", "structure + ligand, one complex"),
+        (140, "DNA model (Evo 2)", "spans the central dogma, from sequence"),
+        (210, "Perturbation model (State)", "perturbation to expression shift"),
+    ]
+    for y, label, detail in today:
+        body += node_box(420, y, 250, 34, label, font_size=11, weight=600)
+        body.append(
+            f'<text x="545" y="{y + 50}" text-anchor="middle" font-family="{SANS}" font-size="9.5" fill="{MUTED}">{detail}</text>'
+        )
+    body.append(
+        f'<text x="545" y="292" text-anchor="middle" font-family="{SANS}" font-size="9.5" fill="{BRICK}">no shared weights among the three</text>'
+    )
+    return write_svg(
+        "virtual-cell-vision-vs-today.svg",
+        svg_doc(W, H, "One model in the vision, three narrow ones in practice", body),
+    )
+
+
+def fig_imminent_vs_aspirational():
+    W, H = 800, 340
+    defs = arrow_marker(INK_SOFT, "arrow_iva")
+    body = [defs, eyebrow(24, 28, "NEAR TERM VERSUS FAR TERM IS A KIND OF PROBLEM")]
+    axis_y = 180
+    body.append(
+        f'<line x1="40" y1="{axis_y}" x2="760" y2="{axis_y}" stroke="{INK_SOFT}" stroke-width="2" marker-start="url(#arrow_iva)" marker-end="url(#arrow_iva)"/>'
+    )
+    body.append(
+        f'<text x="40" y="166" font-family="{SANS}" font-size="11" font-weight="700" fill="{ACCENT}">IMMINENT · plausible</text>'
+    )
+    body.append(
+        f'<text x="760" y="166" text-anchor="end" font-family="{SANS}" font-size="11" font-weight="700" fill="{BRICK}">ASPIRATIONAL · uncertain</text>'
+    )
+    chips = [
+        (115, "above", "Better co-folding &amp; design"),
+        (305, "above", "Variant scoring (one line)"),
+        (515, "above", "General virtual cell"),
+        (690, "above", "Personal-genome prediction"),
+        (115, "below", "Larger perturbation atlases"),
+        (305, "below", "Faster DBTL loops"),
+        (515, "below", "Replace wet-lab validation"),
+    ]
+    cw = 175
+    for cx, side, label in chips:
+        cy = 90 if side == "above" else 246
+        fill = ACCENT_SOFT if cx < 400 else "#f4ede0"
+        stroke = ACCENT if cx < 400 else AMBER
+        body += node_box(
+            cx - cw / 2,
+            cy,
+            cw,
+            32,
+            label,
+            font_size=9.5,
+            weight=600,
+            fill=fill,
+            stroke=stroke,
+        )
+        y0 = cy + 32 if side == "above" else cy
+        body.append(
+            f'<line x1="{cx}" y1="{y0}" x2="{cx}" y2="{axis_y}" stroke="{RULE_STRONG}" stroke-width="1.2"/>'
+        )
+        body.append(f'<circle cx="{cx}" cy="{axis_y}" r="3" fill="{INK_SOFT}"/>')
+    body.append(
+        f'<text x="400" y="315" text-anchor="middle" font-family="{SANS}" font-size="10" fill="{MUTED}">what pushes an item rightward: causal, in-vivo, or personal — not compute</text>'
+    )
+    return write_svg(
+        "imminent-vs-aspirational.svg",
+        svg_doc(
+            W, H, "Near versus far term is sorted by kind of problem, not compute", body
+        ),
+    )
+
+
+def fig_cell_by_gene_matrix():
+    W, H = 680, 300
+    defs = arrow_marker(INK_SOFT, "arrow_cbg")
+    body = [defs, eyebrow(24, 28, "A HUGE, MOSTLY-EMPTY COUNT MATRIX")]
+    gx, gy, cw, ch, gap = 150, 70, 30, 22, 3
+    body.append(
+        f'<text x="{gx - 14}" y="{gy + 4 * (ch + gap)}" text-anchor="middle" font-family="{SANS}" font-size="10" fill="{MUTED}" transform="rotate(-90 {gx - 14} {gy + 4 * (ch + gap)})">cells</text>'
+    )
+    body.append(
+        f'<text x="{gx + 6 * (cw + gap)}" y="{gy - 8}" text-anchor="middle" font-family="{SANS}" font-size="10" fill="{MUTED}">genes</text>'
+    )
+    empty_targets = []
+    for r in range(8):
+        for c in range(12):
+            x = gx + c * (cw + gap)
+            y = gy + r * (ch + gap)
+            if (r * 12 + c) % 7 == 0:
+                op = 0.35 + 0.25 * ((r + c) % 3)
+                body.append(
+                    f'<rect x="{x}" y="{y}" width="{cw}" height="{ch}" rx="2" fill="{ACCENT}" opacity="{op:.2f}"/>'
+                )
+            else:
+                body.append(
+                    f'<rect x="{x}" y="{y}" width="{cw}" height="{ch}" rx="2" fill="#ffffff" stroke="{RULE}"/>'
+                )
+                empty_targets.append((x + cw / 2, y + ch / 2))
+    # Two callouts pointing at empty cells.
+    tx, ty = empty_targets[15]
+    body += node_box(560, 90, 100, 26, "true off", font_size=9.5, fill=ACCENT_SOFT)
+    body.append(
+        f'<line x1="558" y1="103" x2="{tx:.0f}" y2="{ty:.0f}" stroke="{INK_SOFT}" stroke-width="1" marker-end="url(#arrow_cbg)"/>'
+    )
+    tx2, ty2 = empty_targets[40]
+    body += node_box(560, 165, 100, 26, "dropout (missed)", font_size=9, fill="#f4ede0")
+    body.append(
+        f'<line x1="558" y1="178" x2="{tx2:.0f}" y2="{ty2:.0f}" stroke="{INK_SOFT}" stroke-width="1" marker-end="url(#arrow_cbg)"/>'
+    )
+    body.append(
+        f'<text x="{gx}" y="{gy + 8 * (ch + gap) + 18}" font-family="{SANS}" font-size="10" fill="{MUTED}">over 90% of entries are zero</text>'
+    )
+    return write_svg(
+        "cell-by-gene-matrix.svg",
+        svg_doc(
+            W,
+            H,
+            "Single-cell data is a sparse count matrix whose zeros are ambiguous",
+            body,
+        ),
+    )
+
+
+def fig_foundation_vs_baseline():
+    W, H = 600, 300
+    body = [eyebrow(24, 28, "FOUNDATION MODEL VS A SIMPLE BASELINE")]
+    baseline = 240
+    body.append(
+        f'<line x1="90" y1="{baseline}" x2="560" y2="{baseline}" stroke="{RULE_STRONG}" stroke-width="1"/>'
+    )
+    groups = [
+        (150, "cell-type annotation", 110, 122),
+        (330, "batch integration", 115, 113),
+        (510, "perturbation", 92, 106),
+    ]
+    for cx, label, fm, base in groups:
+        body.append(
+            f'<rect x="{cx - 44}" y="{baseline - fm}" width="40" height="{fm}" fill="{ACCENT}" rx="2"/>'
+        )
+        body.append(
+            f'<rect x="{cx + 4}" y="{baseline - base}" width="40" height="{base}" fill="{AMBER}" rx="2"/>'
+        )
+        for word_i, word in enumerate(label.split()):
+            body.append(
+                f'<text x="{cx}" y="{baseline + 18 + word_i * 12}" text-anchor="middle" font-family="{SANS}" font-size="9.5" fill="{MUTED}">{word}</text>'
+            )
+    body.append(
+        f'<text x="40" y="130" text-anchor="middle" font-family="{SANS}" font-size="10" fill="{MUTED}" transform="rotate(-90 40 130)">benchmark score</text>'
+    )
+    body.append(
+        f'<rect x="90" y="70" width="14" height="12" rx="2" fill="{ACCENT}"/><text x="110" y="80" font-family="{SANS}" font-size="10" fill="{MUTED}">foundation model</text>'
+    )
+    body.append(
+        f'<rect x="250" y="70" width="14" height="12" rx="2" fill="{AMBER}"/><text x="270" y="80" font-family="{SANS}" font-size="10" fill="{MUTED}">simple baseline (PCA on HVGs)</text>'
+    )
+    return write_svg(
+        "foundation-vs-baseline.svg",
+        svg_doc(
+            W,
+            H,
+            "A foundation model and a boring baseline land close, and the baseline sometimes wins",
+            body,
+        ),
+    )
+
+
+def fig_dissociation_vs_spatial():
+    W, H = 760, 320
+    defs = arrow_marker(ACCENT, "arrow_dvs")
+    body = [defs]
+
+    def tissue_grid(ox, oy, jitter):
+        out = []
+        colors = [ACCENT, AMBER, VIOLET, BRICK]
+        rng = random.Random(3)
+        for r in range(3):
+            for c in range(3):
+                jx = rng.uniform(-jitter, jitter)
+                jy = rng.uniform(-jitter, jitter)
+                out.append(
+                    f'<circle cx="{ox + c * 22 + jx:.0f}" cy="{oy + r * 22 + jy:.0f}" r="7" fill="{colors[(r * 3 + c) % 4]}" opacity="0.85"/>'
+                )
+        return out
+
+    def matrix(ox, oy, extra_col):
+        out = [
+            f'<rect x="{ox}" y="{oy}" width="120" height="70" rx="3" fill="#ffffff" stroke="{RULE_STRONG}"/>'
+        ]
+        for i in range(1, 4):
+            out.append(
+                f'<line x1="{ox}" y1="{oy + i * 17}" x2="{ox + 120}" y2="{oy + i * 17}" stroke="{RULE}" stroke-width="0.8"/>'
+            )
+        for j in range(1, 4):
+            out.append(
+                f'<line x1="{ox + j * 24}" y1="{oy}" x2="{ox + j * 24}" y2="{oy + 70}" stroke="{RULE}" stroke-width="0.8"/>'
+            )
+        if extra_col:
+            out.append(
+                f'<rect x="{ox + 96}" y="{oy}" width="24" height="70" fill="{ACCENT_SOFT}" opacity="0.7"/>'
+            )
+            out.append(
+                f'<text x="{ox + 108}" y="{oy + 84}" text-anchor="middle" font-family="{SANS}" font-size="9" fill="{ACCENT}">+ x,y</text>'
+            )
+        return out
+
+    rows = [
+        (55, "scRNA-seq (dissociated)", "dissociate", 18, False, "location lost"),
+        (185, "Spatial (in place)", "measure in place", 0, True, "location kept"),
+    ]
+    for oy, label, arrow_label, jitter, extra, caption in rows:
+        body.append(eyebrow(24, oy - 10, label.upper()))
+        body += tissue_grid(60, oy + 8, 0)
+        body.append(
+            f'<line x1="120" y1="{oy + 30}" x2="185" y2="{oy + 30}" stroke="{ACCENT}" stroke-width="1.8" marker-end="url(#arrow_dvs)"/>'
+        )
+        body.append(
+            f'<text x="152" y="{oy + 22}" text-anchor="middle" font-family="{SANS}" font-size="8.5" fill="{MUTED}">{arrow_label}</text>'
+        )
+        if extra:
+            body.append(
+                f'<rect x="200" y="{oy + 2}" width="70" height="56" rx="4" fill="none" stroke="{RULE_STRONG}"/>'
+            )
+            body += tissue_grid(212, oy + 10, 0)
+        else:
+            body.append(
+                f'<ellipse cx="235" cy="{oy + 30}" rx="42" ry="30" fill="none" stroke="{RULE_STRONG}"/>'
+            )
+            body += tissue_grid(212, oy + 10, jitter)
+        body.append(
+            f'<line x1="285" y1="{oy + 30}" x2="350" y2="{oy + 30}" stroke="{ACCENT}" stroke-width="1.8" marker-end="url(#arrow_dvs)"/>'
+        )
+        body += matrix(365, oy - 5, extra)
+        body.append(
+            f'<text x="500" y="{oy + 34}" font-family="{SANS}" font-size="11" fill="{BRICK if not extra else ACCENT}">{caption}</text>'
+        )
+    return write_svg(
+        "dissociation-vs-spatial.svg",
+        svg_doc(
+            W, H, "Dissociation trades away the tissue map; spatial keeps it", body
+        ),
+    )
+
+
+def fig_spatial_resolution_vs_breadth():
+    W, H = 620, 340
+    body = [
+        arrow_marker(MUTED, "arrow_srb"),
+        eyebrow(24, 28, "OPPOSITE CORNERS OF ONE TRADEOFF"),
+    ]
+    body.append(
+        f'<line x1="80" y1="270" x2="560" y2="270" stroke="{RULE_STRONG}" stroke-width="1"/>'
+    )
+    body.append(
+        f'<line x1="80" y1="70" x2="80" y2="270" stroke="{RULE_STRONG}" stroke-width="1"/>'
+    )
+    body.append(
+        f'<text x="320" y="300" text-anchor="middle" font-family="{SANS}" font-size="10.5" fill="{MUTED}">spatial resolution (coarse to subcellular)</text>'
+    )
+    body.append(
+        f'<text x="34" y="170" text-anchor="middle" font-family="{SANS}" font-size="10.5" fill="{MUTED}" transform="rotate(-90 34 170)">genes measured (log)</text>'
+    )
+    seq = [
+        (150, 95, "Visium"),
+        (280, 105, "Slide-seq"),
+        (470, 110, "Stereo-seq / Visium HD"),
+    ]
+    img = [(420, 210, "MERFISH"), (480, 195, "Xenium"), (520, 180, "CosMx")]
+    for px, py, name in seq:
+        body.append(f'<circle cx="{px}" cy="{py}" r="6" fill="{AMBER}"/>')
+        body.append(
+            f'<text x="{px}" y="{py - 12}" text-anchor="middle" font-family="{SANS}" font-size="9" fill="{INK_SOFT}">{name}</text>'
+        )
+    for px, py, name in img:
+        body.append(f'<circle cx="{px}" cy="{py}" r="6" fill="{ACCENT}"/>')
+        body.append(
+            f'<text x="{px}" y="{py + 18}" text-anchor="middle" font-family="{SANS}" font-size="9" fill="{INK_SOFT}">{name}</text>'
+        )
+    body.append(
+        f'<line x1="470" y1="200" x2="470" y2="130" stroke="{MUTED}" stroke-width="1.2" stroke-dasharray="3 3" marker-end="url(#arrow_srb)"/>'
+    )
+    body.append(
+        f'<line x1="165" y1="95" x2="235" y2="95" stroke="{MUTED}" stroke-width="1.2" stroke-dasharray="3 3" marker-end="url(#arrow_srb)"/>'
+    )
+    body.append(
+        f'<circle cx="95" cy="320" r="6" fill="{AMBER}"/><text x="108" y="324" font-family="{SANS}" font-size="10" fill="{MUTED}">sequencing-based</text>'
+    )
+    body.append(
+        f'<circle cx="270" cy="320" r="6" fill="{ACCENT}"/><text x="283" y="324" font-family="{SANS}" font-size="10" fill="{MUTED}">imaging-based</text>'
+    )
+    return write_svg(
+        "spatial-resolution-vs-breadth.svg",
+        svg_doc(
+            W,
+            H,
+            "Imaging reads every transcript for a panel; sequencing reads the whole transcriptome but blurs cells",
+            body,
+        ),
+    )
+
+
+def fig_spatial_neighborhood_model():
+    W, H = 680, 260
+    defs = arrow_marker(ACCENT, "arrow_snm")
+    body = [defs]
+    body.append(eyebrow(24, 40, "SINGLE-CELL MODEL"))
+    body += node_box(30, 55, 180, 40, "one cell's expression", font_size=10)
+    body.append(
+        f'<line x1="212" y1="75" x2="268" y2="75" stroke="{ACCENT}" stroke-width="1.8" marker-end="url(#arrow_snm)"/>'
+    )
+    body += node_box(
+        272, 55, 140, 40, "cell type", font_size=11, weight=600, fill=ACCENT_SOFT
+    )
+    body.append(eyebrow(24, 150, "SPATIAL MODEL"))
+    # A small neighbor graph glyph.
+    body.append(f'<circle cx="120" cy="185" r="8" fill="{ACCENT}"/>')
+    for dx, dy in [(-34, -22), (34, -22), (-34, 22), (34, 22)]:
+        body.append(
+            f'<line x1="120" y1="185" x2="{120 + dx}" y2="{185 + dy}" stroke="{RULE_STRONG}" stroke-width="1.4"/>'
+        )
+        body.append(f'<circle cx="{120 + dx}" cy="{185 + dy}" r="6" fill="{MUTED}"/>')
+    body.append(
+        f'<text x="120" y="230" text-anchor="middle" font-family="{SANS}" font-size="9.5" fill="{MUTED}">cell + neighbor graph</text>'
+    )
+    body.append(
+        f'<line x1="180" y1="185" x2="268" y2="185" stroke="{ACCENT}" stroke-width="1.8" marker-end="url(#arrow_snm)"/>'
+    )
+    body += node_box(
+        272, 165, 160, 40, "spatial domain", font_size=11, weight=600, fill=ACCENT_SOFT
+    )
+    body.append(
+        f'<text x="470" y="188" font-family="{SANS}" font-size="10" fill="{BRICK}">the one new ingredient: the edge</text>'
+    )
+    return write_svg(
+        "spatial-neighborhood-model.svg",
+        svg_doc(
+            W, H, "A spatial model is a single-cell model plus a neighbor graph", body
+        ),
+    )
+
+
+def fig_cell_painting_profile():
+    W, H = 680, 250
+    defs = arrow_marker(ACCENT, "arrow_cpp")
+    body = [defs, eyebrow(24, 28, "IMAGE-BASED PROFILING")]
+    # The stained cell.
+    body.append(
+        f'<circle cx="150" cy="130" r="70" fill="#faf9f5" stroke="{RULE_STRONG}"/>'
+    )
+    body.append(
+        f'<circle cx="150" cy="130" r="26" fill="{ACCENT_SOFT}" stroke="{ACCENT}"/>'
+    )
+    comps = [
+        (120, 100, ACCENT),
+        (185, 110, AMBER),
+        (185, 160, VIOLET),
+        (120, 165, BRICK),
+        (150, 90, MUTED),
+    ]
+    for cx, cy, col in comps:
+        body.append(f'<circle cx="{cx}" cy="{cy}" r="8" fill="{col}" opacity="0.8"/>')
+    body.append(
+        f'<text x="150" y="222" text-anchor="middle" font-family="{SANS}" font-size="9" fill="{MUTED}">6 dyes · 8 components · 5 channels</text>'
+    )
+    # Arrow to the feature vector.
+    body.append(
+        f'<line x1="228" y1="130" x2="300" y2="130" stroke="{ACCENT}" stroke-width="1.8" marker-end="url(#arrow_cpp)"/>'
+    )
+    body.append(
+        f'<text x="264" y="122" text-anchor="middle" font-family="{SANS}" font-size="9" fill="{MUTED}">extract features</text>'
+    )
+    # The feature vector column.
+    body.append(
+        f'<text x="360" y="52" text-anchor="middle" font-family="{SANS}" font-size="10" fill="{INK}">~1,500 morphological features</text>'
+    )
+    for i in range(14):
+        op = 0.25 + 0.05 * (i % 5)
+        body.append(
+            f'<rect x="335" y="{60 + i * 10}" width="50" height="9" fill="{ACCENT}" opacity="{op:.2f}"/>'
+        )
+    body.append(
+        f'<text x="360" y="216" text-anchor="middle" font-family="{SANS}" font-size="9.5" fill="{MUTED}">one morphological profile</text>'
+    )
+    body.append(
+        f'<text x="470" y="130" font-family="{SANS}" font-size="10" fill="{INK_SOFT}">an unbiased phenotypic</text>'
+    )
+    body.append(
+        f'<text x="470" y="145" font-family="{SANS}" font-size="10" fill="{INK_SOFT}">fingerprint of a perturbation</text>'
+    )
+    return write_svg(
+        "cell-painting-profile.svg",
+        svg_doc(
+            W,
+            H,
+            "A picture of a stained cell becomes a high-dimensional feature vector",
+            body,
+        ),
+    )
+
+
+def fig_morphology_moa_clusters():
+    W, H = 620, 340
+    body = [eyebrow(24, 28, "MORPHOLOGY GROUPS PERTURBATIONS BY MECHANISM")]
+    body.append(
+        f'<rect x="70" y="55" width="480" height="230" rx="4" fill="none" stroke="{RULE}"/>'
+    )
+    rng = random.Random(9)
+    clusters = [
+        (170, 130, ACCENT, "Tubulin inhibitors"),
+        (430, 120, VIOLET, "HDAC inhibitors"),
+        (420, 240, BRICK, "Proteasome inhibitors"),
+        (280, 200, MUTED, "Inactive controls"),
+    ]
+    for cx, cy, col, label in clusters:
+        for _ in range(22):
+            px = cx + rng.gauss(0, 26)
+            py = cy + rng.gauss(0, 22)
+            body.append(
+                f'<circle cx="{px:.0f}" cy="{py:.0f}" r="3.6" fill="{col}" opacity="0.8"/>'
+            )
+        body.append(
+            f'<text x="{cx}" y="{cy - 34}" text-anchor="middle" font-family="{SANS}" font-size="9.5" fill="{col}">{label}</text>'
+        )
+    # The matched gene knockout star inside the tubulin cluster.
+    sx, sy = 190, 150
+    star = " ".join(
+        f"{sx + 9 * math.cos(math.radians(a)):.0f},{sy + 9 * math.sin(math.radians(a)):.0f} {sx + 4 * math.cos(math.radians(a + 36)):.0f},{sy + 4 * math.sin(math.radians(a + 36)):.0f}"
+        for a in range(-90, 270, 72)
+    )
+    body.append(
+        f'<polygon points="{star}" fill="{INK}" stroke="#ffffff" stroke-width="0.8"/>'
+    )
+    body.append(
+        f'<text x="212" y="153" text-anchor="start" font-family="{SANS}" font-size="9" fill="{INK}">gene knockout (matched)</text>'
+    )
+    body.append(
+        f'<text x="310" y="308" text-anchor="middle" font-family="{SANS}" font-size="9.5" fill="{MUTED}">morphology embedding · a compound matching a knockout nominates its pathway</text>'
+    )
+    return write_svg(
+        "morphology-moa-clusters.svg",
+        svg_doc(
+            W,
+            H,
+            "Shared-mechanism perturbations cluster; a match to a knockout nominates a target",
+            body,
+        ),
+    )
+
+
 FIGURES = (
+    fig_cell_by_gene_matrix,
+    fig_foundation_vs_baseline,
+    fig_dissociation_vs_spatial,
+    fig_spatial_resolution_vs_breadth,
+    fig_spatial_neighborhood_model,
+    fig_cell_painting_profile,
+    fig_morphology_moa_clusters,
+    fig_virtual_cell_vision_vs_today,
+    fig_imminent_vs_aspirational,
     fig_class_imbalance_base_rate,
     fig_batch_effect_confounder,
     fig_average_hides_subgroups,

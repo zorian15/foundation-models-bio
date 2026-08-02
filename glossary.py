@@ -774,6 +774,90 @@ _TERMS: tuple[Term, ...] = (
         "Batched acquisition",
         "Selecting a diverse set of experiments to run in parallel in one round rather than the single best candidate, matching the plate-at-a-time reality of wet labs; it penalizes candidates that resemble ones already chosen for the batch to avoid a redundant plate.",
     ),
+    Term(
+        "AI virtual cell (AIVC)",
+        "The field's aspirational goal of a multi-scale, multi-modal model that represents a cell's state and predicts its response to arbitrary perturbations across molecules, cells, and tissues. No single current model realizes it; today's systems each fuse only two or three modalities for one task.",
+    ),
+    Term(
+        "In-silico experiment",
+        "Running an assay inside a computational model instead of at the bench, for example screening perturbations against a virtual cell. It reorders which candidates reach the lab rather than removing the need to validate them there.",
+    ),
+    Term(
+        "Self-driving lab",
+        "A closed design-build-test-learn loop in which a model proposes experiments, robotics execute them, and the results retrain the model with no human in each cycle. The automation targets throughput of the loop, not the elimination of physical validation.",
+    ),
+    Term(
+        "Cell-by-gene matrix",
+        "The core data structure of single-cell RNA-seq: one row per cell, one column per gene, and each entry a count of captured transcripts. It is large (tens of thousands of cells by ~20,000 genes) and overwhelmingly sparse.",
+    ),
+    Term(
+        "Dropout (single-cell)",
+        "A zero in a single-cell matrix that reflects a transcript the assay failed to capture rather than a gene that is truly off. Because the assay samples only a small fraction of a cell's molecules, most zeros are a mixture of true absence and dropout, which no downstream step fully disentangles.",
+    ),
+    Term(
+        "Cell atlas",
+        "A reference compendium built from many single-cell experiments across tissues, donors, and conditions, reaching tens to hundreds of millions of cells (for example the Human Cell Atlas or CELLxGENE). Its scale is what makes self-supervised pretraining on single-cell data feasible.",
+    ),
+    Term(
+        "Cell-type annotation",
+        "The task of assigning each cell a type label (T cell, hepatocyte, and so on) from its expression profile. It is a standard yardstick for judging a single-cell representation, and one where foundation-model embeddings often fail to beat simple baselines.",
+    ),
+    Term(
+        "Rank-value encoding",
+        "Geneformer's input scheme, which represents a cell by ranking its genes from most to least expressed (each normalized by its corpus-wide level) rather than by raw counts. Ranking is nonparametric and robust to the large differences in sequencing depth between cells.",
+    ),
+    Term(
+        "Unique molecular identifier (UMI)",
+        "A random barcode attached to each captured transcript before amplification, so that original molecules can be counted rather than their amplification copies. UMI counts are the integer entries of most modern single-cell matrices.",
+    ),
+    Term(
+        "Spatial transcriptomics",
+        "A family of assays that measure gene expression while recording the physical location in the tissue that each measurement came from, so cell neighborhoods and tissue architecture are preserved rather than lost to dissociation.",
+    ),
+    Term(
+        "Imaging-based spatial transcriptomics",
+        "Spatial methods (e.g. MERFISH, Xenium, CosMx, seqFISH) that image individual RNA molecules in place, giving subcellular resolution and true single cells but only for a targeted panel of a few hundred to a few thousand pre-chosen genes.",
+    ),
+    Term(
+        "Sequencing-based spatial transcriptomics",
+        "Spatial methods (e.g. Visium, Slide-seq, Stereo-seq) that capture RNA onto spatially barcoded spots or beads and sequence it, giving whole-transcriptome coverage with no panel to choose but at a spot that has classically pooled several cells.",
+    ),
+    Term(
+        "Spatial domain (tissue niche)",
+        "A recurring local region of a tissue defined by its arrangement of cell types, such as a cortical layer or a tumor margin; identifying these is a core goal of graph-based spatial models.",
+    ),
+    Term(
+        "Spatial deconvolution",
+        "Estimating which cell types, and in what proportions, compose each spot of a sequencing-based spatial dataset, using a single-cell reference to unmix the several cells a spot pools together (e.g. cell2location, Tangram).",
+    ),
+    Term(
+        "Cell-cell communication (ligand-receptor analysis)",
+        "Inferring signaling between cells by checking whether a cell expressing a signaling ligand sits near a cell expressing its receptor; a guess from dissociated data, but a direct observation when physical adjacency is measured.",
+    ),
+    Term(
+        "Cell Painting",
+        "A standardized high-content assay that stains six inexpensive fluorescent dyes marking eight cellular components across five imaging channels, so thousands of cells per well can be imaged and turned into morphological profiles after a perturbation.",
+    ),
+    Term(
+        "Morphological profiling",
+        "The pipeline of imaging stained cells, extracting many features of their appearance, and comparing the resulting profiles to find which perturbations make cells look alike or unlike controls. It provides a broad, unbiased phenotypic readout rather than a targeted measurement.",
+    ),
+    Term(
+        "Morphological profile",
+        "The high-dimensional feature vector (on the order of 1,500 measurements of size, shape, texture, intensity, and compartment arrangement) that represents a cell or a perturbation in image-based profiling; the phenotypic fingerprint that models cluster and match.",
+    ),
+    Term(
+        "High-content screening (HCS)",
+        "Automated microscopy scaled to whole multi-well plates, where each well is a perturbation read out as rich per-cell image measurements rather than a single summary number.",
+    ),
+    Term(
+        "Mechanism of action (MoA)",
+        "The molecular route by which a drug produces its effect (which target and pathway it engages). Perturbations sharing an MoA tend to cluster together in morphological or transcriptomic profile space, which is how profiling nominates a compound's mechanism.",
+    ),
+    Term(
+        "Virtual screening",
+        "Computationally ranking a large library of candidates (here, by how closely each compound's morphological profile matches a desired phenotype or a known reference) to prioritize the few worth testing experimentally.",
+    ),
 )
 
 

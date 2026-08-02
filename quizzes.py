@@ -1057,6 +1057,234 @@ _QUIZZES: dict[str, tuple[Question, ...]] = {
             explanation="On-distribution labels are worth more per point than off-distribution ones, because the generative model and the surrogate are being pushed into a region public data barely covers. This is the flywheel that makes the loop compound. But wet-lab noise and small batch sizes cap how fast it spins, so any single round teaches less than its raw label count suggests.",
         ),
     ),
+    "outlook": (
+        Question(
+            prompt="A 2026 preprint calls its model a virtual cell and reports strong accuracy predicting held-out perturbations. Based on this book's framing, what is the sharpest thing to check before believing the label?",
+            options=(
+                "Whether the held-out perturbations were in cell types absent from training, since in-distribution and cross-cell-type prediction are different problems and the label implies the harder one",
+                "Whether the model was trained on Perturb-seq rather than bulk RNA-seq, since only single-cell readouts can support a virtual-cell claim in the first place",
+                "Whether the model uses cross-attention rather than late fusion, since only genuine cross-attention should count as true multimodal integration here",
+                "Whether the parameter count exceeds that of the largest DNA language models, since raw scale is what distinguishes a virtual cell from an ordinary perturbation model",
+            ),
+            answer=0,
+            explanation="The gap between a demo and the vision is cross-context extrapolation, so the load-bearing question is what was held out. A model can nail a held-out perturbation within a screened cell line while failing on a new cell type, which is exactly the arbitrary-perturbation, arbitrary-context prediction the virtual-cell name promises. The distractors name real distinctions (readout type, fusion mechanism, scale) but none is what separates the impressive in-distribution result from the aspirational claim.",
+        ),
+        Question(
+            prompt="Structure prediction largely fell out of scaling protein-sequence models. Why is it a mistake to assume a general virtual cell will similarly fall out of scaling perturbation atlases?",
+            options=(
+                "Because perturbation data is single-cell and noisier than sequence data, so more of it mostly adds count noise rather than usable training signal",
+                "Because a cell's response to an unseen perturbation in an unscreened context is a causal counterfactual, and densely observing the perturbations you did run does not guarantee the ones you did not",
+                "Because protein structure has a public ground-truth database while perturbation responses have none, so there is nothing to scale a model against",
+                "Because transcriptomes lack any deterministic mapping from input to output, so no model can fit them at any scale no matter how much data is collected",
+            ),
+            answer=1,
+            explanation="Folding scaled because a fold is a near-deterministic function of sequence that the Protein Data Bank samples densely, so coverage buys the function. Predicting a novel perturbation in a new cell type is extrapolation to a counterfactual the data never sampled, and scale buys coverage of the sampled space, not extrapolation beyond it. The last option overstates the case: transcriptomes are noisy and context-dependent but not unlearnable, and perturbation atlases do exist.",
+        ),
+        Question(
+            prompt="Which pairing correctly sorts a near-term item from an aspirational one?",
+            options=(
+                "Near-term: replacing wet-lab validation with in-silico assays. Aspirational: better co-folding of protein-ligand complexes over the next few years",
+                "Near-term: predicting an arbitrary person's variant effect on their own expression. Aspirational: growing steadily larger perturbation atlases",
+                "Near-term: larger perturbation atlases that rank what to screen next. Aspirational: a general virtual cell predicting arbitrary perturbations across cell types",
+                "Near-term: one model carrying genome, structure, and cell state in a shared representation. Aspirational: routine variant scoring as a line of clinical evidence",
+            ),
+            answer=2,
+            explanation="The near-term list is the straight-line extension of what already works: better design, bigger atlases, faster loops, variant scoring as one input among several. The aspirational list is the causal, in-vivo, and personal problems. The other options each invert the sort by putting an aspirational item (replacing the bench, personal-genome prediction, one unified shared-representation model) on the near-term side, or demoting a shipping capability to aspirational.",
+        ),
+        Question(
+            prompt="What is the most defensible reading of the claim that in-silico experiments will replace wet-lab validation?",
+            options=(
+                "It is imminent for property prediction but not for structure, since predicted properties are already trusted and acted on without any confirmatory assay",
+                "It becomes correct as soon as a model beats experimental reproducibility, which several perturbation models already do on standard pseudobulk benchmarks today",
+                "It is close to a category error, because the models are trained and judged against wet-lab data, so replacing the bench presupposes the bench that would validate the replacement",
+                "It is achievable specifically for variant effects, where large population databases can substitute for functional assays entirely and end the need for experiments",
+            ),
+            answer=2,
+            explanation="The models' ground truth is wet-lab measurement, so a model trustworthy enough to retire the bench would first have to be validated by the very bench it retires, which is circular. The realistic near-term value is triage: turning an intractable search into an enriched shortlist so the bench spends its budget better. The reproducibility-parity option misreads a pseudobulk correlation as reproducibility, and the others overstate how far any single task has actually displaced experiment.",
+        ),
+        Question(
+            prompt="The book closes by saying foundation models moved the bottleneck. Moved it from what to what?",
+            options=(
+                "From proposing candidate biology, which is now cheap and fast, to testing and validating those proposals well in the right system",
+                "From slow model training to slow inference, since biological foundation models are now expensive to query at whole-genome scale in production",
+                "From a shortage of sequence data to a shortage of labeled structures, which has now become the single binding constraint on further progress",
+                "From wet-lab experiments, which these models now largely replace, to computational infrastructure and the availability of enough GPUs to run them",
+            ),
+            answer=0,
+            explanation="Generating good hypotheses (a target, a fold, a variant that might matter) used to be the slow, expensive step; models made proposing cheap and relocated the hard part to validation, honest evaluation, and choosing the right experimental system. That reframes the practitioner's job as bridging biology and ML with evaluation that measures the real question. The inference-cost and GPU options name real engineering concerns but not the conceptual shift, and the data-economics option describes a problem that predates foundation models.",
+        ),
+    ),
+    "single-cell": (
+        Question(
+            prompt="A single-cell RNA-seq experiment returns a cell-by-gene matrix in which more than 90% of the entries are zero. What is the most accurate reading of one of those zeros?",
+            options=(
+                "It reliably marks a gene that is switched off in that cell, since the assay captures every transcribed molecule and only omits genes with no transcription at all",
+                "It is ambiguous, mixing genes that are genuinely off in that cell with genes that were transcribed but not captured by a shallow, lossy assay",
+                "It is a normalization artifact that disappears once the counts are converted to ranks or scaled to a common library size across cells",
+                "It reflects a gene absent from the reference annotation, so the matrix simply has no column in which to record that gene's expression",
+            ),
+            answer=1,
+            explanation="A zero conflates true biological absence with dropout, the failure of a shallow assay to capture a transcript that was present. This is why the modality is called zero-inflated: normalization rescales nonzero counts but cannot recover a molecule that was never captured, and every expressed gene has a column whether or not it registered a count. The assay samples only a few thousand of a cell's hundreds of thousands of molecules, so capturing every molecule is precisely what fails.",
+        ),
+        Question(
+            prompt="Geneformer encodes each cell with a rank-value scheme rather than feeding raw counts. What problem is that design choice mainly aimed at?",
+            options=(
+                "It compresses the roughly 20,000-gene vector into a fixed short code so that cells with different numbers of detected genes still yield equal-length inputs",
+                "It makes the representation robust to the large differences in sequencing depth between cells by ordering genes instead of trusting their absolute counts",
+                "It guarantees that two cells sharing the same single most-expressed gene receive identical embeddings, since the top-ranked gene dominates the representation",
+                "It converts the discrete counts into a continuous signal so the transformer can be trained with a regression loss rather than a masked classification loss",
+            ),
+            answer=1,
+            explanation="Raw counts vary wildly with how deeply a cell was sequenced, so two identical cells at different depths look different; ranking genes by their corpus-median-normalized expression is nonparametric and largely cancels that depth effect. That normalization also deprioritizes ubiquitous housekeeping genes and lifts lowly-expressed, cell-state-distinguishing genes such as transcription factors toward the top, but the design's main aim is depth robustness. It does not shorten the input to a fixed code, keep counts continuous, or collapse a cell's embedding onto its single top-ranked gene.",
+        ),
+        Question(
+            prompt="Independent benchmarks of single-cell foundation models such as Geneformer and scGPT found what, relative to simple baselines, on tasks like cell-type clustering and perturbation prediction?",
+            options=(
+                "The models consistently beat baselines on clustering but were beaten on perturbation prediction, giving a clean split by the type of task involved",
+                "The models matched baselines only after fine-tuning on hundreds of millions of additional cells beyond their original pretraining corpus",
+                "The models often failed to beat simple baselines, with zero-shot embeddings trailing conventional methods on clustering and deep models trailing mean and additive baselines on perturbation",
+                "The models won across the board, but the margin over baselines shrank steadily as the evaluation datasets were made larger and more diverse",
+            ),
+            answer=2,
+            explanation="Two lines of evidence converged: zero-shot embeddings underperformed conventional integration methods, and sometimes plain PCA on highly variable genes, at cell-type clustering, while perturbation predictors trailed a training-mean baseline for unseen genes and an additive baseline for pairs. The result is not a clean by-task split and not a sweep for the models. Single-cell data has a strong low-dimensional structure a linear baseline captures cheaply, so the burden of proof sits with the foundation model on the user's own task.",
+        ),
+        Question(
+            prompt="Why has the pretrain-once-transfer-everywhere recipe worked more convincingly for protein language models than for single-cell foundation models so far?",
+            options=(
+                "Protein corpora are far larger than single-cell corpora, so single-cell models are simply data-starved and will catch up once atlases reach comparable scale",
+                "Protein sequences carry deep per-sequence evolutionary constraint the model can learn, whereas a cell's transcriptome carries less such structure and far more technical noise",
+                "Protein models use masked-token objectives while single-cell models rely on contrastive objectives that are known to transfer poorly across different cell types",
+                "Protein tasks are inherently easier because a protein has one native structure, whereas a cell can occupy many distinct states at the same time",
+            ),
+            answer=1,
+            explanation="Evolution imposes strong, learnable constraints on each protein sequence, which is what a protein language model's likelihood captures; a single-cell transcriptome reflects far less of that per-sample constraint and is dominated by count noise and batch effects, so the same self-supervised trick has less real signal to extract. Corpus size is not the bottleneck, since atlases already reach hundreds of millions of cells; both families lean on masked-token objectives; and the gap is about signal-to-noise, not how many states a cell can occupy.",
+        ),
+        Question(
+            prompt="A colleague reports a very low masked-gene pretraining loss after training on 100 million cells and proposes adopting the model's embeddings to annotate a new atlas. What is the soundest response?",
+            options=(
+                "A low pretraining loss certifies a strong general embedding, so adopting it is justified and a baseline comparison would be redundant here",
+                "Low masked-gene loss can be achieved by modeling the shared, high-count backbone of cells, so benchmark the embedding against a PCA or highly-variable-gene baseline on the actual annotation task first",
+                "The embedding is untrustworthy because pretraining loss and downstream accuracy are entirely unrelated quantities, so it should be discarded without any further testing",
+                "Adopt it only if the pretraining corpus already included this new atlas, since a foundation model cannot generalize to cells that were outside its training data",
+            ),
+            answer=1,
+            explanation="A low masked-gene loss is largely earned by predicting the abundant housekeeping genes every cell shares, which need not translate into an embedding that resolves cell types, so the loss does not certify usefulness. The right move is a bake-off against a boring baseline on the target task and metric, not blanket rejection (they are correlated but loosely) and not a demand that the atlas was in pretraining, since transfer to unseen cells is the whole point.",
+        ),
+    ),
+    "spatial-omics": (
+        Question(
+            prompt="A collaborator says spatial transcriptomics is worth the cost mainly because it measures more genes per cell than dissociated scRNA-seq. What is the more accurate reason to reach for it?",
+            options=(
+                "It preserves the physical coordinate of each measurement, so cell neighborhoods, adjacency-based signaling, and tissue architecture survive rather than being scrambled by dissociation",
+                "It measures a larger fraction of each cell's transcriptome, recovering the lowly expressed genes that scRNA-seq dropout tends to miss when cells are dissociated into suspension and sequenced at shallow depth",
+                "It removes the batch effects that plague scRNA-seq, because the tissue is profiled intact instead of being pooled across dissociation runs and sequencing lanes",
+                "It assigns each cell an unambiguous cell type, since seeing a cell in its tissue context resolves the identities that unsupervised clustering otherwise leaves uncertain",
+            ),
+            answer=0,
+            explanation="Spatial's defining gain is location, not coverage. In fact many spatial assays measure fewer genes than scRNA-seq, since imaging-based platforms read only a targeted panel, so the coverage framing has the tradeoff backwards. Location recovers what dissociation destroys: which cells are neighbors, whether a ligand-expressing cell sits beside a receptor-expressing one, and how the tissue is regionally organized. Cell type is largely intrinsic and clustering already recovers it; niche is relational and only measured coordinates pin it down.",
+        ),
+        Question(
+            prompt="You need whole-transcriptome coverage with no gene panel chosen in advance, and you can tolerate not resolving single cells. Which platform family fits, and what tradeoff do you accept?",
+            options=(
+                "An imaging-based platform such as MERFISH or Xenium, accepting that each spot pools several neighboring cells together into one blended expression profile",
+                "A sequencing-based platform such as Visium or Slide-seq, accepting coarser spatial resolution where a spot may cover several cells rather than resolving them individually",
+                "Either family works equally, since both now deliver whole-transcriptome coverage at genuine single-cell resolution once modern deconvolution is applied downstream",
+                "An imaging-based platform, accepting that its targeted panel of a few thousand genes is the price paid for reading individual transcripts at subcellular resolution in each imaged cell",
+            ),
+            answer=1,
+            explanation="Sequencing-based methods capture RNA on barcoded spots or beads and sequence it, so they read the whole transcriptome with nothing pre-selected, but their spots have classically pooled several cells. Imaging-based methods deliver subcellular resolution but only for a chosen panel, the opposite corner of the tradeoff and the tempting near-miss. The either-family option overstates the frontier: Visium HD and Stereo-seq push resolution finer and Xenium panels grow larger, but neither family yet gives whole-transcriptome, single-cell data as a routine default.",
+        ),
+        Question(
+            prompt="Before doing any spatial reasoning, a standard first step on Visium data is to run cell2location or Tangram. What problem are these tools solving?",
+            options=(
+                "They align the spatial coordinates of adjacent tissue sections so that a three-dimensional reconstruction can be stacked from a series of two-dimensional slices",
+                "They correct the strong batch effects between the spatial slides and the single-cell reference so that the two datasets can be placed in one shared embedding space",
+                "They estimate which cell types, and in what proportions, compose each spot, because a spot pools several cells into one mixed expression profile",
+                "They impute the transcripts the spatial assay failed to capture, since spot-based capture misses many of the lowly expressed genes at each location",
+            ),
+            answer=2,
+            explanation="A spot-based readout mixes several cells, so its profile is a composition, not a single cell; spatial deconvolution estimates the cell-type proportions per spot against a single-cell reference. The imputation option is the near-miss because it also invokes a reference and a missing-data flavor, but that framing is the task on imaging data, where you have real cells but only the panel's genes. The two mix up which axis each platform leaves incomplete: sequencing data is missing the cell boundaries, imaging data is missing the genes.",
+        ),
+        Question(
+            prompt="Stripped to its essence, what does a graph-based spatial domain method like SpaGCN or GraphST add over an ordinary single-cell clustering model?",
+            options=(
+                "A denoising diffusion process over three-dimensional atomic coordinates that reconstructs each cell's fine morphology before the clustering step runs",
+                "An edge structure connecting each cell to its physical neighbors, so a cell's representation is blended with its surroundings before any label is assigned",
+                "A contrastive objective that aligns the transcriptome against a paired histology image, forcing the two disparate modalities into a single shared embedding space",
+                "A much larger measured gene panel, which is what lets these methods separate spatial regions that expression alone could not otherwise distinguish",
+            ),
+            answer=1,
+            explanation="The one new ingredient is the neighbor graph: a graph neural network aggregates each cell's expression with that of its measured physical neighbors, which is what turns a cell-type call into a tissue-domain call. Methods in this family differ mainly in how they build and weight those edges. The histology option names a real technique some methods use as an extra signal, but histology fusion is optional; the load-bearing primitive shared across the family is the spatial edge itself, not a bigger panel or a 3D structure model.",
+        ),
+        Question(
+            prompt="Why are spatial foundation models generally less mature than protein or genome foundation models, despite using the same transformer machinery?",
+            options=(
+                "The data is fragmented, with dataset-specific gene panels that give no shared pretraining vocabulary, paired data is scarce, benchmarks are unsettled, and many such models are single-cell models with a position embedding added",
+                "Spatial data is so abundant and uniform that curating a clean, non-redundant pretraining corpus from it has become the dominant unsolved bottleneck for the field",
+                "Transformers cannot represent two-dimensional spatial coordinates at all, so the self-attention architecture itself must be swapped for a convolutional backbone before any spatial pretraining objective can even be defined on tissue",
+                "The underlying tissue biology is largely solved already, leaving little signal that a large self-supervised model could learn beyond what simple statistics capture",
+            ),
+            answer=0,
+            explanation="The obstacles are about data and evaluation, not the architecture. Unlike UniRef for proteins or a reference genome for DNA, imaging panels vary from dataset to dataset, so there is no common token vocabulary to pretrain on; fully paired data (expression, location, and histology on the same cells) is rare; and no spatial task yet plays the load-bearing role structure prediction or ProteinGym does. The abundance option inverts reality, and transformers handle coordinates via position embeddings, which is exactly how scGPT-spatial and CellPLM extend single-cell models.",
+        ),
+    ),
+    "cell-imaging": (
+        Question(
+            prompt="What does a Cell Painting assay actually produce as its per-perturbation readout?",
+            options=(
+                "A high-dimensional vector of morphological features (sizes, shapes, textures, intensities of stained compartments) extracted from images of many cells",
+                "A ranked list of the genes whose expression changed most in the perturbed cells relative to the untreated controls sharing the same plate, ordered by fold change",
+                "A single fluorescence intensity value per well that summarizes how strongly the reporter dye responded to the applied treatment",
+                "A predicted three-dimensional structure of the target protein that the perturbation was designed to engage in the assay",
+            ),
+            answer=0,
+            explanation="Cell Painting stains eight cellular components with six dyes across five channels, images thousands of cells, and turns each into a roughly 1,500-dimensional morphological profile. It is a broad phenotypic fingerprint, not an expression ranking (that is RNA-seq or Perturb-seq), not a single reporter number (that is a targeted reporter assay), and it says nothing about protein structure. The high dimensionality is the point: a generic dye palette records whatever changed rather than one pre-chosen quantity.",
+        ),
+        Question(
+            prompt="Practitioners call morphological profiling an unbiased phenotypic readout. What does that claim mean, and what does it not license?",
+            options=(
+                "It means the assay is free of batch effects, so profiles from different plates and imaging days can be compared directly without any correction",
+                "It means the dye set is generic rather than pathway-specific, so it can surface unexpected changes, but the resulting feature vector still names no gene or target on its own",
+                "It means the extracted features are causal rather than correlational, so a matched profile establishes a compound's mechanism directly and needs no confirmation",
+                "It means every distinct biological mechanism produces a distinguishable profile, so any two genuinely different perturbations are guaranteed to separate cleanly in the assay's feature space",
+            ),
+            answer=1,
+            explanation="Unbiased refers to the readout's breadth: you photograph the whole cell with a generic palette instead of watching one pre-selected pathway, so surprises can appear. It does not make the profile interpretable, causal, or batch-free. Distinct mechanisms can also look identical under one dye set, and batch effects are in fact one of imaging's largest hazards, so an unbiased readout still yields hypotheses to confirm, not mechanisms to declare.",
+        ),
+        Question(
+            prompt="How does morphological profiling let you infer a compound's mechanism of action?",
+            options=(
+                "By reading the mechanism off whichever single morphological feature shifts the most, since each extracted feature maps cleanly and one-to-one onto a single specific biological pathway",
+                "By docking the compound into candidate target pockets and keeping whichever target's predicted binding pose best explains the imaged phenotype",
+                "By clustering profiles so perturbations with shared mechanisms group together, letting an unknown compound inherit a hypothesis from its neighbors and from matched gene perturbations",
+                "By measuring the compound's binding affinity to each protein in the cell and assigning the mechanism to the single tightest interaction it can find",
+            ),
+            answer=2,
+            explanation="Inference is by similarity in profile space: compounds that act alike look alike, so an uncharacterized compound is assigned the mechanism of the cluster it falls into, and matching its profile to a specific gene knockout nominates that gene's pathway. No single feature maps to a pathway, and imaging measures phenotype, not binding poses or affinities. Because the signal is a similarity, every such call is a correlational lead to validate, not a proof.",
+        ),
+        Question(
+            prompt="A team's Cell Painting embeddings form crisp clusters, but the clusters line up with which 384-well plate each perturbation was run on. What is the most likely explanation?",
+            options=(
+                "A batch effect: systematic technical variation across plates, imaging days, or dye lots is dominating the profiles and organizing the clusters instead of the biology",
+                "The encoder overfit the perturbation labels during self-supervised training and effectively memorized which specific treatment compound sat in each individual well of the plate",
+                "The clustering is correct and plate identity is a genuine biological variable that the mechanism of action of these compounds genuinely depends on",
+                "The dye set was too pathway-specific, so it captured only the narrow signal shared within each plate and missed the broader cellular phenotype",
+            ),
+            answer=0,
+            explanation="Clusters that track plates, days, or reagent lots are the signature of a batch effect, and in imaging that technical variation is often large enough to swamp the perturbation signal, the reason serious pipelines correct for batch explicitly and evaluate on held-out batches. Self-supervised training uses no perturbation labels, so it cannot memorize them; plate identity is logistics, not biology; and the Cell Painting palette is deliberately generic, not pathway-specific.",
+        ),
+        Question(
+            prompt="JUMP-Cell Painting profiled chemical and genetic perturbations in the same feature space. What does a match between a compound's profile and a specific gene knockout's profile actually tell you?",
+            options=(
+                "It confirms the compound binds the protein encoded by that gene, since two profiles this identical could only arise from a direct physical interaction between the compound and that protein",
+                "It nominates that gene or its pathway as a candidate mechanism for the compound, a hypothesis to test, since the match is a phenotypic similarity rather than a demonstrated interaction",
+                "It proves the compound and the knockout are therapeutically interchangeable, so either one can be substituted for the other in a treatment regimen",
+                "It rules out every mechanism other than that gene, because a strong morphological match is specific enough on its own to exclude the alternative targets",
+            ),
+            answer=1,
+            explanation="A matched profile means the compound and the knockout drive a similar phenotype, which points to a shared pathway and makes that gene a candidate target worth testing. It is correlational: similar appearance does not prove binding, interchangeable therapy, or an exclusive mechanism, and different mechanisms can converge on the same look under one dye set. The matched chemical-genetic design makes the comparison possible, but the output is still a lead for the bench.",
+        ),
+    ),
 }
 
 
