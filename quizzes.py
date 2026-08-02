@@ -704,6 +704,120 @@ _QUIZZES: dict[str, tuple[Question, ...]] = {
             explanation="Generative chemistry's recurring failure is proposing molecules no synthetic route can make; a synthetic-accessibility score is a rough filter and retrosynthesis planning is the real test. Second layer: the problem compounds with distribution shift, because a model confident on familiar drug-like space extrapolates poorly to genuinely new scaffolds, which is exactly the regime where its own affinity scoring is least trustworthy.",
         ),
     ),
+    "sequence-to-function": (
+        Question(
+            prompt="A sequence-to-function model tops a public variant-effect benchmark. A collaborator wants to use it to predict how a specific patient's noncoding variant changes that patient's expression of a nearby gene. What is the correct caution?",
+            options=(
+                "The model predicts variation across genes and tissues well but explains differences between individuals poorly, and can even get the direction of a personal cis-regulatory effect wrong",
+                "The benchmark used a different reference genome build, so the coordinates must be lifted over before the prediction can be trusted for this patient",
+                "The model outputs only chromatin accessibility rather than expression, so it cannot speak to a gene's transcript level at all, and treating an accessibility shift as an expression change would be a category error",
+                "The variant is noncoding, and these models are trained only on protein-coding sequence, so it falls outside their input domain",
+            ),
+            answer=0,
+            explanation="The gap is cross-gene versus personal skill. Models trained to explain expression differences across the genome learn from the large sequence differences between loci, while the differences between two people at the same locus are a few scattered variants, a far smaller signal the objective never rewarded; benchmarks confirm they can invert the sign of a personal cis effect (Huang et al. 2023; Sasse et al. 2023). The distractors sound plausible but are wrong: these models predict expression tracks directly, are trained on the whole sequence window including noncoding DNA, and a build mismatch is a data-hygiene footnote, not the load-bearing caution.",
+        ),
+        Question(
+            prompt="Someone groups Enformer, Borzoi, and AlphaGenome together with HyenaDNA and Evo 2 as self-supervised genomic foundation models. Where does this go wrong?",
+            options=(
+                "Enformer, Borzoi, and AlphaGenome are supervised regressors fit to measured tracks, whereas the DNA language models are the self-supervised ones trained on unlabeled sequence",
+                "Evo 2 and HyenaDNA are supervised on experimental tracks, while Enformer and AlphaGenome are the self-supervised ones trained on raw sequence",
+                "None of the five are foundation models, because a foundation model must be adapted with fine-tuning and these are all used zero-shot",
+                "The grouping is fine, since all five are pretrained on unlabeled DNA and differ only in architecture, so the supervised-versus-self-supervised label carries no real predictive weight here",
+            ),
+            answer=0,
+            explanation="Enformer, Borzoi, AlphaGenome, Sei, and Decima are supervised multi-output regressors: DNA in, measured coverage tracks as labels out. The DNA language models (DNABERT-2, Nucleotide Transformer, HyenaDNA, Caduceus, Evo/Evo 2) are the genuinely self-supervised ones, trained to predict masked or next nucleotides with no labels. The tempting near-miss inverts the two families. The distinction is not pedantic: a supervised track model is bounded by the assays and cell types in its training set, a different failure profile from a pretraining corpus.",
+        ),
+        Question(
+            prompt="Older intuition held that a genomic model reading a longer stretch of DNA must output coarser predictions. How did the Enformer-to-AlphaGenome progression relate to that intuition?",
+            options=(
+                "It broke the tradeoff: successive models reached both longer context and finer resolution, ending at single-base output over a one-megabase window",
+                "It confirmed the tradeoff: AlphaGenome reads a full megabase of context but had to fall back to coarse 512-base-pair output bins to afford that reach, exactly as the older intuition predicted",
+                "It sidestepped the issue by keeping resolution fixed at 128 base pairs and only extending context",
+                "It abandoned long context entirely, since distal enhancers turned out not to matter for accurate track prediction",
+            ),
+            answer=0,
+            explanation="The generations moved up and to the right at once, from Enformer (128-base-pair bins over a roughly 200-kilobase window) to Borzoi (32-base-pair) to AlphaGenome (single-base resolution over a full megabase). Longer context is needed to see distal enhancers, and finer resolution is needed to place a splice site or start codon exactly, so both had to improve together to score real variants. The near-miss is backwards: capturing long-range enhancer action was the original reason Enformer widened the window.",
+        ),
+        Question(
+            prompt="Why does a sequence-to-function model predict thousands of tracks at once, rather than a single expression number per gene, and how is cell type handled?",
+            options=(
+                "Predicting many assays across many cell types forces the model to learn shared regulatory grammar, and cell type is an output dimension it predicts in parallel, not an input it is told",
+                "The many tracks are an ensemble averaged into one robust expression estimate, and cell type is supplied as a one-hot input vector alongside the sequence so the model is told which tissue to answer for",
+                "Each track is an independent model, and cell type is selected by routing the sequence to whichever track-model matches the tissue of interest",
+                "Thousands of tracks are needed only for training stability, and at inference the model is queried for one cell type at a time by masking the others",
+            ),
+            answer=0,
+            explanation="The multi-task target is what teaches the regulatory grammar: a model forced to predict accessibility, binding, and expression across many cell types must discover which motifs open chromatin and which combinations drive a promoter, rather than memorizing one readout. Crucially, the model is not handed the cell type; it emits one track per trained context in parallel, so a cell type never profiled is simply off the map. The distractors misplace cell type as an input and misread the many tracks as an ensemble.",
+        ),
+        Question(
+            prompt="A model accurately predicts that a variant shifts an ATAC-seq coverage track. A collaborator concludes the variant causes the disease under study. What is the flaw?",
+            options=(
+                "A predicted molecular track shift is not a phenotype; most traits are highly polygenic, so one regulatory change is a small push among thousands, and the causal chain to disease is unproven",
+                "ATAC-seq measures expression, not accessibility, so the predicted shift does not bear on the regulatory question at all",
+                "There is no flaw, since a confidently predicted accessibility change at a locus is sufficient evidence of a causal effect on the trait",
+                "The flaw is only that ATAC-seq is noisier than RNA-seq, so the same causal conclusion would actually hold with more confidence had the track been a cleaner expression measurement of the same gene",
+            ),
+            answer=0,
+            explanation="Predicting a track is a molecular milestone, not a phenotype prediction. Because most traits are massively polygenic, one regulatory change is a single small contribution among many, and jumping from shifts a track to causes the disease skips the entire causal chain (Boyle et al. 2017). The near-miss correctly senses the conclusion is unsafe but blames measurement noise rather than the real track-versus-phenotype gap, which would persist even with a perfectly clean expression track.",
+        ),
+    ),
+    "variant-to-mechanism": (
+        Question(
+            prompt="A missense effect predictor scores a variant that lies inside a GWAS credible set as highly likely to be pathogenic. Why is that score not enough to call the variant the causal driver of the disease?",
+            options=(
+                "The variant sits in an LD block, so several correlated neighbors will also score as damaging, and the score reflects molecular damage rather than which variant actually drives the association",
+                "Missense predictors are trained mostly on primate allele frequencies, so they cannot score variants that are rare in humans, which are the ones that cause disease",
+                "Pathogenicity scores are defined only for Mendelian disorders and carry no information about the common, polygenic diseases that GWAS studies target",
+                "A high score means the protein is destabilized, and destabilized proteins are degraded before they can influence any downstream phenotype, so the score cannot bear on disease risk in a living cell",
+            ),
+            answer=0,
+            explanation="The score is a per-variant, molecular statement, but linkage disequilibrium means the real driver drags correlated neighbors up with it, so even the top-scoring variant in a credible set need not be causal. Fine-mapping and colocalization are what move a damage score to a causal, gene-level claim. The near-miss is tempting: these predictors in fact score any missense change regardless of human frequency, and rarity is not why the score is insufficient.",
+        ),
+        Question(
+            prompt="Why is predicting the effect of a common noncoding regulatory variant considered far less solved than predicting a missense variant's effect?",
+            options=(
+                "A noncoding variant changes a gene's dose rather than the protein itself, so there is no residue to score and you must infer a small regulatory-track shift with models unreliable at those effect sizes",
+                "Noncoding variants are always rarer than missense variants, so no cohort has enough carriers to estimate their effects with any confidence",
+                "Regulatory regions are not conserved across species, so the evolutionary signal that variant-effect models rely on is entirely absent for noncoding DNA",
+                "Missense predictors can exploit 3D protein structure while noncoding variants have no structure at all, and without a structural scaffold no deep model can produce any usable prediction for a regulatory change",
+            ),
+            answer=0,
+            explanation="The core difference is the readout: a missense change has a direct molecular consequence, while a regulatory variant's effect is indirect, tiny, and tissue-specific, and the models that estimate it are weak in exactly that regime. The near-miss is wrong that conservation is absent: many regulatory elements are conserved and models do use that signal; the real limits are effect size and inter-individual prediction.",
+        ),
+        Question(
+            prompt="A locus fine-maps to a small credible set, and its GWAS signal colocalizes with an eQTL for gene X. What does colocalization establish, and what does it leave open?",
+            options=(
+                "It gives evidence that the same variant drives both the disease association and gene X's expression, nominating X as the candidate gene, but does not by itself prove that changing X's expression causes the disease",
+                "It proves that gene X's expression causally drives the disease, which is why colocalization is treated as a substitute for a randomized trial",
+                "It establishes the direction of effect, whether higher or lower expression of X raises risk, while remaining silent on which gene is involved",
+                "It confirms that the credible-set variant is causal for the trait, so no further fine-mapping or perturbation is needed before acting on gene X in a therapeutic program, since colocalization already accounts for the linkage structure",
+            ),
+            answer=0,
+            explanation="Colocalization ties a signal to a gene by arguing they share a causal variant; establishing that the gene's expression actually causes the disease is what Mendelian randomization targets, and even MR rests on a no-pleiotropy assumption. The overclaiming option conflates naming a gene with proving causation, and MR itself is only an instrumental-variable argument, not a literal trial.",
+        ),
+        Question(
+            prompt="A polygenic score for coronary artery disease is trained on a European-ancestry cohort and performs well there, but its accuracy drops sharply in an African-ancestry population. What most directly explains the drop?",
+            options=(
+                "LD patterns and allele frequencies differ across ancestries, so the tag SNPs and effect weights the score learned no longer track the causal variants in the new population",
+                "African-ancestry genomes carry fundamentally different disease-causing genes, so a score built on European biology is measuring the wrong pathways entirely and could never be expected to transfer",
+                "The score overfits its training cohort, and any held-out population, regardless of ancestry, would show the same loss of accuracy",
+                "Non-European cohorts are smaller, so the score has higher variance there, but its expected accuracy is unchanged once sample size is matched",
+            ),
+            answer=0,
+            explanation="Portability fails for a mechanistic reason: a PRS leans on tag SNPs in LD with causal variants, and both LD structure and allele frequency shift across ancestries. The near-miss about sample size matters genuinely, but the accuracy gap persists even when sample sizes are matched, which points at ancestry-specific LD rather than variance or generic overfitting.",
+        ),
+        Question(
+            prompt="Sequence-to-function models like Enformer and Borzoi predict expression differences across genes well. Why is that not enough for a population-cohort study of an aging disease?",
+            options=(
+                "Such a study needs inter-individual prediction, how expression differs between two people's genomes, and these models explain that poorly, sometimes getting even the direction of a real cis-regulatory effect wrong",
+                "These models predict only chromatin accessibility, not expression, so they cannot be applied to any expression-based cohort analysis",
+                "Aging diseases are driven by rare coding variants, which fall outside the noncoding domain these models operate on",
+                "The models are trained on immortalized cell lines rather than aged tissue, so a domain shift to the relevant cell state, not the cross-gene versus inter-individual gap, is the real limiting factor for a cohort of older patients",
+            ),
+            answer=0,
+            explanation="The documented failure (Huang et al. 2023; Sasse et al. 2023) is specifically the cross-gene versus inter-individual gap: strong accuracy at ranking genes coexists with poor prediction of how one person's genome differs from another's. The near-miss names a real concern, but the benchmarks isolate the cross-gene/inter-individual distinction as the core problem, independent of cell-line domain shift.",
+        ),
+    ),
 }
 
 

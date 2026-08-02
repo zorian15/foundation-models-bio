@@ -14,6 +14,7 @@ sequence becoming a structure) and are written to the assets root.
 
 from __future__ import annotations
 
+import random
 from pathlib import Path
 
 import matplotlib
@@ -2118,7 +2119,382 @@ def fig_potency_to_invivo_gap():
     return write_svg("potency-to-invivo-gap.svg", svg)
 
 
+def fig_sequence_to_function_map():
+    W, H = 720, 290
+    defs = arrow_marker(ACCENT, "arrow_s2f")
+    body = [defs]
+    body.append(eyebrow(20, 30, "ONE DNA WINDOW IN, A STACK OF TRACKS OUT"))
+    # The DNA window on the left.
+    body.append(
+        f'<text x="30" y="120" font-family="{SANS}" font-size="11" fill="{MUTED}">~1 Mb DNA window</text>'
+    )
+    body.append(
+        f'<rect x="30" y="128" width="180" height="22" rx="4" '
+        f'fill="{ACCENT_SOFT}" stroke="{RULE_STRONG}"/>'
+    )
+    body.append(f'<rect x="70" y="133" width="26" height="12" rx="2" fill="{ACCENT}"/>')
+    body.append(
+        f'<text x="30" y="170" font-family="{SANS}" font-size="10" fill="{MUTED}">gene &amp; a distal enhancer</text>'
+    )
+    # The model box.
+    body += node_box(
+        250, 116, 150, 46, "sequence-to-function model", font_size=10, weight=600
+    )
+    body.append(
+        f'<line x1="212" y1="139" x2="248" y2="139" stroke="{ACCENT}" '
+        f'stroke-width="2" marker-end="url(#arrow_s2f)"/>'
+    )
+    # The fan-out to a stack of track lanes.
+    lanes = [
+        ("RNA-seq · T cell", 46),
+        ("ATAC · neuron", 98),
+        ("ChIP-seq · liver", 150),
+    ]
+    lane_x, lane_w = 470, 220
+    for label, ly in lanes:
+        body.append(
+            f'<text x="{lane_x}" y="{ly - 5}" font-family="{SANS}" font-size="10" fill="{MUTED}">{label}</text>'
+        )
+        body.append(
+            f'<rect x="{lane_x}" y="{ly}" width="{lane_w}" height="30" rx="4" '
+            f'fill="#ffffff" stroke="{RULE_STRONG}"/>'
+        )
+        # A wiggly signal polyline inside the lane.
+        pts = []
+        for k in range(12):
+            px = lane_x + 8 + k * (lane_w - 16) / 11
+            py = ly + 15 + (8 if k in (3, 7) else -6 if k in (5, 9) else 0)
+            pts.append(f"{px:.0f},{py:.0f}")
+        body.append(
+            f'<polyline points="{" ".join(pts)}" fill="none" stroke="{ACCENT}" stroke-width="1.6"/>'
+        )
+    # A small Hi-C contact triangle as the 4th readout.
+    body.append(
+        f'<text x="{lane_x}" y="197" font-family="{SANS}" font-size="10" fill="{MUTED}">Hi-C · contacts</text>'
+    )
+    body.append(
+        f'<path d="M {lane_x} 240 L {lane_x + 110} 202 L {lane_x + 220} 240 Z" '
+        f'fill="{ACCENT_SOFT}" stroke="{RULE_STRONG}"/>'
+    )
+    # Fan of thin connectors from the model to each lane.
+    for ly in (61, 113, 165, 220):
+        body.append(
+            f'<line x1="402" y1="139" x2="{lane_x - 2}" y2="{ly}" stroke="{RULE_STRONG}" '
+            f'stroke-width="1"/>'
+        )
+    svg = svg_doc(
+        W, H, "A DNA window mapped to a stack of assay-by-cell-type tracks", body
+    )
+    return write_svg("sequence-to-function-map.svg", svg)
+
+
+def fig_supervised_vs_selfsupervised():
+    W, H = 720, 300
+    defs = arrow_marker(ACCENT, "arrow_svs")
+    body = [defs]
+    body.append(
+        f'<line x1="360" y1="44" x2="360" y2="276" stroke="{RULE}" stroke-width="1"/>'
+    )
+    cols = [
+        (
+            110,
+            "SUPERVISED · TRACK REGRESSION",
+            "measured tracks (labels)",
+            ACCENT_SOFT,
+            ["Enformer", "Borzoi", "AlphaGenome", "Sei", "Decima"],
+        ),
+        (
+            470,
+            "SELF-SUPERVISED · DNA LANGUAGE MODELS",
+            "predict masked / next base",
+            "#ffffff",
+            [
+                "DNABERT-2",
+                "Nucleotide Transformer",
+                "HyenaDNA",
+                "Caduceus",
+                "Evo · Evo 2",
+            ],
+        ),
+    ]
+    for cx, head, target, tfill, names in cols:
+        body.append(eyebrow(cx - 70, 34, head))
+        body += node_box(cx - 70, 52, 140, 30, "DNA window", font_size=11)
+        body.append(
+            f'<line x1="{cx}" y1="82" x2="{cx}" y2="98" stroke="{ACCENT}" stroke-width="2" marker-end="url(#arrow_svs)"/>'
+        )
+        body += node_box(
+            cx - 70, 102, 140, 40, "model", font_size=12, weight=600, fill=ACCENT_SOFT
+        )
+        body.append(
+            f'<line x1="{cx}" y1="142" x2="{cx}" y2="158" stroke="{ACCENT}" stroke-width="2" marker-end="url(#arrow_svs)"/>'
+        )
+        body += node_box(cx - 90, 162, 180, 34, target, font_size=10.5, fill=tfill)
+        for i, name in enumerate(names):
+            body.append(
+                f'<text x="{cx}" y="{220 + i * 15}" text-anchor="middle" '
+                f'font-family="{SANS}" font-size="10.5" fill="{INK_SOFT}">{name}</text>'
+            )
+    svg = svg_doc(
+        W,
+        H,
+        "Supervised track regressors versus self-supervised DNA language models",
+        body,
+    )
+    return write_svg("supervised-vs-selfsupervised.svg", svg)
+
+
+def fig_context_resolution():
+    W, H = 560, 300
+    body = [arrow_marker(ACCENT, "arrow_cr")]
+    body.append(eyebrow(20, 28, "MORE CONTEXT AND FINER RESOLUTION, TOGETHER"))
+    # Axes.
+    body.append(
+        f'<line x1="70" y1="235" x2="500" y2="235" stroke="{RULE_STRONG}" stroke-width="1.2"/>'
+    )
+    body.append(
+        f'<line x1="70" y1="60" x2="70" y2="235" stroke="{RULE_STRONG}" stroke-width="1.2"/>'
+    )
+    body.append(
+        f'<text x="285" y="268" text-anchor="middle" font-family="{SANS}" font-size="11" fill="{MUTED}">input context (kb, log scale)</text>'
+    )
+    body.append(
+        f'<text x="30" y="150" text-anchor="middle" font-family="{SANS}" font-size="11" fill="{MUTED}" transform="rotate(-90 30 150)">output resolution (finer up)</text>'
+    )
+    # Points: (x, y, name, label_dx, label_dy, anchor).
+    pts = [
+        (199, 205, "128 bp", "Enformer", 0, -14, "middle"),
+        (350, 145, "32 bp", "Borzoi", 0, 26, "middle"),
+        (453, 82, "1 bp", "AlphaGenome", 6, 16, "start"),
+    ]
+    # Progression arrow through the points.
+    body.append(
+        f'<path d="M 199 205 Q 300 150 453 82" fill="none" stroke="{ACCENT}" '
+        f'stroke-width="1.6" stroke-dasharray="4 3" marker-end="url(#arrow_cr)"/>'
+    )
+    xticks = [(199, "200"), (350, "520"), (453, "1000")]
+    for tx, tl in xticks:
+        body.append(
+            f'<text x="{tx}" y="252" text-anchor="middle" font-family="{SANS}" font-size="10" fill="{MUTED}">{tl}</text>'
+        )
+    for px, py, ytick, name, dx, dy, anchor in pts:
+        body.append(f'<circle cx="{px}" cy="{py}" r="6" fill="{ACCENT}"/>')
+        body.append(
+            f'<text x="{px + dx}" y="{py + dy}" text-anchor="{anchor}" font-family="{SANS}" font-size="11" font-weight="600" fill="{INK}">{name}</text>'
+        )
+        body.append(
+            f'<text x="64" y="{py + 4}" text-anchor="end" font-family="{SANS}" font-size="10" fill="{MUTED}">{ytick}</text>'
+        )
+    svg = svg_doc(
+        W, H, "Context length versus output resolution across model generations", body
+    )
+    return write_svg("context-resolution.svg", svg)
+
+
+def fig_cross_gene_vs_personal():
+    W, H = 700, 300
+    body = [eyebrow(20, 28, "SAME MODEL, TWO VERY DIFFERENT TESTS")]
+    rng = random.Random(7)
+    panels = [
+        (70, 320, "Across genes", True),
+        (390, 640, "Across individuals (one gene)", False),
+    ]
+    ytop, ybot = 70, 220
+    for x0, x1, title, tight in panels:
+        body.append(
+            f'<text x="{(x0 + x1) / 2:.0f}" y="56" text-anchor="middle" font-family="{SANS}" font-size="12" font-weight="600" fill="{INK}">{title}</text>'
+        )
+        # Frame and y=x reference line.
+        body.append(
+            f'<rect x="{x0}" y="{ytop}" width="{x1 - x0}" height="{ybot - ytop}" rx="4" fill="none" stroke="{RULE}"/>'
+        )
+        body.append(
+            f'<line x1="{x0}" y1="{ybot}" x2="{x1}" y2="{ytop}" stroke="{MUTED}" stroke-width="1" stroke-dasharray="4 3"/>'
+        )
+        for _ in range(24):
+            t = rng.uniform(0.06, 0.94)
+            if tight:
+                px = x0 + t * (x1 - x0)
+                py = ybot - t * (ybot - ytop) + rng.gauss(0, 7)
+            else:
+                px = (x0 + x1) / 2 + rng.gauss(0, 34)
+                py = (ytop + ybot) / 2 + rng.gauss(0, 34)
+            px = min(max(px, x0 + 4), x1 - 4)
+            py = min(max(py, ytop + 4), ybot - 4)
+            body.append(
+                f'<circle cx="{px:.0f}" cy="{py:.0f}" r="3.4" fill="{ACCENT}" opacity="0.85"/>'
+            )
+    body.append(
+        f'<text x="350" y="250" text-anchor="middle" font-family="{SANS}" font-size="10.5" fill="{MUTED}">predicted (vertical) vs measured (horizontal) expression · dashed line is perfect prediction</text>'
+    )
+    svg = svg_doc(
+        W, H, "Cross-gene accuracy beside poor cross-individual accuracy", body
+    )
+    return write_svg("cross-gene-vs-personal.svg", svg)
+
+
+def fig_variant_two_regimes():
+    W, H = 500, 250
+    defs = arrow_marker(ACCENT, "arrow_v2r")
+    body = [defs]
+    # The gene schematic across the top.
+    body.append(
+        f'<line x1="150" y1="70" x2="300" y2="70" stroke="{RULE_STRONG}" stroke-width="1.4" stroke-dasharray="3 3"/>'
+    )
+    body += node_box(50, 58, 100, 26, "Enhancer", font_size=10, fill=ACCENT_SOFT)
+    for ex in (300, 360, 420):
+        body.append(
+            f'<rect x="{ex}" y="58" width="40" height="26" rx="2" fill="{ACCENT}"/>'
+        )
+    body.append(
+        f'<line x1="340" y1="71" x2="360" y2="71" stroke="{INK_SOFT}" stroke-width="1.4"/>'
+    )
+    body.append(
+        f'<line x1="400" y1="71" x2="420" y2="71" stroke="{INK_SOFT}" stroke-width="1.4"/>'
+    )
+    # Two lollipop markers with labels above.
+    markers = [
+        (100, "regulatory · common, small effect"),
+        (380, "missense · rare, large effect"),
+    ]
+    for mx, label in markers:
+        body.append(
+            f'<line x1="{mx}" y1="56" x2="{mx}" y2="40" stroke="{BRICK}" stroke-width="1.6"/>'
+        )
+        body.append(f'<circle cx="{mx}" cy="36" r="4" fill="{BRICK}"/>')
+        body.append(
+            f'<text x="{mx}" y="28" text-anchor="middle" font-family="{SANS}" font-size="9.5" fill="{INK_SOFT}">{label}</text>'
+        )
+    # Question chips, then model-family chips, aligned under each marker.
+    chips = [
+        (100, "Does it change the gene's dose?", "Noncoding / sequence-to-function"),
+        (380, "Does it break the protein?", "Coding / missense predictors"),
+    ]
+    for cx, q, m in chips:
+        body.append(
+            f'<line x1="{cx}" y1="84" x2="{cx}" y2="126" stroke="{ACCENT}" stroke-width="1.6" marker-end="url(#arrow_v2r)"/>'
+        )
+        body += node_box(cx - 90, 128, 180, 44, q, font_size=10)
+        body.append(
+            f'<line x1="{cx}" y1="172" x2="{cx}" y2="196" stroke="{ACCENT}" stroke-width="1.6" marker-end="url(#arrow_v2r)"/>'
+        )
+        body += node_box(
+            cx - 90, 198, 180, 34, m, font_size=9.5, fill=ACCENT_SOFT, weight=600
+        )
+    svg = svg_doc(
+        W, H, "Coding versus noncoding variants route to different models", body
+    )
+    return write_svg("variant-two-regimes.svg", svg)
+
+
+def fig_variant_to_mechanism_pipeline():
+    W, H = 920, 300
+    defs = arrow_marker(ACCENT, "arrow_vtm")
+    body = [defs]
+    heads = [
+        (105, "GWAS HIT"),
+        (290, "SCORE"),
+        (475, "NARROW"),
+        (660, "GENE + CAUSE"),
+        (835, "MECHANISM"),
+    ]
+    for hx, ht in heads:
+        body.append(eyebrow(hx - 55, 92, ht))
+    body += node_box(
+        30, 150, 150, 50, "Associated GWAS region", font_size=10, fill=ACCENT_SOFT
+    )
+    body += node_box(210, 120, 160, 44, "Coding: missense score", font_size=9.5)
+    body += node_box(
+        210, 190, 160, 44, "Noncoding: in-silico mutagenesis", font_size=9.5
+    )
+    body += node_box(400, 150, 150, 50, "Fine-map to a credible set", font_size=10)
+    body += node_box(580, 120, 170, 44, "Colocalize eQTL to a gene", font_size=9.5)
+    body += node_box(580, 190, 170, 44, "Mendelian randomization", font_size=9.5)
+    body.append(
+        f'<rect x="765" y="135" width="145" height="80" rx="6" fill="{ACCENT_SOFT}" stroke="{ACCENT}"/>'
+    )
+    for i, line in enumerate(
+        ["Mechanism:", "this variant → this gene", "→ moves the disease"]
+    ):
+        body.append(
+            f'<text x="837" y="{162 + i * 18}" text-anchor="middle" font-family="{SANS}" font-size="10.5" font-weight="{600 if i == 0 else 400}" fill="{INK}">{line}</text>'
+        )
+    # Arrows between columns.
+    arrows = [
+        (182, 175, 208, 142),
+        (182, 175, 208, 212),
+        (372, 142, 398, 168),
+        (372, 212, 398, 182),
+        (552, 175, 578, 142),
+        (552, 175, 578, 212),
+        (752, 142, 763, 168),
+        (752, 212, 763, 182),
+    ]
+    for x1, y1, x2, y2 in arrows:
+        body.append(
+            f'<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke="{ACCENT}" stroke-width="1.6" marker-end="url(#arrow_vtm)"/>'
+        )
+    svg = svg_doc(W, H, "From an associated region to a causal mechanism", body)
+    return write_svg("variant-to-mechanism-pipeline.svg", svg)
+
+
+def fig_coding_vs_noncoding_solved():
+    W, H = 640, 220
+    body = [eyebrow(20, 28, "AN UNEVEN FIELD")]
+    x0, xmax, span = 190, 560, 370
+    body.append(
+        f'<line x1="{x0}" y1="170" x2="{xmax}" y2="170" stroke="{RULE_STRONG}" stroke-width="1.2"/>'
+    )
+    bars = [
+        (
+            70,
+            0.85,
+            ACCENT,
+            "Missense (coding)",
+            "direct readout · proteome-wide · calibrated",
+        ),
+        (
+            120,
+            0.30,
+            AMBER,
+            "Regulatory (noncoding)",
+            "tiny effects · poor personal prediction",
+        ),
+    ]
+    for by, frac, color, label, note in bars:
+        bw = frac * span
+        body.append(
+            f'<rect x="{x0}" y="{by}" width="{bw:.0f}" height="34" rx="3" fill="{color}"/>'
+        )
+        body.append(
+            f'<text x="{x0 - 12}" y="{by + 22}" text-anchor="end" font-family="{SANS}" font-size="11" fill="{INK}">{label}</text>'
+        )
+        body.append(
+            f'<text x="{x0}" y="{by - 6}" font-family="{SANS}" font-size="9.5" fill="{MUTED}">{note}</text>'
+        )
+    body.append(
+        f'<text x="{x0}" y="188" font-family="{SANS}" font-size="10" fill="{MUTED}">open frontier</text>'
+    )
+    body.append(
+        f'<text x="{xmax}" y="188" text-anchor="end" font-family="{SANS}" font-size="10" fill="{MUTED}">well-solved</text>'
+    )
+    body.append(
+        f'<text x="{x0}" y="206" font-family="{SANS}" font-size="9.5" fill="{MUTED}">Qualitative maturity, not a benchmarked metric.</text>'
+    )
+    svg = svg_doc(
+        W, H, "Missense prediction is mature while noncoding remains the frontier", body
+    )
+    return write_svg("coding-vs-noncoding-solved.svg", svg)
+
+
 FIGURES = (
+    fig_sequence_to_function_map,
+    fig_supervised_vs_selfsupervised,
+    fig_context_resolution,
+    fig_cross_gene_vs_personal,
+    fig_variant_two_regimes,
+    fig_variant_to_mechanism_pipeline,
+    fig_coding_vs_noncoding_solved,
     fig_small_molecule_representations,
     fig_score_vs_generate,
     fig_physics_to_learning_spectrum,

@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 290" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" role="img" aria-label="A DNA window mapped to a stack of assay-by-cell-type tracks">
+<defs><marker id="arrow_s2f" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#274b6d"/></marker></defs>
+<text x="20.0" y="30.0" font-size="11" font-weight="700" fill="#6a6d73" letter-spacing="1">ONE DNA WINDOW IN, A STACK OF TRACKS OUT</text>
+<text x="30" y="120" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" fill="#6a6d73">~1 Mb DNA window</text>
+<rect x="30" y="128" width="180" height="22" rx="4" fill="#eaf0f6" stroke="#cfcdc4"/>
+<rect x="70" y="133" width="26" height="12" rx="2" fill="#274b6d"/>
+<text x="30" y="170" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" fill="#6a6d73">gene &amp; a distal enhancer</text>
+<rect x="250.0" y="116.0" width="150.0" height="46.0" rx="6" fill="#ffffff" stroke="#cfcdc4"/>
+<text x="325.0" y="142.5" font-size="10" font-weight="600" text-anchor="middle" fill="#17181b">sequence-to-function model</text>
+<line x1="212" y1="139" x2="248" y2="139" stroke="#274b6d" stroke-width="2" marker-end="url(#arrow_s2f)"/>
+<text x="470" y="41" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" fill="#6a6d73">RNA-seq · T cell</text>
+<rect x="470" y="46" width="220" height="30" rx="4" fill="#ffffff" stroke="#cfcdc4"/>
+<polyline points="478,61 497,61 515,61 534,69 552,61 571,55 589,61 608,69 626,61 645,55 663,61 682,61" fill="none" stroke="#274b6d" stroke-width="1.6"/>
+<text x="470" y="93" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" fill="#6a6d73">ATAC · neuron</text>
+<rect x="470" y="98" width="220" height="30" rx="4" fill="#ffffff" stroke="#cfcdc4"/>
+<polyline points="478,113 497,113 515,113 534,121 552,113 571,107 589,113 608,121 626,113 645,107 663,113 682,113" fill="none" stroke="#274b6d" stroke-width="1.6"/>
+<text x="470" y="145" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" fill="#6a6d73">ChIP-seq · liver</text>
+<rect x="470" y="150" width="220" height="30" rx="4" fill="#ffffff" stroke="#cfcdc4"/>
+<polyline points="478,165 497,165 515,165 534,173 552,165 571,159 589,165 608,173 626,165 645,159 663,165 682,165" fill="none" stroke="#274b6d" stroke-width="1.6"/>
+<text x="470" y="197" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" fill="#6a6d73">Hi-C · contacts</text>
+<path d="M 470 240 L 580 202 L 690 240 Z" fill="#eaf0f6" stroke="#cfcdc4"/>
+<line x1="402" y1="139" x2="468" y2="61" stroke="#cfcdc4" stroke-width="1"/>
+<line x1="402" y1="139" x2="468" y2="113" stroke="#cfcdc4" stroke-width="1"/>
+<line x1="402" y1="139" x2="468" y2="165" stroke="#cfcdc4" stroke-width="1"/>
+<line x1="402" y1="139" x2="468" y2="220" stroke="#cfcdc4" stroke-width="1"/>
+</svg>

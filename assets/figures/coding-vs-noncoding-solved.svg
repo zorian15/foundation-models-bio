@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 220" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" role="img" aria-label="Missense prediction is mature while noncoding remains the frontier">
+<text x="20.0" y="28.0" font-size="11" font-weight="700" fill="#6a6d73" letter-spacing="1">AN UNEVEN FIELD</text>
+<line x1="190" y1="170" x2="560" y2="170" stroke="#cfcdc4" stroke-width="1.2"/>
+<rect x="190" y="70" width="314" height="34" rx="3" fill="#274b6d"/>
+<text x="178" y="92" text-anchor="end" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" fill="#17181b">Missense (coding)</text>
+<text x="190" y="64" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="9.5" fill="#6a6d73">direct readout · proteome-wide · calibrated</text>
+<rect x="190" y="120" width="111" height="34" rx="3" fill="#9c6b12"/>
+<text x="178" y="142" text-anchor="end" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" fill="#17181b">Regulatory (noncoding)</text>
+<text x="190" y="114" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="9.5" fill="#6a6d73">tiny effects · poor personal prediction</text>
+<text x="190" y="188" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" fill="#6a6d73">open frontier</text>
+<text x="560" y="188" text-anchor="end" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" fill="#6a6d73">well-solved</text>
+<text x="190" y="206" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="9.5" fill="#6a6d73">Qualitative maturity, not a benchmarked metric.</text>
+</svg>

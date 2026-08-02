@@ -566,6 +566,66 @@ _TERMS: tuple[Term, ...] = (
         "Free energy perturbation (FEP)",
         "A physics-based simulation method that computes the relative binding free energy between two similar ligands by simulating the gradual transformation of one into the other. It is accurate and calibrated but computationally expensive and dependent on a good structure and force field.",
     ),
+    Term(
+        "Enhancer",
+        "A short regulatory DNA element that boosts a gene's expression and can act from far away, looping through 3D space to reach a promoter tens or hundreds of kilobases distant. Its long range is a main reason sequence-to-function models need large context windows.",
+    ),
+    Term(
+        "Promoter",
+        "The regulatory region immediately at a gene's start where transcription is switched on. It is the most local of the cis-regulatory elements, in contrast to distal enhancers.",
+    ),
+    Term(
+        "Transcription factor (TF)",
+        "A protein that binds specific short DNA motifs to activate or repress transcription of nearby genes. Which TFs are present is part of what defines a cell type, and TF binding is what ChIP-seq maps.",
+    ),
+    Term(
+        "Cell-type-specific expression",
+        "The fact that the same DNA produces different regulatory activity in different cell types, so a model must predict one track per cell type or tissue rather than a single genome-wide answer.",
+    ),
+    Term(
+        "DNA language model",
+        "A self-supervised foundation model trained to predict masked or next nucleotides on unlabeled DNA (e.g. DNABERT-2, Nucleotide Transformer, HyenaDNA, Caduceus, Evo), yielding reusable sequence representations. Distinct from supervised sequence-to-function models, which are trained on experimental tracks.",
+    ),
+    Term(
+        "Single-base resolution",
+        "An output granularity where the model predicts a value at every individual base pair rather than in wider bins; AlphaGenome reaches this, versus Enformer's 128-base-pair bins.",
+    ),
+    Term(
+        "Receptive field (genomic context window)",
+        "The length of DNA a model reads to make a prediction at any one position. A larger receptive field lets the model see distal enhancers acting from far away; it grew from about 100 kilobases in Enformer to a megabase in AlphaGenome.",
+    ),
+    Term(
+        "Inter-individual (personal) variation",
+        "The genetic and expression differences between two specific people, as opposed to differences across genes or tissues. Current sequence-to-function models predict it poorly, an open frontier under any population-cohort application.",
+    ),
+    Term(
+        "Supervised multi-output regressor",
+        "A model trained with labeled targets to predict many outputs at once; the sequence-to-function line (Enformer, Borzoi, AlphaGenome, Sei, Decima) fits measured coverage tracks this way, which is why it is not a self-supervised foundation model despite the loose label.",
+    ),
+    Term(
+        "Missense variant",
+        "A single-base DNA change that swaps one amino acid for another in the encoded protein. It is the coding variant type that missense effect predictors such as AlphaMissense and EVE are built to score.",
+    ),
+    Term(
+        "Noncoding variant",
+        "A variant outside any protein-coding exon, usually in a regulatory element such as an enhancer or promoter, that changes how much of a nearby gene is expressed rather than altering the protein sequence. The large majority of GWAS associations are noncoding.",
+    ),
+    Term(
+        "Penetrance",
+        "The fraction of people carrying a given variant who actually develop the associated trait or disease. Incomplete penetrance (well below 100%) is why a damaging variant is not the same as a variant that causes disease in a specific carrier.",
+    ),
+    Term(
+        "Polygenic score (PRS)",
+        "A single per-person risk estimate formed by summing that person's trait-associated alleles weighted by their GWAS effect sizes. Its accuracy transfers poorly across ancestries because the LD patterns and allele frequencies it was trained on differ between populations.",
+    ),
+    Term(
+        "In-silico mutagenesis",
+        "Scoring a variant's regulatory effect by running the reference and mutated DNA sequences through a sequence-to-function model and taking the difference between their predicted genomic tracks. It is the noncoding counterpart to scoring a missense substitution directly.",
+    ),
+    Term(
+        "Variant of uncertain significance (VUS)",
+        "A variant observed in a patient that cannot be confidently classified as benign or pathogenic on current evidence. Well-calibrated variant-effect predictors are used as one line of evidence toward reclassifying such variants.",
+    ),
 )
 
 
