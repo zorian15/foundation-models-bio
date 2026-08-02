@@ -658,6 +658,206 @@ _TERMS: tuple[Term, ...] = (
         "Missing-modality inference",
         "Predicting or imputing the modalities a sample was not measured in, so a multimodal model can still run; reliable when modalities are redundant, silently wrong when the absent modality carried the needed signal.",
     ),
+    Term(
+        "Batch effect",
+        "Systematic technical variation introduced by when, where, and how samples were processed (the day, sequencing lane, reagent lot, machine, or lab) rather than by the biology under study. When batch is confounded with the variable of interest, a model can learn the batch instead of the biology.",
+    ),
+    Term(
+        "Confounding",
+        "A variable that influences both a model's input and its label, so an observed association may reflect the confounder rather than a real effect. Batch and ancestry are the two confounders that most often fool biological models.",
+    ),
+    Term(
+        "Class imbalance",
+        "The situation where one label, usually the negative, vastly outnumbers the rare positive of interest (a real binder, a pathogenic variant), so overall accuracy is dominated by the majority class and can be high while the model finds none of the rare cases.",
+    ),
+    Term(
+        "Base rate",
+        "The background frequency of the positive class in a dataset. When it is very low, accuracy is dominated by it and precision at a chosen operating point can be poor even when a prevalence-insensitive summary like AUROC looks strong.",
+    ),
+    Term(
+        "Label noise",
+        "Error in the labels themselves, arising from assay measurement noise or disagreement between annotators, which caps how well any model can correlate with the truth it is trained against.",
+    ),
+    Term(
+        "Technical replicate",
+        "A repeat measurement of the same biological sample, isolating the noise of the assay and pipeline from real biological variation.",
+    ),
+    Term(
+        "Biological replicate",
+        "An independent sample from a distinct biological source (a different individual, culture, or animal), capturing true biological variation on top of technical noise.",
+    ),
+    Term(
+        "Effect heterogeneity",
+        "When the effect of the same variant, perturbation, or drug differs across contexts (cell types, genetic backgrounds, environments, or subgroups), so a single averaged effect can misrepresent, or even reverse, what happens in any one of them.",
+    ),
+    Term(
+        "Simpson's paradox",
+        "When a trend that holds within each subgroup reverses or disappears once the subgroups are pooled, because an average over heterogeneous groups need not resemble any group.",
+    ),
+    Term(
+        "Data leakage",
+        "Any path by which information from the test set reaches training, producing performance estimates far better than the deployed model will achieve. In biology it often hides as near-duplicates (homologs, related individuals, shared scaffolds) straddling a random split rather than literally identical examples.",
+    ),
+    Term(
+        "Homology-aware split",
+        "A train/test split that clusters sequences by identity and keeps each cluster wholly on one side, forcing a model to generalize to new protein families instead of reciting close relatives. It is the standard defense against homology leakage.",
+    ),
+    Term(
+        "Temporal split",
+        "A split that trains only on data released before a cutoff date and tests on what came after, mimicking real deployment and defeating memorization of already-known answers; used, for example, to evaluate structure and co-folding models by structure release date.",
+    ),
+    Term(
+        "Scaffold split",
+        "A split that groups small molecules by their shared chemical core (scaffold) so the test set demands genuinely new chemotypes rather than decorated copies of training molecules.",
+    ),
+    Term(
+        "Leave-one-group-out cross-validation",
+        "An evaluation that holds out an entire natural group, such as a cell type, gene, or assay, to test whether a model transfers to a context it never saw during training.",
+    ),
+    Term(
+        "Ancestry-aware split",
+        "A split that holds out a genetic ancestry group so a model, especially a polygenic score, is tested for the population transfer it must achieve before clinical use, since allele frequencies and LD patterns differ across ancestries.",
+    ),
+    Term(
+        "AUROC (area under the ROC curve)",
+        "A threshold-free ranking metric equal to the probability that a model ranks a random positive above a random negative. Under heavy class imbalance it stays flatteringly high because abundant true negatives dominate the false-positive rate.",
+    ),
+    Term(
+        "AUPRC (area under the precision-recall curve)",
+        "A ranking metric that summarizes precision against recall, focused on the positive class. Unlike AUROC it degrades visibly when a rare positive class is hard to separate, making it the honest summary under class imbalance.",
+    ),
+    Term(
+        "Reliability diagram",
+        "A calibration plot that bins predictions by their claimed confidence and plots claimed against observed accuracy; a calibrated model tracks the diagonal, and the average vertical gap from it is the expected calibration error.",
+    ),
+    Term(
+        "Multiple testing correction",
+        "An adjustment applied when many hypotheses are tested at once so that chance findings are not mistaken for real ones; Bonferroni bounds the familywise error rate and Benjamini-Hochberg controls the false-discovery rate.",
+    ),
+    Term(
+        "Confidence interval",
+        "A range reported around an estimate that would contain the true value in a stated fraction of repeated experiments; reporting one, rather than a bare point estimate, is what lets a reader judge whether a benchmark gap is real.",
+    ),
+    Term(
+        "Design-build-test-learn (DBTL)",
+        "The iterative engineering cycle in which a model designs candidates, a lab builds them, an assay tests them, and the results are used to learn an improved model for the next round. It is the shared skeleton of protein design, small-molecule design, and cell engineering in this book.",
+    ),
+    Term(
+        "Active learning",
+        "A setting in which the model chooses which unlabeled examples to have labeled next, spending a limited experimental budget on the most informative candidates rather than a random or purely greedy sample.",
+    ),
+    Term(
+        "Acquisition function",
+        "A scoring rule that ranks candidate experiments by how useful running them would be, trading a candidate's predicted quality against the model's uncertainty about it; expected improvement and upper confidence bound are common choices.",
+    ),
+    Term(
+        "Bayesian optimization",
+        "A framework for optimizing an expensive black-box function in as few evaluations as possible by fitting a cheap surrogate model and using an acquisition function to choose each next query.",
+    ),
+    Term(
+        "Surrogate model",
+        "A cheap, fast model of the expensive quantity you are optimizing (for example a Gaussian process or ensemble on a foundation-model embedding), queried in place of the real assay to decide what to test next; it supplies both a prediction and an uncertainty.",
+    ),
+    Term(
+        "Exploration-exploitation tradeoff",
+        "The choice between testing candidates the model already predicts are good (exploiting current knowledge) and testing candidates it is uncertain about (exploring to learn more); over-committing to either stalls an optimization loop.",
+    ),
+    Term(
+        "Expected improvement (EI)",
+        "An acquisition function that scores a candidate by how much it is expected to beat the best result seen so far, integrating over the surrogate's uncertainty.",
+    ),
+    Term(
+        "Upper confidence bound (UCB)",
+        "An acquisition function that scores a candidate as its predicted mean plus a tunable multiple of its predicted uncertainty, so raising the multiplier favors uncertain long shots and lowering it favors safe bets.",
+    ),
+    Term(
+        "Batched acquisition",
+        "Selecting a diverse set of experiments to run in parallel in one round rather than the single best candidate, matching the plate-at-a-time reality of wet labs; it penalizes candidates that resemble ones already chosen for the batch to avoid a redundant plate.",
+    ),
+    Term(
+        "AI virtual cell (AIVC)",
+        "The field's aspirational goal of a multi-scale, multi-modal model that represents a cell's state and predicts its response to arbitrary perturbations across molecules, cells, and tissues. No single current model realizes it; today's systems each fuse only two or three modalities for one task.",
+    ),
+    Term(
+        "In-silico experiment",
+        "Running an assay inside a computational model instead of at the bench, for example screening perturbations against a virtual cell. It reorders which candidates reach the lab rather than removing the need to validate them there.",
+    ),
+    Term(
+        "Self-driving lab",
+        "A closed design-build-test-learn loop in which a model proposes experiments, robotics execute them, and the results retrain the model with no human in each cycle. The automation targets throughput of the loop, not the elimination of physical validation.",
+    ),
+    Term(
+        "Cell-by-gene matrix",
+        "The core data structure of single-cell RNA-seq: one row per cell, one column per gene, and each entry a count of captured transcripts. It is large (tens of thousands of cells by ~20,000 genes) and overwhelmingly sparse.",
+    ),
+    Term(
+        "Dropout (single-cell)",
+        "A zero in a single-cell matrix that reflects a transcript the assay failed to capture rather than a gene that is truly off. Because the assay samples only a small fraction of a cell's molecules, most zeros are a mixture of true absence and dropout, which no downstream step fully disentangles.",
+    ),
+    Term(
+        "Cell atlas",
+        "A reference compendium built from many single-cell experiments across tissues, donors, and conditions, reaching tens to hundreds of millions of cells (for example the Human Cell Atlas or CELLxGENE). Its scale is what makes self-supervised pretraining on single-cell data feasible.",
+    ),
+    Term(
+        "Cell-type annotation",
+        "The task of assigning each cell a type label (T cell, hepatocyte, and so on) from its expression profile. It is a standard yardstick for judging a single-cell representation, and one where foundation-model embeddings often fail to beat simple baselines.",
+    ),
+    Term(
+        "Rank-value encoding",
+        "Geneformer's input scheme, which represents a cell by ranking its genes from most to least expressed (each normalized by its corpus-wide level) rather than by raw counts. Ranking is nonparametric and robust to the large differences in sequencing depth between cells.",
+    ),
+    Term(
+        "Unique molecular identifier (UMI)",
+        "A random barcode attached to each captured transcript before amplification, so that original molecules can be counted rather than their amplification copies. UMI counts are the integer entries of most modern single-cell matrices.",
+    ),
+    Term(
+        "Spatial transcriptomics",
+        "A family of assays that measure gene expression while recording the physical location in the tissue that each measurement came from, so cell neighborhoods and tissue architecture are preserved rather than lost to dissociation.",
+    ),
+    Term(
+        "Imaging-based spatial transcriptomics",
+        "Spatial methods (e.g. MERFISH, Xenium, CosMx, seqFISH) that image individual RNA molecules in place, giving subcellular resolution and true single cells but only for a targeted panel of a few hundred to a few thousand pre-chosen genes.",
+    ),
+    Term(
+        "Sequencing-based spatial transcriptomics",
+        "Spatial methods (e.g. Visium, Slide-seq, Stereo-seq) that capture RNA onto spatially barcoded spots or beads and sequence it, giving whole-transcriptome coverage with no panel to choose but at a spot that has classically pooled several cells.",
+    ),
+    Term(
+        "Spatial domain (tissue niche)",
+        "A recurring local region of a tissue defined by its arrangement of cell types, such as a cortical layer or a tumor margin; identifying these is a core goal of graph-based spatial models.",
+    ),
+    Term(
+        "Spatial deconvolution",
+        "Estimating which cell types, and in what proportions, compose each spot of a sequencing-based spatial dataset, using a single-cell reference to unmix the several cells a spot pools together (e.g. cell2location, Tangram).",
+    ),
+    Term(
+        "Cell-cell communication (ligand-receptor analysis)",
+        "Inferring signaling between cells by checking whether a cell expressing a signaling ligand sits near a cell expressing its receptor; a guess from dissociated data, but a direct observation when physical adjacency is measured.",
+    ),
+    Term(
+        "Cell Painting",
+        "A standardized high-content assay that stains six inexpensive fluorescent dyes marking eight cellular components across five imaging channels, so thousands of cells per well can be imaged and turned into morphological profiles after a perturbation.",
+    ),
+    Term(
+        "Morphological profiling",
+        "The pipeline of imaging stained cells, extracting many features of their appearance, and comparing the resulting profiles to find which perturbations make cells look alike or unlike controls. It provides a broad, unbiased phenotypic readout rather than a targeted measurement.",
+    ),
+    Term(
+        "Morphological profile",
+        "The high-dimensional feature vector (on the order of 1,500 measurements of size, shape, texture, intensity, and compartment arrangement) that represents a cell or a perturbation in image-based profiling; the phenotypic fingerprint that models cluster and match.",
+    ),
+    Term(
+        "High-content screening (HCS)",
+        "Automated microscopy scaled to whole multi-well plates, where each well is a perturbation read out as rich per-cell image measurements rather than a single summary number.",
+    ),
+    Term(
+        "Mechanism of action (MoA)",
+        "The molecular route by which a drug produces its effect (which target and pathway it engages). Perturbations sharing an MoA tend to cluster together in morphological or transcriptomic profile space, which is how profiling nominates a compound's mechanism.",
+    ),
+    Term(
+        "Virtual screening",
+        "Computationally ranking a large library of candidates (here, by how closely each compound's morphological profile matches a desired phenotype or a known reference) to prioritize the few worth testing experimentally.",
+    ),
 )
 
 

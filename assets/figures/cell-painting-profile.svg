@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 250" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" role="img" aria-label="A picture of a stained cell becomes a high-dimensional feature vector">
+<defs><marker id="arrow_cpp" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#274b6d"/></marker></defs>
+<text x="24.0" y="28.0" font-size="11" font-weight="700" fill="#6a6d73" letter-spacing="1">IMAGE-BASED PROFILING</text>
+<circle cx="150" cy="130" r="70" fill="#faf9f5" stroke="#cfcdc4"/>
+<circle cx="150" cy="130" r="26" fill="#eaf0f6" stroke="#274b6d"/>
+<circle cx="120" cy="100" r="8" fill="#274b6d" opacity="0.8"/>
+<circle cx="185" cy="110" r="8" fill="#9c6b12" opacity="0.8"/>
+<circle cx="185" cy="160" r="8" fill="#6b4f9c" opacity="0.8"/>
+<circle cx="120" cy="165" r="8" fill="#b04a3f" opacity="0.8"/>
+<circle cx="150" cy="90" r="8" fill="#6a6d73" opacity="0.8"/>
+<text x="150" y="222" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="9" fill="#6a6d73">6 dyes · 8 components · 5 channels</text>
+<line x1="228" y1="130" x2="300" y2="130" stroke="#274b6d" stroke-width="1.8" marker-end="url(#arrow_cpp)"/>
+<text x="264" y="122" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="9" fill="#6a6d73">extract features</text>
+<text x="360" y="52" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" fill="#17181b">~1,500 morphological features</text>
+<rect x="335" y="60" width="50" height="9" fill="#274b6d" opacity="0.25"/>
+<rect x="335" y="70" width="50" height="9" fill="#274b6d" opacity="0.30"/>
+<rect x="335" y="80" width="50" height="9" fill="#274b6d" opacity="0.35"/>
+<rect x="335" y="90" width="50" height="9" fill="#274b6d" opacity="0.40"/>
+<rect x="335" y="100" width="50" height="9" fill="#274b6d" opacity="0.45"/>
+<rect x="335" y="110" width="50" height="9" fill="#274b6d" opacity="0.25"/>
+<rect x="335" y="120" width="50" height="9" fill="#274b6d" opacity="0.30"/>
+<rect x="335" y="130" width="50" height="9" fill="#274b6d" opacity="0.35"/>
+<rect x="335" y="140" width="50" height="9" fill="#274b6d" opacity="0.40"/>
+<rect x="335" y="150" width="50" height="9" fill="#274b6d" opacity="0.45"/>
+<rect x="335" y="160" width="50" height="9" fill="#274b6d" opacity="0.25"/>
+<rect x="335" y="170" width="50" height="9" fill="#274b6d" opacity="0.30"/>
+<rect x="335" y="180" width="50" height="9" fill="#274b6d" opacity="0.35"/>
+<rect x="335" y="190" width="50" height="9" fill="#274b6d" opacity="0.40"/>
+<text x="360" y="216" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="9.5" fill="#6a6d73">one morphological profile</text>
+<text x="470" y="130" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" fill="#3b3d42">an unbiased phenotypic</text>
+<text x="470" y="145" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" fill="#3b3d42">fingerprint of a perturbation</text>
+</svg>

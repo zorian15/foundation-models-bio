@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 320" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" role="img" aria-label="An overconfident curve can rank perfectly yet report wrong probabilities">
+<text x="24.0" y="28.0" font-size="11" font-weight="700" fill="#6a6d73" letter-spacing="1">RANKING AND CALIBRATION ARE DIFFERENT VIRTUES</text>
+<rect x="70" y="55" width="400" height="205" rx="4" fill="none" stroke="#e4e3dd"/>
+<line x1="70" y1="260" x2="470" y2="55" stroke="#6a6d73" stroke-width="1" stroke-dasharray="4 3"/>
+<text x="380" y="78" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="9" fill="#6a6d73">perfect calibration</text>
+<path d="M 70 260 C 210 245 340 190 470 55" fill="none" stroke="#b04a3f" stroke-width="2.2"/>
+<text x="300" y="228" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10.5" fill="#b04a3f">overconfident</text>
+<path d="M 70 260 Q 260 168 470 55" fill="none" stroke="#274b6d" stroke-width="2.2"/>
+<text x="330" y="150" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10.5" fill="#274b6d">after temperature scaling</text>
+<text x="270" y="288" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="9.5" fill="#6a6d73">predicted confidence to observed accuracy · gap = calibration error</text>
+</svg>

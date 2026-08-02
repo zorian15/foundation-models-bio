@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 340" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" role="img" aria-label="Near versus far term is sorted by kind of problem, not compute">
+<defs><marker id="arrow_iva" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#3b3d42"/></marker></defs>
+<text x="24.0" y="28.0" font-size="11" font-weight="700" fill="#6a6d73" letter-spacing="1">NEAR TERM VERSUS FAR TERM IS A KIND OF PROBLEM</text>
+<line x1="40" y1="180" x2="760" y2="180" stroke="#3b3d42" stroke-width="2" marker-start="url(#arrow_iva)" marker-end="url(#arrow_iva)"/>
+<text x="40" y="166" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" font-weight="700" fill="#274b6d">IMMINENT · plausible</text>
+<text x="760" y="166" text-anchor="end" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" font-weight="700" fill="#b04a3f">ASPIRATIONAL · uncertain</text>
+<rect x="27.5" y="90.0" width="175.0" height="32.0" rx="6" fill="#eaf0f6" stroke="#274b6d"/>
+<text x="115.0" y="109.3" font-size="9.5" font-weight="600" text-anchor="middle" fill="#17181b">Better co-folding &amp; design</text>
+<line x1="115" y1="122" x2="115" y2="180" stroke="#cfcdc4" stroke-width="1.2"/>
+<circle cx="115" cy="180" r="3" fill="#3b3d42"/>
+<rect x="217.5" y="90.0" width="175.0" height="32.0" rx="6" fill="#eaf0f6" stroke="#274b6d"/>
+<text x="305.0" y="109.3" font-size="9.5" font-weight="600" text-anchor="middle" fill="#17181b">Variant scoring (one line)</text>
+<line x1="305" y1="122" x2="305" y2="180" stroke="#cfcdc4" stroke-width="1.2"/>
+<circle cx="305" cy="180" r="3" fill="#3b3d42"/>
+<rect x="427.5" y="90.0" width="175.0" height="32.0" rx="6" fill="#f4ede0" stroke="#9c6b12"/>
+<text x="515.0" y="109.3" font-size="9.5" font-weight="600" text-anchor="middle" fill="#17181b">General virtual cell</text>
+<line x1="515" y1="122" x2="515" y2="180" stroke="#cfcdc4" stroke-width="1.2"/>
+<circle cx="515" cy="180" r="3" fill="#3b3d42"/>
+<rect x="602.5" y="90.0" width="175.0" height="32.0" rx="6" fill="#f4ede0" stroke="#9c6b12"/>
+<text x="690.0" y="109.3" font-size="9.5" font-weight="600" text-anchor="middle" fill="#17181b">Personal-genome prediction</text>
+<line x1="690" y1="122" x2="690" y2="180" stroke="#cfcdc4" stroke-width="1.2"/>
+<circle cx="690" cy="180" r="3" fill="#3b3d42"/>
+<rect x="27.5" y="246.0" width="175.0" height="32.0" rx="6" fill="#eaf0f6" stroke="#274b6d"/>
+<text x="115.0" y="265.3" font-size="9.5" font-weight="600" text-anchor="middle" fill="#17181b">Larger perturbation atlases</text>
+<line x1="115" y1="246" x2="115" y2="180" stroke="#cfcdc4" stroke-width="1.2"/>
+<circle cx="115" cy="180" r="3" fill="#3b3d42"/>
+<rect x="217.5" y="246.0" width="175.0" height="32.0" rx="6" fill="#eaf0f6" stroke="#274b6d"/>
+<text x="305.0" y="265.3" font-size="9.5" font-weight="600" text-anchor="middle" fill="#17181b">Faster DBTL loops</text>
+<line x1="305" y1="246" x2="305" y2="180" stroke="#cfcdc4" stroke-width="1.2"/>
+<circle cx="305" cy="180" r="3" fill="#3b3d42"/>
+<rect x="427.5" y="246.0" width="175.0" height="32.0" rx="6" fill="#f4ede0" stroke="#9c6b12"/>
+<text x="515.0" y="265.3" font-size="9.5" font-weight="600" text-anchor="middle" fill="#17181b">Replace wet-lab validation</text>
+<line x1="515" y1="246" x2="515" y2="180" stroke="#cfcdc4" stroke-width="1.2"/>
+<circle cx="515" cy="180" r="3" fill="#3b3d42"/>
+<text x="400" y="315" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" fill="#6a6d73">what pushes an item rightward: causal, in-vivo, or personal — not compute</text>
+</svg>

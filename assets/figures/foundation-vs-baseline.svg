@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 300" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" role="img" aria-label="A foundation model and a boring baseline land close, and the baseline sometimes wins">
+<text x="24.0" y="28.0" font-size="11" font-weight="700" fill="#6a6d73" letter-spacing="1">FOUNDATION MODEL VS A SIMPLE BASELINE</text>
+<line x1="90" y1="240" x2="560" y2="240" stroke="#cfcdc4" stroke-width="1"/>
+<rect x="106" y="130" width="40" height="110" fill="#274b6d" rx="2"/>
+<rect x="154" y="118" width="40" height="122" fill="#9c6b12" rx="2"/>
+<text x="150" y="258" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="9.5" fill="#6a6d73">cell-type</text>
+<text x="150" y="270" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="9.5" fill="#6a6d73">annotation</text>
+<rect x="286" y="125" width="40" height="115" fill="#274b6d" rx="2"/>
+<rect x="334" y="127" width="40" height="113" fill="#9c6b12" rx="2"/>
+<text x="330" y="258" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="9.5" fill="#6a6d73">batch</text>
+<text x="330" y="270" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="9.5" fill="#6a6d73">integration</text>
+<rect x="466" y="148" width="40" height="92" fill="#274b6d" rx="2"/>
+<rect x="514" y="134" width="40" height="106" fill="#9c6b12" rx="2"/>
+<text x="510" y="258" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="9.5" fill="#6a6d73">perturbation</text>
+<text x="40" y="130" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" fill="#6a6d73" transform="rotate(-90 40 130)">benchmark score</text>
+<rect x="90" y="70" width="14" height="12" rx="2" fill="#274b6d"/><text x="110" y="80" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" fill="#6a6d73">foundation model</text>
+<rect x="250" y="70" width="14" height="12" rx="2" fill="#9c6b12"/><text x="270" y="80" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" fill="#6a6d73">simple baseline (PCA on HVGs)</text>
+</svg>

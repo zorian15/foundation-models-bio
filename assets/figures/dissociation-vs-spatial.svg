@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 320" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" role="img" aria-label="Dissociation trades away the tissue map; spatial keeps it">
+<defs><marker id="arrow_dvs" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#274b6d"/></marker></defs>
+<text x="24.0" y="45.0" font-size="11" font-weight="700" fill="#6a6d73" letter-spacing="1">SCRNA-SEQ (DISSOCIATED)</text>
+<circle cx="60" cy="63" r="7" fill="#274b6d" opacity="0.85"/>
+<circle cx="82" cy="63" r="7" fill="#9c6b12" opacity="0.85"/>
+<circle cx="104" cy="63" r="7" fill="#6b4f9c" opacity="0.85"/>
+<circle cx="60" cy="85" r="7" fill="#b04a3f" opacity="0.85"/>
+<circle cx="82" cy="85" r="7" fill="#274b6d" opacity="0.85"/>
+<circle cx="104" cy="85" r="7" fill="#9c6b12" opacity="0.85"/>
+<circle cx="60" cy="107" r="7" fill="#6b4f9c" opacity="0.85"/>
+<circle cx="82" cy="107" r="7" fill="#b04a3f" opacity="0.85"/>
+<circle cx="104" cy="107" r="7" fill="#274b6d" opacity="0.85"/>
+<line x1="120" y1="85" x2="185" y2="85" stroke="#274b6d" stroke-width="1.8" marker-end="url(#arrow_dvs)"/>
+<text x="152" y="77" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="8.5" fill="#6a6d73">dissociate</text>
+<ellipse cx="235" cy="85" rx="42" ry="30" fill="none" stroke="#cfcdc4"/>
+<circle cx="203" cy="67" r="7" fill="#274b6d" opacity="0.85"/>
+<circle cx="229" cy="69" r="7" fill="#9c6b12" opacity="0.85"/>
+<circle cx="261" cy="49" r="7" fill="#6b4f9c" opacity="0.85"/>
+<circle cx="194" cy="99" r="7" fill="#b04a3f" opacity="0.85"/>
+<circle cx="225" cy="77" r="7" fill="#274b6d" opacity="0.85"/>
+<circle cx="274" cy="86" r="7" fill="#9c6b12" opacity="0.85"/>
+<circle cx="224" cy="108" r="7" fill="#6b4f9c" opacity="0.85"/>
+<circle cx="239" cy="96" r="7" fill="#b04a3f" opacity="0.85"/>
+<circle cx="261" cy="122" r="7" fill="#274b6d" opacity="0.85"/>
+<line x1="285" y1="85" x2="350" y2="85" stroke="#274b6d" stroke-width="1.8" marker-end="url(#arrow_dvs)"/>
+<rect x="365" y="50" width="120" height="70" rx="3" fill="#ffffff" stroke="#cfcdc4"/>
+<line x1="365" y1="67" x2="485" y2="67" stroke="#e4e3dd" stroke-width="0.8"/>
+<line x1="365" y1="84" x2="485" y2="84" stroke="#e4e3dd" stroke-width="0.8"/>
+<line x1="365" y1="101" x2="485" y2="101" stroke="#e4e3dd" stroke-width="0.8"/>
+<line x1="389" y1="50" x2="389" y2="120" stroke="#e4e3dd" stroke-width="0.8"/>
+<line x1="413" y1="50" x2="413" y2="120" stroke="#e4e3dd" stroke-width="0.8"/>
+<line x1="437" y1="50" x2="437" y2="120" stroke="#e4e3dd" stroke-width="0.8"/>
+<text x="500" y="89" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" fill="#b04a3f">location lost</text>
+<text x="24.0" y="175.0" font-size="11" font-weight="700" fill="#6a6d73" letter-spacing="1">SPATIAL (IN PLACE)</text>
+<circle cx="60" cy="193" r="7" fill="#274b6d" opacity="0.85"/>
+<circle cx="82" cy="193" r="7" fill="#9c6b12" opacity="0.85"/>
+<circle cx="104" cy="193" r="7" fill="#6b4f9c" opacity="0.85"/>
+<circle cx="60" cy="215" r="7" fill="#b04a3f" opacity="0.85"/>
+<circle cx="82" cy="215" r="7" fill="#274b6d" opacity="0.85"/>
+<circle cx="104" cy="215" r="7" fill="#9c6b12" opacity="0.85"/>
+<circle cx="60" cy="237" r="7" fill="#6b4f9c" opacity="0.85"/>
+<circle cx="82" cy="237" r="7" fill="#b04a3f" opacity="0.85"/>
+<circle cx="104" cy="237" r="7" fill="#274b6d" opacity="0.85"/>
+<line x1="120" y1="215" x2="185" y2="215" stroke="#274b6d" stroke-width="1.8" marker-end="url(#arrow_dvs)"/>
+<text x="152" y="207" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="8.5" fill="#6a6d73">measure in place</text>
+<rect x="200" y="187" width="70" height="56" rx="4" fill="none" stroke="#cfcdc4"/>
+<circle cx="212" cy="195" r="7" fill="#274b6d" opacity="0.85"/>
+<circle cx="234" cy="195" r="7" fill="#9c6b12" opacity="0.85"/>
+<circle cx="256" cy="195" r="7" fill="#6b4f9c" opacity="0.85"/>
+<circle cx="212" cy="217" r="7" fill="#b04a3f" opacity="0.85"/>
+<circle cx="234" cy="217" r="7" fill="#274b6d" opacity="0.85"/>
+<circle cx="256" cy="217" r="7" fill="#9c6b12" opacity="0.85"/>
+<circle cx="212" cy="239" r="7" fill="#6b4f9c" opacity="0.85"/>
+<circle cx="234" cy="239" r="7" fill="#b04a3f" opacity="0.85"/>
+<circle cx="256" cy="239" r="7" fill="#274b6d" opacity="0.85"/>
+<line x1="285" y1="215" x2="350" y2="215" stroke="#274b6d" stroke-width="1.8" marker-end="url(#arrow_dvs)"/>
+<rect x="365" y="180" width="120" height="70" rx="3" fill="#ffffff" stroke="#cfcdc4"/>
+<line x1="365" y1="197" x2="485" y2="197" stroke="#e4e3dd" stroke-width="0.8"/>
+<line x1="365" y1="214" x2="485" y2="214" stroke="#e4e3dd" stroke-width="0.8"/>
+<line x1="365" y1="231" x2="485" y2="231" stroke="#e4e3dd" stroke-width="0.8"/>
+<line x1="389" y1="180" x2="389" y2="250" stroke="#e4e3dd" stroke-width="0.8"/>
+<line x1="413" y1="180" x2="413" y2="250" stroke="#e4e3dd" stroke-width="0.8"/>
+<line x1="437" y1="180" x2="437" y2="250" stroke="#e4e3dd" stroke-width="0.8"/>
+<rect x="461" y="180" width="24" height="70" fill="#eaf0f6" opacity="0.7"/>
+<text x="473" y="264" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="9" fill="#274b6d">+ x,y</text>
+<text x="500" y="219" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" fill="#274b6d">location kept</text>
+</svg>
